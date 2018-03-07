@@ -1,5 +1,7 @@
 package com.xonro.vflow.wxpay.bean.order;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * 统一下单结果
  * @author Alex
@@ -9,102 +11,115 @@ public class UnifiedOrderResult {
     /**
      * 返回状态码
      */
-    private String return_code;
+    @JSONField(name = "return_code")
+    private String returnCode;
     /**
      * 返回信息
      */
-    private String return_msg;
+    @JSONField(name = "return_msg")
+    private String returnMsg;
     /**
      * 公众账号ID
      */
-    private String appid;
+    @JSONField(name = "appid")
+    private String appId;
     /**
      * 商户号
      */
-    private String mch_id;
+    @JSONField(name = "mch_id")
+    private String mchId;
     /**
      * 设备号
      */
-    private String device_info;
+    @JSONField(name = "device_info")
+    private String deviceInfo;
     /**
      * 随机字符串
      */
-    private String nonce_str;
+    @JSONField(name = "nonce_str")
+    private String nonceStr;
     /**
      * 签名
      */
+    @JSONField(name = "sign")
     private String sign;
     /**
      * 业务结果,SUCCESS/FAIL
      */
-    private String result_code;
+    @JSONField(name = "result_code")
+    private String resultCode;
     /**
      * 错误代码
      */
-    private String err_code;
+    @JSONField(name = "err_code")
+    private String errCode;
     /**
      * 错误代码描述
      */
-    private String err_code_des;
+    @JSONField(name = "err_code_des")
+    private String errCodeDes;
     /**
      * 交易类型
      */
-    private String trade_type;
+    @JSONField(name = "trade_type")
+    private String tradeType;
     /**
      * 预支付交易会话标识
      */
-    private String prepay_id;
+    @JSONField(name = "prepay_id")
+    private String prepayId;
     /**
      * 二维码链接
      */
-    private String code_url;
+    @JSONField(name = "code_url")
+    private String codeUrl;
 
-    public String getReturn_code() {
-        return return_code;
+    public String getReturnCode() {
+        return returnCode;
     }
 
-    public void setReturn_code(String return_code) {
-        this.return_code = return_code;
+    public void setReturnCode(String returnCode) {
+        this.returnCode = returnCode;
     }
 
-    public String getReturn_msg() {
-        return return_msg;
+    public String getReturnMsg() {
+        return returnMsg;
     }
 
-    public void setReturn_msg(String return_msg) {
-        this.return_msg = return_msg;
+    public void setReturnMsg(String returnMsg) {
+        this.returnMsg = returnMsg;
     }
 
-    public String getAppid() {
-        return appid;
+    public String getAppId() {
+        return appId;
     }
 
-    public void setAppid(String appid) {
-        this.appid = appid;
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
     public String getMch_id() {
-        return mch_id;
+        return mchId;
     }
 
-    public void setMch_id(String mch_id) {
-        this.mch_id = mch_id;
+    public void setMch_id(String mchId) {
+        this.mchId = mchId;
     }
 
-    public String getDevice_info() {
-        return device_info;
+    public String getDeviceInfo() {
+        return deviceInfo;
     }
 
-    public void setDevice_info(String device_info) {
-        this.device_info = device_info;
+    public void setDeviceInfo(String deviceInfo) {
+        this.deviceInfo = deviceInfo;
     }
 
-    public String getNonce_str() {
-        return nonce_str;
+    public String getNonceStr() {
+        return nonceStr;
     }
 
-    public void setNonce_str(String nonce_str) {
-        this.nonce_str = nonce_str;
+    public void setNonceStr(String nonceStr) {
+        this.nonceStr = nonceStr;
     }
 
     public String getSign() {
@@ -115,51 +130,51 @@ public class UnifiedOrderResult {
         this.sign = sign;
     }
 
-    public String getResult_code() {
-        return result_code;
+    public String getResultCode() {
+        return resultCode;
     }
 
-    public void setResult_code(String result_code) {
-        this.result_code = result_code;
+    public void setResultCode(String resultCode) {
+        this.resultCode = resultCode;
     }
 
-    public String getErr_code() {
-        return err_code;
+    public String getErrCode() {
+        return errCode;
     }
 
-    public void setErr_code(String err_code) {
-        this.err_code = err_code;
+    public void setErrCode(String errCode) {
+        this.errCode = errCode;
     }
 
-    public String getErr_code_des() {
-        return err_code_des;
+    public String getErrCodeDes() {
+        return errCodeDes;
     }
 
-    public void setErr_code_des(String err_code_des) {
-        this.err_code_des = err_code_des;
+    public void setErrCodeDes(String errCodeDes) {
+        this.errCodeDes = errCodeDes;
     }
 
-    public String getTrade_type() {
-        return trade_type;
+    public String getTradeType() {
+        return tradeType;
     }
 
-    public void setTrade_type(String trade_type) {
-        this.trade_type = trade_type;
+    public void setTradeType(String tradeType) {
+        this.tradeType = tradeType;
     }
 
-    public String getPrepay_id() {
-        return prepay_id;
+    public String getPrepayId() {
+        return prepayId;
     }
 
-    public void setPrepay_id(String prepay_id) {
-        this.prepay_id = prepay_id;
+    public void setPrepayId(String prepayId) {
+        this.prepayId = prepayId;
     }
 
-    public String getCode_url() {
-        return code_url;
+    public String getCodeUrl() {
+        return codeUrl;
     }
 
-    public void setCode_url(String code_url) {
-        this.code_url = code_url;
+    public void setCodeUrl(String codeUrl) {
+        this.codeUrl = codeUrl;
     }
 }

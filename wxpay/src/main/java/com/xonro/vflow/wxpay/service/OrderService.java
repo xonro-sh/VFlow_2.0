@@ -1,9 +1,6 @@
 package com.xonro.vflow.wxpay.service;
 
-import com.xonro.vflow.wxpay.bean.order.UnifiedOrder;
 import com.xonro.vflow.wxpay.bean.order.UnifiedOrderResult;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * @author louie
@@ -11,6 +8,7 @@ import javax.validation.constraints.NotNull;
  * @date 2018-3-6 15:16
  */
 public interface OrderService {
+
     /**
      * 统一下单
      * @param body 商品描述
@@ -20,4 +18,6 @@ public interface OrderService {
      * @return 预支付信息
      */
     public UnifiedOrderResult unifiedOrder(String body, String tradeNo, Integer totalFee, String openId);
+
+
 }

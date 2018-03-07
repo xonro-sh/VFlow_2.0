@@ -1,6 +1,8 @@
 package com.xonro.vflow.wxpay.conf;
 
 import com.github.wxpay.sdk.WXPayConfig;
+import com.xonro.vflow.bases.helper.ConfManager;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.InputStream;
 
@@ -10,19 +12,23 @@ import java.io.InputStream;
  * @date 2018-3-7 10:26
  */
 public class WxPayConfigImpl implements WXPayConfig {
+
+    @Autowired
+    ConfManager confManager;
+
     @Override
     public String getAppID() {
-        return null;
+        return confManager.getWechatConf().getAppId();
     }
 
     @Override
     public String getMchID() {
-        return null;
+        return confManager.getWxPayConf().getMchId();
     }
 
     @Override
     public String getKey() {
-        return null;
+        return confManager.getWxPayConf().getApiKey();
     }
 
     @Override
@@ -32,11 +38,11 @@ public class WxPayConfigImpl implements WXPayConfig {
 
     @Override
     public int getHttpConnectTimeoutMs() {
-        return 0;
+        return 5000;
     }
 
     @Override
     public int getHttpReadTimeoutMs() {
-        return 0;
+        return 5000;
     }
 }

@@ -12,6 +12,19 @@ import java.io.Serializable;
  */
 @Entity
 public class UnifiedOrder implements Serializable{
+    public UnifiedOrder(){
+        super();
+    }
+
+    public UnifiedOrder(String body, String tradeNo, Integer totalFee, String openId,String clientIp,String notifyUrl){
+        this.body = body;
+        this.outTradeNo = tradeNo;
+        this.totalFee = totalFee;
+        this.openid = openId;
+        this.spBillCreateIp = clientIp;
+        this.notifyUrl = notifyUrl;
+    }
+
     /**
      * 设备号，自定义参数，可以为终端设备号(门店号或收银设备ID)，PC网页或公众号内支付可以传"WEB"
      */
