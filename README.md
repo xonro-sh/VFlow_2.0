@@ -9,4 +9,5 @@
 * console：控制台模块，系统管理功能程序，存储命名以`b_xr_console_`为前缀，视图则以`v_xr_console_`为前缀；
 * dataview：数据可视化功能模块，存储命名以`b_xr_dataview_`为前缀，视图则以`v_xr_dataview_`为前缀；
 * wechat：微信公众平台功能模块，存储命名以`b_xr_wechat_`为前缀，视图则以`v_xr_wechat_`为前缀；
+* workflow：工作流功能模块，存储命名以`b_xr_workflow_`为前缀，视图则以`v_xr_workflow_`为前缀；
 * wxpay：微信支付功能模块，存储命名以`b_xr_wxpay_`为前缀，视图则以`v_xr_wxpay_`为前缀；
