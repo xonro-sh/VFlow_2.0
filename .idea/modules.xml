@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bases/bases.iml" filepath="$PROJECT_DIR$/.idea/modules/bases/bases.iml" group="bases" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bases/bases_main.iml" filepath="$PROJECT_DIR$/.idea/modules/bases/bases_main.iml" group="bases" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bases/bases_test.iml" filepath="$PROJECT_DIR$/.idea/modules/bases/bases_test.iml" group="bases" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/client/client.iml" filepath="$PROJECT_DIR$/.idea/modules/client/client.iml" group="client" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/client/client_main.iml" filepath="$PROJECT_DIR$/.idea/modules/client/client_main.iml" group="client" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/client/client_test.iml" filepath="$PROJECT_DIR$/.idea/modules/client/client_test.iml" group="client" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/console/console.iml" filepath="$PROJECT_DIR$/.idea/modules/console/console.iml" group="console" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/console/console_main.iml" filepath="$PROJECT_DIR$/.idea/modules/console/console_main.iml" group="console" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/console/console_test.iml" filepath="$PROJECT_DIR$/.idea/modules/console/console_test.iml" group="console" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dataview/dataview.iml" filepath="$PROJECT_DIR$/.idea/modules/dataview/dataview.iml" group="dataview" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dataview/dataview_main.iml" filepath="$PROJECT_DIR$/.idea/modules/dataview/dataview_main.iml" group="dataview" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dataview/dataview_test.iml" filepath="$PROJECT_DIR$/.idea/modules/dataview/dataview_test.iml" group="dataview" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vflow.iml" filepath="$PROJECT_DIR$/.idea/modules/vflow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vflow_main.iml" filepath="$PROJECT_DIR$/.idea/modules/vflow_main.iml" group="vflow" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vflow_test.iml" filepath="$PROJECT_DIR$/.idea/modules/vflow_test.iml" group="vflow" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wechat/wechat.iml" filepath="$PROJECT_DIR$/.idea/modules/wechat/wechat.iml" group="wechat" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wechat/wechat_main.iml" filepath="$PROJECT_DIR$/.idea/modules/wechat/wechat_main.iml" group="wechat" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wechat/wechat_test.iml" filepath="$PROJECT_DIR$/.idea/modules/wechat/wechat_test.iml" group="wechat" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/workflow/workflow.iml" filepath="$PROJECT_DIR$/.idea/modules/workflow/workflow.iml" group="workflow" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/workflow/workflow_main.iml" filepath="$PROJECT_DIR$/.idea/modules/workflow/workflow_main.iml" group="workflow" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/workflow/workflow_test.iml" filepath="$PROJECT_DIR$/.idea/modules/workflow/workflow_test.iml" group="workflow" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wxpay/wxpay.iml" filepath="$PROJECT_DIR$/.idea/modules/wxpay/wxpay.iml" group="wxpay" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wxpay/wxpay_main.iml" filepath="$PROJECT_DIR$/.idea/modules/wxpay/wxpay_main.iml" group="wxpay" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wxpay/wxpay_test.iml" filepath="$PROJECT_DIR$/.idea/modules/wxpay/wxpay_test.iml" group="wxpay" />
+    </modules>
+  </component>
+</project>

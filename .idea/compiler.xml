@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="bases_main" target="1.8" />
+      <module name="bases_test" target="1.8" />
+      <module name="client_main" target="1.8" />
+      <module name="client_test" target="1.8" />
+      <module name="console_main" target="1.8" />
+      <module name="console_test" target="1.8" />
+      <module name="dataview_main" target="1.8" />
+      <module name="dataview_test" target="1.8" />
+      <module name="vflow_main" target="1.8" />
+      <module name="vflow_test" target="1.8" />
+      <module name="wechat_main" target="1.8" />
+      <module name="wechat_test" target="1.8" />
+      <module name="workflow_main" target="1.8" />
+      <module name="workflow_test" target="1.8" />
+      <module name="wxpay_main" target="1.8" />
+      <module name="wxpay_test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

@@ -1,0 +1,3 @@
+rootProject.name = 'vflow'
+include 'bases','dataview','client','console',"wechat","wxpay","workflow"
+

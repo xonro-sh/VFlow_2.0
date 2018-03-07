@@ -1,0 +1,27 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Gradle : com.xonro.vflow : client-1.0-SNAPSHOT.war (exploded)">
+    <output-path>$PROJECT_DIR$/client/build/libs/exploded/client-1.0-SNAPSHOT.war</output-path>
+    <properties id="gradle-properties">
+      <options external-project-path="$PROJECT_DIR$">
+        <manifest>TWFuaWZlc3QtVmVyc2lvbjogMS4wDQoNCg==</manifest>
+      </options>
+    </properties>
+    <root id="root">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/client/build/libs/exploded/client-1.0-SNAPSHOT.war/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="client_main/web/Web Gradle : client-1.0-SNAPSHOT.war" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="client_main" />
+          <element id="dir-copy" path="$PROJECT_DIR$/client/out/production/resources" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="file-copy" path="E:/repository/gradle/caches/modules-2/files-2.1/org.postgresql/postgresql/42.1.4/1c7788d16b67d51f2f38ae99e474ece968bf715a/postgresql-42.1.4.jar" />
+          <element id="file-copy" path="E:/repository/gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.6/9d28a6b23650e8a7e9063c04588ace6cf7012c17/commons-lang3-3.6.jar" />
+          <element id="file-copy" path="E:/repository/gradle/caches/modules-2/files-2.1/com.alibaba/fastjson/1.2.46/1510c47faaf3d484221ab20e4ec9d42cfa4984cb/fastjson-1.2.46.jar" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
