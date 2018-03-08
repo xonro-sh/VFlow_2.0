@@ -4,7 +4,6 @@ package com.xonro.vflow.wechat.service;
 import com.xonro.vflow.bases.bean.TableResponse;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.wechat.bean.user.UserInfo;
-import com.xonro.vflow.wechat.exception.WechatException;
 
 import java.io.IOException;
 

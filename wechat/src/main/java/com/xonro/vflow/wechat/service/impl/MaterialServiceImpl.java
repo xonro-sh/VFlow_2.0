@@ -8,7 +8,6 @@ import com.xonro.vflow.wechat.bean.material.MaterialCountResult;
 import com.xonro.vflow.wechat.bean.material.MaterialResult;
 import com.xonro.vflow.wechat.bean.material.NewsResponse;
 import com.xonro.vflow.wechat.enums.WechatEnums;
-import com.xonro.vflow.wechat.exception.WechatException;
 import com.xonro.vflow.wechat.helper.UrlBuilder;
 import com.xonro.vflow.wechat.service.MaterialService;
 import org.apache.commons.io.FileUtils;

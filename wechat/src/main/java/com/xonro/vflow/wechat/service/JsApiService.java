@@ -1,11 +1,7 @@
 package com.xonro.vflow.wechat.service;
 
-import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.wechat.bean.WechatJsApiTicket;
 import com.xonro.vflow.wechat.bean.WechatJsSignature;
-import com.xonro.vflow.wechat.exception.WechatException;
-
-import java.io.IOException;
 
 /**
  * jsapi相关业务接口

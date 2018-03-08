@@ -3,7 +3,6 @@ package com.xonro.vflow.wechat.service.impl;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.bases.helper.RequestExecutor;
 import com.xonro.vflow.wechat.bean.WechatAccessToken;
-import com.xonro.vflow.wechat.exception.WechatException;
 import com.xonro.vflow.wechat.helper.UrlBuilder;
 import com.xonro.vflow.wechat.service.TokenService;
 import com.xonro.vflow.wechat.service.WechatService;

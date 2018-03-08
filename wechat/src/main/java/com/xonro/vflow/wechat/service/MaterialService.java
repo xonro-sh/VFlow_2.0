@@ -5,7 +5,6 @@ import com.xonro.vflow.wechat.bean.material.Article;
 import com.xonro.vflow.wechat.bean.material.MaterialCountResult;
 import com.xonro.vflow.wechat.bean.material.MaterialResult;
 import com.xonro.vflow.wechat.bean.material.NewsResponse;
-import com.xonro.vflow.wechat.exception.WechatException;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
@@ -111,5 +110,5 @@ public interface MaterialService {
      * @throws VFlowException 异常
      * @return 素材信息json
      */
-    String getMaterialBatch(@NotNull String type, @NotNull Integer offset, @NotNull Integer count) throws WechatException, IOException, VFlowException;
+    String getMaterialBatch(@NotNull String type, @NotNull Integer offset, @NotNull Integer count) throws IOException, VFlowException;
 }

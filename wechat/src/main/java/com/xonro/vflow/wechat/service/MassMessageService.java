@@ -3,7 +3,6 @@ package com.xonro.vflow.wechat.service;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.wechat.bean.massmessage.MassMessageResult;
 import com.xonro.vflow.wechat.bean.massmessage.MassSpeedResult;
-import com.xonro.vflow.wechat.exception.WechatException;
 
 import java.io.IOException;
 import java.util.List;
