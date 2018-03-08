@@ -28,16 +28,20 @@ import java.util.List;
 @Service
 public class WechatServiceImpl implements WechatService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final UrlBuilder urlBuilder;
+    private UrlBuilder urlBuilder;
 
     private final WechatConfService wechatConfService;
 
     private final MessageRepository messageRepository;
 
-    @Autowired
-    public WechatServiceImpl(MessageRepository messageRepository, UrlBuilder urlBuilder, WechatConfService wechatConfService) {
-        this.messageRepository = messageRepository;
+    @Override
+    public void setUrlBuilder(UrlBuilder urlBuilder) {
         this.urlBuilder = urlBuilder;
+    }
+
+    @Autowired
+    public WechatServiceImpl(MessageRepository messageRepository, WechatConfService wechatConfService) {
+        this.messageRepository = messageRepository;
         this.wechatConfService = wechatConfService;
     }
 

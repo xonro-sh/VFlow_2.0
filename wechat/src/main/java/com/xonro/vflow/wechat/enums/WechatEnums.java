@@ -88,7 +88,7 @@ public enum WechatEnums {
     MATERIAL_THUMB("thumb", "缩略图"),
     ;
 
-    private WechatEnums(String value, String desc){
+    WechatEnums(String value, String desc){
         this.value = value;
         this.desc = desc;
     }

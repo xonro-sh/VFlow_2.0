@@ -5,6 +5,7 @@ import com.xonro.vflow.bases.bean.WechatConf;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.wechat.bean.QrCode;
 import com.xonro.vflow.wechat.bean.message.Message;
+import com.xonro.vflow.wechat.helper.UrlBuilder;
 
 import java.io.IOException;
 
@@ -14,6 +15,8 @@ import java.io.IOException;
  * @date 2018-1-12
  */
 public interface WechatService {
+
+    void setUrlBuilder(UrlBuilder urlBuilder);
 
     /**
      * 创建含有参数的二维码

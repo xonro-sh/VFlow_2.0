@@ -6,6 +6,8 @@ import com.xonro.vflow.wechat.service.WechatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 /**
  * 微信公众平台请求服务url构建器
  * @author Alex
@@ -17,6 +19,11 @@ public class UrlBuilder {
     private final TokenService tokenService;
 
     private final WechatService wechatService;
+
+    @PostConstruct
+    public void init() {
+        tokenService.setUrlBuilder(this);
+    }
 
     @Autowired
     public UrlBuilder(TokenService tokenService, WechatService wechatService) {

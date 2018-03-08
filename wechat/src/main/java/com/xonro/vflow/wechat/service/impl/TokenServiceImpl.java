@@ -2,6 +2,7 @@ package com.xonro.vflow.wechat.service.impl;
 
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.bases.helper.RequestExecutor;
+import com.xonro.vflow.bases.service.WechatConfService;
 import com.xonro.vflow.wechat.bean.WechatAccessToken;
 import com.xonro.vflow.wechat.helper.UrlBuilder;
 import com.xonro.vflow.wechat.service.TokenService;
@@ -23,15 +24,18 @@ import java.util.Arrays;
 @Service
 public class TokenServiceImpl implements TokenService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final WechatService wechatService;
-    private final UrlBuilder urlBuilder;
-
+    private final WechatConfService wechatConfService;
+    private UrlBuilder urlBuilder;
     private WechatAccessToken tokenCache;
 
-    @Autowired
-    public TokenServiceImpl(UrlBuilder urlBuilder, WechatService wechatService) {
+    @Override
+    public void setUrlBuilder(UrlBuilder urlBuilder) {
         this.urlBuilder = urlBuilder;
-        this.wechatService = wechatService;
+    }
+
+    @Autowired
+    public TokenServiceImpl( WechatConfService wechatConfService) {
+        this.wechatConfService = wechatConfService;
     }
 
     /**
@@ -44,7 +48,7 @@ public class TokenServiceImpl implements TokenService {
      */
     @Override
     public String checkSignature(String signature, Long timestamp, String nonce, String echostr) {
-        String[] array = new String[]{timestamp+"",nonce, wechatService.getConfFromCache().getToken()};
+        String[] array = new String[]{timestamp+"",nonce, wechatConfService.getWechatConf().getToken()};
         Arrays.sort(array);
 
         StringBuilder builder = new StringBuilder();

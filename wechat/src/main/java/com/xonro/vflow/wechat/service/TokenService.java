@@ -2,6 +2,7 @@ package com.xonro.vflow.wechat.service;
 
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.wechat.bean.WechatAccessToken;
+import com.xonro.vflow.wechat.helper.UrlBuilder;
 
 import java.io.IOException;
 
@@ -11,6 +12,8 @@ import java.io.IOException;
  * @date 2018-1-3
  */
 public interface TokenService {
+
+    void setUrlBuilder(UrlBuilder urlBuilder);
     /**
      * 签名认证
      * @param signature 微信加密签名
