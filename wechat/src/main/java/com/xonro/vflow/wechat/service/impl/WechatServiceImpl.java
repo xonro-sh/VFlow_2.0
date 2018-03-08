@@ -11,13 +11,11 @@ import com.xonro.vflow.wechat.bean.CreateQrCode;
 import com.xonro.vflow.wechat.bean.QrCode;
 import com.xonro.vflow.wechat.bean.message.Message;
 import com.xonro.vflow.wechat.dao.MessageRepository;
-import com.xonro.vflow.wechat.exception.WechatException;
 import com.xonro.vflow.wechat.helper.UrlBuilder;
 import com.xonro.vflow.wechat.service.WechatService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
