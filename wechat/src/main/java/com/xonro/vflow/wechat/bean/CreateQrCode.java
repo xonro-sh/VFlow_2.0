@@ -2,7 +2,6 @@ package com.xonro.vflow.wechat.bean;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.xonro.vflow.bases.exception.VFlowException;
-import com.xonro.vflow.wechat.exception.WechatException;
 
 import java.util.HashMap;
 import java.util.Map;
