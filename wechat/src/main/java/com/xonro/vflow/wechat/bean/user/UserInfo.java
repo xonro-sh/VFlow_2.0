@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @date 2018-1-12
  */
 @Entity
-@Table(name="xr_wechat_user")
+@Table(name="b_xr_wechat_user")
 public class UserInfo implements Serializable{
     /**
      * 用户是否订阅该公众号标识，值为0时，代表此用户没有关注该公众号，拉取不到其余信息
