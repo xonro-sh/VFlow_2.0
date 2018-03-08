@@ -20,40 +20,31 @@ public class BasesApplicationTests {
 	}
 
 	@Autowired
-	private ConfManager confManager;
+	ConfManager confManager;
 
 	@Test
-	public void testConfManager(){
+	public void testConf(){
 		WechatConf wechatConf = new WechatConf();
-		wechatConf.setAppId("appid2");
-		wechatConf.setAppSecret("appSercret");
-		wechatConf.setToken("token");
+		wechatConf.setAppId("test app id");
+		wechatConf.setAppSecret("test app secret");
+		wechatConf.setToken("test token");
 
 		confManager.saveWechatConf(wechatConf);
+		wechatConf = confManager.getWechatConf();
 
+		WxPayConf wxPayConf = new WxPayConf();
+		wxPayConf.setApiKey("test wxpay key");
+		wxPayConf.setBusinessName("test business name");
+		wxPayConf.setMchId("test mch_id");
+		wxPayConf.setUseSandBox(false);
+
+		confManager.saveWxPayConf(wxPayConf);
+		wxPayConf = confManager.getWxPayConf();
 		System.out.println(wechatConf);
-	}
-
-	@Test
-	public void testCacheConf(){
-		WechatConf wechatConf = confManager.getWechatConf();
-		System.out.println(wechatConf);
-	}
-
-	@Test
-	public void testWxpayConf(){
-		WxPayConf wxPayConf = confManager.getWxPayConf();
 		System.out.println(wxPayConf);
 	}
 
-	@Test
-	public void testSaveWxPayConf(){
-		WxPayConf wxPayConf = new WxPayConf();
-		wxPayConf.setBusinessName("测试商户2");
-		wxPayConf.setMchId("1301264401");
-		wxPayConf.setKey("41915360030255580443224118959153");
 
-		System.out.println(confManager.saveWxPayConf(wxPayConf));
-	}
+
 
 }
