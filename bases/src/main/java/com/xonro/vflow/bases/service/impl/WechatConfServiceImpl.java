@@ -33,7 +33,7 @@ public class WechatConfServiceImpl implements WechatConfService {
     @Override
     @CachePut(value = "wechat",key = "new String('wecaht_configuration')",unless = "#result eq null")
     public WechatConf saveWechatConf(WechatConf wechatConf) {
-        wechatConf.setCallBakUrl(serverHost+"/wechat/access");
+        wechatConf.setCallBackUrl(serverHost+"/wechat/access");
         return confRepository.save(wechatConf);
     }
 }

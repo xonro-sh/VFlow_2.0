@@ -123,6 +123,44 @@ public class RequestExecutor {
     }
 
     /**
+     * 上传视频文件
+     * @param fileName 文件名称
+     * @param mediaData 文件字节码数组
+     * @param map 视频素材的标题以及描述
+     * @return 上传结果
+     * @throws IOException
+     * @throws VFlowException
+     */
+    public RequestExecutor uploadVideo(String fileName, byte[] mediaData, Map<String, String> map) throws IOException, VFlowException {
+        try {
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create()
+                    .addBinaryBody("media",mediaData,ContentType.DEFAULT_BINARY,fileName);
+            for (String key: map.keySet()){
+                StringBody stringBody = new StringBody(map.get(key), ContentType.DEFAULT_TEXT);
+                builder.addPart(key, stringBody);
+            }
+            HttpEntity httpEntity = builder.build();
+
+            String response = Request.Post(requestUrl)
+                    .body(httpEntity)
+                    .execute()
+                    .returnContent().asString(CHARSET);
+
+            if (validateResult(response)){
+                this.response = response;
+                return this;
+            }
+        } catch (IOException e) {
+            logger.error(e.getMessage(),e);
+            throw e;
+        } catch (VFlowException e) {
+            logger.error(e.getMessage(),e);
+            throw e;
+        }
+        return null;
+    }
+
+    /**
      * 提交form数据
      * @param formFiles form文件数据，key：文件名称，value：文件字节码数组
      * @param formParams form参数，key：参数名称，value：参数值
