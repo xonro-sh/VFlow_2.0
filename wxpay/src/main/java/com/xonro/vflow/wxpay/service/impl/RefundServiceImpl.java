@@ -7,6 +7,7 @@ import com.github.wxpay.sdk.WXPayConstants;
 import com.xonro.vflow.bases.bean.WxPayConf;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.bases.helper.ConfManager;
+import com.xonro.vflow.wxpay.bean.refund.QueryRefundResult;
 import com.xonro.vflow.wxpay.bean.refund.Refund;
 import com.xonro.vflow.wxpay.bean.refund.RefundResult;
 import com.xonro.vflow.wxpay.helper.ServiceRequestHelper;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -46,6 +48,70 @@ public class RefundServiceImpl extends ServiceRequestHelper implements RefundSer
             logger.error(e.getMessage(),e);
         }
         catch (Exception e) {
+            logger.error(e.getMessage(),e);
+        }
+        return null;
+    }
+
+    @Override
+    public QueryRefundResult queryRefundByTradeId(String tradeId) {
+        WxPayConf wxPayConf = confManager.getWxPayConf();
+        WXPay wxPay = new WXPay(wxPayConfig, WXPayConstants.SignType.MD5,wxPayConf.isUseSandBox());
+
+        try {
+            Map<String,String> params = new HashMap<String, String>(4){{
+                put("transaction_id",tradeId);
+            }};
+            return queryRefund(wxPay,params);
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
+        }
+        return null;
+    }
+
+    @Override
+    public QueryRefundResult queryRefundByOutTradeId(String outTradeId) {
+        WxPayConf wxPayConf = confManager.getWxPayConf();
+        WXPay wxPay = new WXPay(wxPayConfig, WXPayConstants.SignType.MD5,wxPayConf.isUseSandBox());
+
+        try {
+            Map<String,String> params = new HashMap<String, String>(4){{
+                put("out_trade_no",outTradeId);
+            }};
+            return queryRefund(wxPay,params);
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
+        }
+        return null;
+    }
+
+    @Override
+    public QueryRefundResult queryRefundByRefundId(String refundId) {
+        WxPayConf wxPayConf = confManager.getWxPayConf();
+        WXPay wxPay = new WXPay(wxPayConfig, WXPayConstants.SignType.MD5,wxPayConf.isUseSandBox());
+
+        try {
+            Map<String,String> params = new HashMap<String, String>(4){{
+                put("refund_id",refundId);
+            }};
+            return queryRefund(wxPay,params);
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
+        }
+        return null;
+    }
+
+    @Override
+    public QueryRefundResult queryRefundByOutRefundId(String outRefundId) {
+        WxPayConf wxPayConf = confManager.getWxPayConf();
+        WXPay wxPay = new WXPay(wxPayConfig, WXPayConstants.SignType.MD5,wxPayConf.isUseSandBox());
+
+        try {
+            Map<String,String> params = new HashMap<String, String>(4){{
+                put("out_refund_no",outRefundId);
+            }};
+            return queryRefund(wxPay,params);
+        } catch (Exception e) {
             logger.error(e.getMessage(),e);
         }
         return null;

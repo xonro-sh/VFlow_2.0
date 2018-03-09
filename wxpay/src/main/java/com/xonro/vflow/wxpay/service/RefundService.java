@@ -1,5 +1,6 @@
 package com.xonro.vflow.wxpay.service;
 
+import com.xonro.vflow.wxpay.bean.refund.QueryRefundResult;
 import com.xonro.vflow.wxpay.bean.refund.Refund;
 import com.xonro.vflow.wxpay.bean.refund.RefundResult;
 
@@ -17,6 +18,32 @@ public interface RefundService{
      */
     public RefundResult refund(Refund refund);
 
+    /**
+     * 根据微信订单号查询退款
+     * @param tradeId
+     * @return
+     */
+    public QueryRefundResult queryRefundByTradeId(String tradeId);
 
+    /**
+     * 根据商户订单号查询退款
+     * @param outTradeId
+     * @return
+     */
+    public QueryRefundResult queryRefundByOutTradeId(String outTradeId);
+
+    /**
+     * 根据微信退款单号查询退款
+     * @param refundId
+     * @return
+     */
+    public QueryRefundResult queryRefundByRefundId(String refundId);
+
+    /**
+     * 根据商户退款单号查询退款
+     * @param outRefundId
+     * @return
+     */
+    public QueryRefundResult queryRefundByOutRefundId(String outRefundId);
 
 }

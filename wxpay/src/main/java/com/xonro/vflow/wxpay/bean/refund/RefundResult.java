@@ -2,7 +2,9 @@ package com.xonro.vflow.wxpay.bean.refund;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.xonro.vflow.wxpay.bean.Coupon;
+import com.xonro.vflow.wxpay.bean.WxPayResponse;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,52 +12,7 @@ import java.util.List;
  * @author louie
  * @date created in 2018-3-9 11:31
  */
-public class RefundResult {
-    /**
-     * 返回状态码 SUCCESS/FAIL
-     */
-    @JSONField(name = "return_code")
-    private String  returnCode;
-    /**
-     * 返回信息
-     */
-    @JSONField(name = "return_msg")
-    private String  returnMsg;
-    /**
-     * 业务结果
-     */
-    @JSONField(name = "result_code")
-    private String  resultCode;
-    /**
-     * 错误代码
-     */
-    @JSONField(name = "err_code")
-    private String  errCode;
-    /**
-     * 错误代码描述
-     */
-    @JSONField(name = "err_code_des")
-    private String  errCodeDes;
-    /**
-     * 公众账号ID
-     */
-    @JSONField(name = "appid")
-    private String  appId;
-    /**
-     * 商户号
-     */
-    @JSONField(name = "mch_id")
-    private String  mchId;
-    /**
-     * 随机字符串
-     */
-    @JSONField(name = "nonce_str")
-    private String  nonceStr;
-    /**
-     * 签名
-     */
-    @JSONField(name = "sign")
-    private String  sign;
+public class RefundResult extends WxPayResponse implements Serializable{
     /**
      * 微信订单号
      */
@@ -134,78 +91,6 @@ public class RefundResult {
      */
     @JSONField(serialize = false)
     private List<Coupon> coupons;
-
-    public String getReturnCode() {
-        return returnCode;
-    }
-
-    public void setReturnCode(String returnCode) {
-        this.returnCode = returnCode;
-    }
-
-    public String getReturnMsg() {
-        return returnMsg;
-    }
-
-    public void setReturnMsg(String returnMsg) {
-        this.returnMsg = returnMsg;
-    }
-
-    public String getResultCode() {
-        return resultCode;
-    }
-
-    public void setResultCode(String resultCode) {
-        this.resultCode = resultCode;
-    }
-
-    public String getErrCode() {
-        return errCode;
-    }
-
-    public void setErrCode(String errCode) {
-        this.errCode = errCode;
-    }
-
-    public String getErrCodeDes() {
-        return errCodeDes;
-    }
-
-    public void setErrCodeDes(String errCodeDes) {
-        this.errCodeDes = errCodeDes;
-    }
-
-    public String getAppId() {
-        return appId;
-    }
-
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
-
-    public String getMchId() {
-        return mchId;
-    }
-
-    public void setMchId(String mchId) {
-        this.mchId = mchId;
-    }
-
-    public String getNonceStr() {
-        return nonceStr;
-    }
-
-    public void setNonceStr(String nonceStr) {
-        this.nonceStr = nonceStr;
-    }
-
-    public String getSign() {
-        return sign;
-    }
-
-    public void setSign(String sign) {
-        this.sign = sign;
-    }
 
     public String getTransactionId() {
         return transactionId;
