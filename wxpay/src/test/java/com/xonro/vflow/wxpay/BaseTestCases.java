@@ -13,7 +13,7 @@ import java.util.Map;
 public class BaseTestCases {
     @Test
     public void testJsonString(){
-        UnifiedOrder unifiedOrder = new UnifiedOrder("body","tradeNo",200,"openId","clientIp");
+        UnifiedOrder unifiedOrder = new UnifiedOrder("body","tradeNo",200,"openId","clientIp","http://test.notify.url");
         System.out.println(JSON.toJSONString(unifiedOrder));
         System.out.println(JSON.parseObject(JSON.toJSONString(unifiedOrder), Map.class));
     }

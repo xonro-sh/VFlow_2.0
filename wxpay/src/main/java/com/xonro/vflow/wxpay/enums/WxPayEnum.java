@@ -11,6 +11,17 @@ public enum WxPayEnum {
      */
     RETURN_CODE_OK("SUCCESS","微信支付接口通信标识，成功"),
     RETURN_CODE_FAIL("FAIL","微信支付接口通信标识，失败"),
+
+    /**
+     * 交易状态
+     */
+    TRADE_STATE_SUCCESS("SUCCESS","支付成功"),
+    TRADE_STATE_REFUND("REFUND","转入退款"),
+    TRADE_STATE_NOTPAY("NOTPAY","未支付"),
+    TRADE_STATE_CLOSED("CLOSED","已关闭"),
+    TRADE_STATE_REVOKED("REVOKED","已撤销（刷卡支付）"),
+    TRADE_STATE_PAYING("USERPAYING","用户支付中 "),
+    TRADE_STATE_ERROR("PAYERROR","支付失败(其他原因，如银行返回失败)")
     ;
 
     private String value;

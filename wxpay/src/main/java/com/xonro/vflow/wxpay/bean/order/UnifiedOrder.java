@@ -2,15 +2,13 @@ package com.xonro.vflow.wxpay.bean.order;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-import javax.persistence.Entity;
 import java.io.Serializable;
 
 /**
+ * 统一下单
  * @author louie
- * @Description:统一下单
  * @date 2018-3-6 16:40
  */
-@Entity
 public class UnifiedOrder implements Serializable{
     public UnifiedOrder(){
         super();

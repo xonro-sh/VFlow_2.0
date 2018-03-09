@@ -12,7 +12,6 @@ import java.util.Map;
  * @date created in 2018-3-7 17:27
  */
 public class RequestHelper {
-
     /**
      * 校验微信支付接口通信结果
      * @param resultParams 微信支付接口响应参数

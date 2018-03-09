@@ -3,6 +3,7 @@ package com.xonro.vflow.wxpay.conf;
 import com.github.wxpay.sdk.WXPayConfig;
 import com.xonro.vflow.bases.helper.ConfManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 
@@ -11,6 +12,7 @@ import java.io.InputStream;
  * @Description:
  * @date 2018-3-7 10:26
  */
+@Service
 public class WxPayConfigImpl implements WXPayConfig {
 
     @Autowired
