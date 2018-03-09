@@ -36,7 +36,7 @@ public class WechatConf implements Serializable{
     /**
      * 微信公众号回调地址
      */
-    private String callBakUrl;
+    private String callBackUrl;
 
     public String getId() {
         return id;
@@ -70,12 +70,12 @@ public class WechatConf implements Serializable{
         this.token = token;
     }
 
-    public String getCallBakUrl() {
-        return callBakUrl;
+    public String getCallBackUrl() {
+        return callBackUrl;
     }
 
-    public void setCallBakUrl(String callBakUrl) {
-        this.callBakUrl = callBakUrl;
+    public void setCallBackUrl(String callBackUrl) {
+        this.callBackUrl = callBackUrl;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class WechatConf implements Serializable{
                 ", appId='" + appId + '\'' +
                 ", appSecret='" + appSecret + '\'' +
                 ", token='" + token + '\'' +
-                ", callBakUrl='" + callBakUrl + '\'' +
+                ", callBackUrl='" + callBackUrl + '\'' +
                 '}';
     }
 }
