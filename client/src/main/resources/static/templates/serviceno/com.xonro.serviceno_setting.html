@@ -39,6 +39,13 @@
         <div class="layui-form-mid layui-word-aux">必须为英文或数字，长度为3-32字符。</div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">回调地址<br>(CallBackUrl)</label>
+        <div class="layui-input-block">
+            <input type="text" readonly name="callBackUrl" v-model="callBackUrl" required  placeholder="" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">保存后自动生成</div>
+    </div>
+    <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit lay-filter="servicenosetting">保存配置</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
@@ -71,6 +78,7 @@
                         top.layer.close(index);
                         top.layer.msg("配置更新成功", {icon: 1,time:3000});
                         serviceNo.id = getServiceNoConf().id;//更新ID值
+                        serviceNo.callBackUrl = getServiceNoConf().callBackUrl;//更新url
                         return true;
                     } else {
                         top.layer.msg("配置更新失败，错误信息"+data.msg, {icon: 2,time:3000});
@@ -99,7 +107,8 @@
                 id: serviceConf.id,
                 appId: serviceConf.appId,
                 appSecret: serviceConf.appSecret,
-                token: serviceConf.token
+                token: serviceConf.token,
+                callBackUrl: serviceConf.callBackUrl
             },
             methods: {
 
