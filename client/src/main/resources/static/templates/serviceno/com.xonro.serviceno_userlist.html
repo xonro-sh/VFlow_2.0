@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="../../css/children.css">
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../lib/layui/layui.js"></script>
+</head>
+<body class="childrenBody">
+<div class="layui-col-md12 layui-col-space1">
+    <blockquote class="layui-elem-quote">当前用户数据默认为每天获取一次，如果想立即获取点击刷新按钮</blockquote>
+</div>
+<div class="layui-row layui-col-space10">
+    <div class="layui-col-md12 layui-col-space1">
+        <div class="layui-form">
+            <div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">全文搜索</label>
+                    <div class="layui-input-inline">
+                        <input  class="layui-input" type="text" >
+                    </div>
+                    <button id="search" class="layui-btn">查询</button>
+                    <button id="refresh" class="layui-btn">刷新</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="layui-col-md12 layui-col-space1">
+        <table class="layui-hide" id="wxUser" lay-filter="wxUser" lay-data="{id:'wxUser'}"></table>
+    </div>
+    <input id="dataUse" style="display: none">
+
+</div>
+<script>
+    layui.use(['table','layer'], function(){
+        var table = layui.table;
+        var layer = layui.layer;
+        var tables = table.render({
+            elem: '#wxUser'
+            ,url: "../../wechat/getUserInfoList/"
+            ,page: true
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,height: 'full-160'
+            ,cols: [[
+                {field:'nickname',fixed:"left", title: '昵称'}
+                ,{field:'openid', title: '标识'}
+                ,{field:'subscribe', title: '是否订阅', templet:"#issubscribe"}
+                ,{field:'sex', title: '性别'}
+                ,{field:'city', title: '城市'}
+                ,{field:'country', title: '国家',sort: true}
+                ,{field:'province', title: '省份', sort: true}
+                ,{field:'language', title: '语言'}
+                ,{field:'subscribe_time', title: '关注时间', sort: true}
+                ,{field:'unionid', title: 'unionid', sort: true}
+                ,{field:'remark', title: '备注'}
+                ,{field:'groupid', title: '分组ID'}
+                ,{field:'tagid_list', title: '标签ID列表'}
+                ,{fixed: 'right', title: '操作',width:120, align:'center', toolbar: '#bar'}
+            ]]
+            ,loading:true //是否显示加载条 默认true 该参数只适用于 url 参数开启的方式
+            ,text: { //自定义文本，如空数据时的异常提示等
+                none: '暂无相关数据'
+            }
+            ,skin: 'nob' //行边框风格
+            ,even: false //开启（true）关闭（false）隔行背景
+            ,size: 'lg' //大尺寸的表格
+        });
+        $("#refresh").on("click",function () {
+            tables.reload({
+                elem: '#wxUser'
+                ,url: "../../wechat/getUserInfoList/"
+            });
+        });
+        var indexOpen;
+        //监听工具条
+        table.on('tool(wxUser)', function(obj){ //注：tool是工具条事件名，menu是table原始容器的属性 lay-filter="对应的值"
+            console.log(obj);
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+            if(layEvent === 'editRemark'){ //编辑备注
+                $("#remark").val(obj.data.remark);
+                $("#openid").val(obj.data.openid);
+                indexOpen = layer.open({
+//                        type: 4,
+//                        content: [ document.getElementById("update"), $("#remark_"+obj.data.openid+"")], //这里content是一个普通的String,
+////                        scrollbar: false,// 是否允许浏览器出现滚动条
+//                        title: "修改备注", //标题
+//                        skin:'layui-layer-lan'
+
+                    type: 1,
+                    content: $("#update"),
+                    title:"修改备注"
+                });
+//                    var that = this;
+//                    layer.tips('只想提示地精准些', that);
+            }
+        });
+        $("#updateremark").on("click", function () {
+            var index1 = layer.msg('数据提交中',{icon: 16,time:false,shade:0.8});
+            $.ajax({
+                url: "../../wechat/updateRemark",
+                type: "post",
+                dataType: "json",
+                async: false,
+                data: {
+                    openId: $("#openid").val(),
+                    remark: $("#remark").val()
+                },
+                success: function (data) {
+                    if (data.ok){
+                        layer.close(index1);
+                        layer.msg("提交成功", {icon: 1,time:3000});
+                        layer.close(indexOpen);
+                        tables.reload({
+                            elem: '#wxUser'
+                            ,url: "../../wechat/getUserInfoList/"
+                        });
+                    } else {
+                        layer.msg("提交失败，错误信息"+data.msg, {icon: 1,time:3000});
+                    }
+                },
+                error : function (data) {
+                    layer.msg("提交失败，错误信息"+data.msg, {icon: 1,time:3000});
+                }
+            });
+        });
+    });
+
+</script>
+<script type="text/html" id="issubscribe">
+    <input disabled {{ d.subscribe == '1' ? 'checked' : '' }} name="subscribe" lay-filter="switchTest" lay-skin="switch" lay-text="YES|NO" type="checkbox">
+</script>
+<script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-xs" id="remark_{{d.openid}}" lay-event="editRemark">修改备注</a>
+</script>
+<div id="update" class="layui-form childrenBody" style="display: none" >
+    <br><br>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注名称</label>
+            <div class="layui-input-block">
+                <input id="remark" name="remark" lay-verify="required" autocomplete="off" placeholder="请输入备注" class="layui-input" type="text">
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item" style="text-align: right">
+            <div class="layui-btn-group">
+                <button class="layui-btn" id="updateremark" >确认修改</button>
+            </div>
+            <!--<div class="layui-input-block">-->
+            <!---->
+            <!--</div>-->
+
+        </div>
+    </div>
+
+
+
+    <input id="openid" name="openid" style="display:none">
+</div>
+
+</body>
+
+</html>

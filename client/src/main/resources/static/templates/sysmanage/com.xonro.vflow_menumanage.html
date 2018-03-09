@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="../../css/children.css">
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
+</head>
+<body class="childrenBody layui-fluid">
+    <div class="layui-row layui-col-space10">
+
+        <div class="layui-col-md3">
+            <fieldset class="layui-elem-field">
+                <legend>菜单管理</legend>
+                <div class="layui-field-box">
+                    <div class="layui-row layui-col-space10">
+                        <div class="layui-col-md12">
+                            <ul id="demo" lay-filter="demo" lay-data="{id:'demo'}"></ul>
+                        </div>
+                    </div>
+                </div>
+
+
+            </fieldset>
+
+        </div>
+        <div class="layui-col-md9">
+            <fieldset class="layui-elem-field">
+                <legend>功能列表</legend>
+                <div class="layui-field-box">
+                    <div class="xonro-form-btn-style layui-col-md12 layui-col-space1">
+                        <div class="layui-btn-group">
+                            <a id="add" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe608;</i>增加</a>
+                            <a id="refresh" class="layui-btn layui-btn-sm layui-btn-danger"><i class="layui-icon">&#x1002;</i>刷新</a>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12 layui-col-space1">
+                        <table style="display: none" id="menu" lay-filter="menu" lay-data="{id:'menu'}"></table>
+                    </div>
+                </div>
+                <input id="pnonew" name="pnonew" style="display: none;">
+
+
+            </fieldset>
+
+        </div>
+
+    </div>
+
+<script src="../../lib/layui/layui.js"></script>
+<script>
+    layui.use(['tree','table'], function(){
+        var table = layui.table;
+
+        //表单初始化
+        var tables = table.render({
+            elem: '#menu'
+            ,url: '../../console/getMenuByPNo/0' //数据接口
+            ,page: false //关闭
+            ,cols: [[ //表头
+                {checkbox: true}
+                ,{field: 'itemNo', title: '代码', width:80}
+                ,{field: 'pNo', title: '上级代码', width:120, sort: true}
+                ,{field: 'cnName', title: '中文名称', width:120}
+                ,{field: 'enName', title: '英文名称', width: 120}
+                ,{field: 'isActive', title: '有效性', width: 100, sort: true, templet:"#barDemo1"}
+                ,{field: 'url', title: '菜单链接', width: 120}
+                ,{field: 'menuIcon', title: '菜单图标', width: 120, templet:"#menuIcon"}
+                ,{fixed: 'right', title: '操作',width:200, align:'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+            ]]
+            ,loading:true //是否显示加载条 默认true 该参数只适用于 url 参数开启的方式
+            ,text: { //自定义文本，如空数据时的异常提示等
+                none: '暂无数据'
+            }
+            ,initSort: { //初始排序状态
+                field: 'itemNo' //排序字段，对应 cols 设定的各字段名
+                ,type: 'asc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+            }
+            ,skin: 'nob' //行边框风格
+            ,even: false //开启（true）关闭（false）隔行背景
+            ,size: 'lg' //大尺寸的表格
+        });
+        $("#pnonew").val("0");
+        var tree = layui.tree({
+            elem: '#demo' //传入元素选择器
+            ,nodes: getMenuByTree()
+            ,click: function(node){
+                tables = table.render({
+                    elem: '#menu'
+                    ,url: '../../console/getMenuByPNo/'+node.id //数据接口
+                    ,page: false //关闭
+                    ,cols: [[ //表头
+                        {checkbox: true}
+                        ,{field: 'itemNo', title: '代码', width:80}
+                        ,{field: 'pNo', title: '上级代码', width:120, sort: true}
+                        ,{field: 'cnName', title: '中文名称', width:120}
+                        ,{field: 'enName', title: '英文名称', width: 120}
+                        ,{field: 'isActive', title: '有效性', width: 100, sort: true, templet:"#barDemo1"}
+                        ,{field: 'url', title: '菜单链接', width: 120}
+                        ,{field: 'menuIcon', title: '菜单图标', width: 120, templet:"#menuIcon"}
+                        ,{fixed: 'right', title: '操作',width:200, align:'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+                    ]]
+                    ,loading:true //是否显示加载条 默认true 该参数只适用于 url 参数开启的方式
+                    ,text: { //自定义文本，如空数据时的异常提示等
+                        none: '暂无数据'
+                    }
+                    ,initSort: { //初始排序状态
+                        field: 'itemNo' //排序字段，对应 cols 设定的各字段名
+                        ,type: 'asc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+                    }
+                    ,skin: 'nob' //行边框风格
+                    ,even: false //开启（true）关闭（false）隔行背景
+                    ,size: 'lg' //大尺寸的表格
+                });
+                $("#pnonew").val(node.id);
+        }
+    });
+        $("#add").on("click",function () {
+            layer.open({
+                type: 2,
+                content: '../sysmanage/com.xonro.vflow_menuadd.html?pnonew='+$("#pnonew").val(), //这里content是一个普通的String,
+                area: ['800px', '380px'],
+                offset: 't',// 快捷设置顶部坐标
+                anim: 1,// 从上掉落
+                scrollbar: false,// 是否允许浏览器出现滚动条
+                id: 1, //用于控制弹层唯一标识
+                title: "新建菜单" //标题
+            });
+        });
+        
+        $("#refresh").on("click", function () {//刷新
+            tables.reload();
+        });
+
+        //监听工具条
+        table.on('tool(menu)', function(obj){ //注：tool是工具条事件名，menu是table原始容器的属性 lay-filter="对应的值"
+            console.log(obj);
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+            if(layEvent === 'del'){ //删除
+                layer.confirm('真的删除行么', function(index){
+                    var index1 = top.layer.msg('数据删除中',{icon: 16,time:false,shade:0.8});
+
+                    //向服务端发送删除指令
+                    $.ajax({
+                        url: "../../console/delMenu",
+                        type: "post",
+                        dataType: "json",
+                        async: false,
+                        data: {
+                            id: obj.data.id
+                        },
+                        success: function (data) {
+                            if (data.ok){
+                                top.layer.close(index1);
+                                top.layer.msg("提交成功", {icon: 1,time:3000});
+                                obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                                layer.close(index);
+                            } else {
+                                top.layer.msg("删除失败，错误信息"+data.msg, {icon: 2,time:3000});
+
+                            }
+                        },
+                        error : function (data) {
+                            top.layer.msg("删除失败，错误信息"+data.msg, {icon: 2,time:3000});
+                        }
+
+                    });
+                });
+            } else if(layEvent === 'edit'){ //编辑
+                //do something
+                layer.open({
+                    type: 2,
+                    content: '../sysmanage/com.xonro.vflow_menuadd.html?id='+obj.data.id, //这里content是一个普通的String,
+                    area: ['800px', '380px'],
+                    offset: 't',// 快捷设置顶部坐标
+                    anim: 1,// 从上掉落
+                    scrollbar: false,// 是否允许浏览器出现滚动条
+                    id: 1, //用于控制弹层唯一标识
+                    title: "新建菜单" //标题
+                });
+                //同步更新缓存对应的值
+//                obj.update({
+//                    username: '123'
+//                    ,title: 'xxx'
+//                });
+            } else if(layEvent === 'up' || layEvent === 'down'){
+                changMenuIdex(obj, layEvent, tables);
+
+            }
+        });
+    })
+    function getMenuByTree() {
+        var info = {};
+        $.ajax({
+            url: "../../console/getMenuByTree",
+            type: "get",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.ok){
+                    info = JSON.parse(data.data);
+                    console.log(info);
+                    console.log(eval(info));
+                }
+            },
+            error : function (data) {
+            }
+        });
+        return info;
+    }
+    function changMenuIdex(obj, layEvent, tables) {
+        var index1 = top.layer.msg('菜单位置更换中',{icon: 16,time:false,shade:0.8});
+
+        //向服务端发送删除指令
+        $.ajax({
+            url: "../../console/changeMenuIndex",
+            type: "post",
+            dataType: "json",
+            async: false,
+            data: {
+                itemNo: obj.data.itemNo,
+                type: layEvent
+            },
+            success: function (data) {
+                if (data.ok){
+                    top.layer.close(index1);
+                    top.layer.msg("更换成功", {icon: 1,time:3000});
+                    tables.reload();
+                } else {
+                    top.layer.msg("更换失败，错误信息"+data.msg, {icon: 2,time:3000});
+
+                }
+            },
+            error : function (data) {
+                top.layer.msg("更换失败，错误信息"+data.msg, {icon: 2,time:3000});
+            }
+
+        });
+    }
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-xs" lay-event="up"><i class="layui-icon">&#xe619;</i></a>
+    <a class="layui-btn layui-btn-xs" lay-event="down"><i class="layui-icon">&#xe61a;</i></a>
+
+</script>
+<script type="text/html" id="barDemo1">
+    <input disabled {{ d.isActive == 'on' ? 'checked' : '' }} name="isActive" lay-filter="switchTest" lay-skin="switch" lay-text="YES|NO" type="checkbox">
+</script>
+<script type="text/html" id="menuIcon">
+    {{#  if(d.menuIcon.indexOf("&#") == 0){ }}
+    <i class="layui-icon">{{d.menuIcon}}</i>
+    {{#  } }}
+    {{#  if(d.menuIcon.indexOf("fa-") == 0){ }}
+    <i class="fa {{d.menuIcon}}"></i>
+    {{#  } }}
+</script>
+</body>
+</html>

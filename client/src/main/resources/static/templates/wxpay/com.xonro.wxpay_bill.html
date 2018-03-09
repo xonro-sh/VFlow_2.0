@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="../../css/children.css">
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
+</head>
+<body class="childrenBody">
+
+<div id="billDiv" class="layui-row layui-col-space10">
+    <div class="layui-col-md12 layui-col-space1">
+        <blockquote class="layui-elem-quote">微信在次日9点启动生成前一天的对账单，建议10点后再获取</blockquote>
+    </div>
+
+    <div class="layui-col-md12 layui-col-space1">
+        <div class="layui-form">
+            <div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">账单日期</label>
+                    <div class="layui-input-inline">
+                        <input  class="layui-input" type="text" id="date">
+                    </div>
+                    <button id="search" class="layui-btn">查询</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="layui-col-md12 layui-col-space1 tableBody">
+        <table class="layui-hide" id="wxBill" lay-filter="wxBill" lay-data="{id:'wxBill'}"></table>
+    </div>
+    <input id="dataUse" style="display: none">
+</div>
+
+
+
+<script src="../../lib/layui/layui.js"></script>
+
+<script>
+    layui.use(['table','laydate','jquery'], function(){
+        var table = layui.table;
+        var laydate = layui.laydate;
+        $ = layui.jquery;
+        //日期选择器
+        laydate.render({
+            elem: '#date'
+            //,type: 'date' //默认，可不填
+            ,format: 'yyyy-MM-dd'
+        });
+        table.render({
+            elem: '#wxBill'
+            ,url:'../../wechat/getWxBill/'
+            ,page: true
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,height: 'full-160'
+            ,cols: [[
+                {field:'tradeTime', title: '交易时间', sort: true}
+                ,{field:'appId', title: '公众账号ID'}
+                ,{field:'mchId', title: '商户号'}
+                ,{field:'subMchId', title: '子商户号'}
+                ,{field:'deviceId', title: '设备号'}
+                ,{field:'transactionId', title: '微信订单号', event: 'getOrderByTransactionId', style:'cursor: pointer;color: blue;',sort: true}
+                ,{field:'outTradeNo', title: '商户订单号', event: 'getOrderByOutTradeNo', sort: true}
+                ,{field:'openId', title: '用户标识'}
+                ,{field:'tradeType', title: '交易类型', sort: true}
+                ,{field:'tradeStatus', title: '交易状态', sort: true}
+                ,{field:'bank', title: '付款银行', sort: true}
+                ,{field:'feeType', title: '货币种类'}
+                ,{field:'totalFee', title: '总金额'}
+                ,{field:'redpacketFee', title: '代金券或立减优惠金额'}
+                ,{field:'refundId', title: '微信退款单号'}
+                ,{field:'outRefundNo', title: '商户退款单号'}
+                ,{field:'refundFee', title: '退款金额'}
+                ,{field:'redpacketRefund', title: '代金券或立减优惠退款金额'}
+                ,{field:'refundType', title: '退款类型'}
+                ,{field:'refundStatus', title: '退款状态'}
+                ,{field:'body', title: '商品名称'}
+                ,{field:'dataPacket', title: '商户数据包'}
+                ,{field:'fee', title: '手续费'}
+                ,{field:'rate', title: '费率'}
+            ]]
+            ,loading:true //是否显示加载条 默认true 该参数只适用于 url 参数开启的方式
+            ,text: { //自定义文本，如空数据时的异常提示等
+                none: '暂无相关数据'
+            }
+//            ,initSort: { //初始排序状态
+//                field: 'tradeTime' //排序字段，对应 cols 设定的各字段名
+//                ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+//            }
+            ,skin: 'nob' //行边框风格
+            ,even: false //开启（true）关闭（false）隔行背景
+            ,size: 'lg' //大尺寸的表格
+        });
+        //监听单元格事件
+        table.on('tool(wxBill)', function(obj){
+            if(obj.event === 'getOrderByTransactionId'){
+                layer.open({
+                    type: 2,
+                    content: '../wxpay/com.xonro.wxpay_order.html?transactionId='+obj.data.transactionId, //这里content是一个普通的String,
+                    area: ['800px', '380px'],
+                    offset: 't',// 快捷设置顶部坐标
+                    anim: 1,// 从上掉落
+                    scrollbar: false,// 是否允许浏览器出现滚动条
+                    title: "订单详情", //标题
+                    maxmin: true,
+                    shadeClose: true //若存在遮罩 点击关闭
+                });
+            }
+        });
+        $("#search").on("click", function () {
+            var index = layer.msg('查询中',{icon: 16,time:false,shade:0.8});
+            table.render({
+                elem: '#wxBill'
+                ,url:'../../wechat/getWxBill'
+                ,page: true
+                ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                ,height: 'full-160'
+                ,cols: [[
+                    {field:'tradeTime', title: '交易时间', sort: true}
+                    ,{field:'appId', title: '公众账号ID'}
+                    ,{field:'mchId', title: '商户号'}
+                    ,{field:'subMchId', title: '子商户号'}
+                    ,{field:'deviceId', title: '设备号'}
+                    ,{field:'transactionId', title: '微信订单号', sort: true}
+                    ,{field:'outTradeNo', title: '商户订单号', sort: true}
+                    ,{field:'openId', title: '用户标识'}
+                    ,{field:'tradeType', title: '交易类型', sort: true}
+                    ,{field:'tradeStatus', title: '交易状态', sort: true}
+                    ,{field:'bank', title: '付款银行', sort: true}
+                    ,{field:'feeType', title: '货币种类'}
+                    ,{field:'totalFee', title: '总金额'}
+                    ,{field:'redpacketFee', title: '代金券或立减优惠金额'}
+                    ,{field:'refundId', title: '微信退款单号'}
+                    ,{field:'outRefundNo', title: '商户退款单号'}
+                    ,{field:'refundFee', title: '退款金额'}
+                    ,{field:'redpacketRefund', title: '代金券或立减优惠退款金额'}
+                    ,{field:'refundType', title: '退款类型'}
+                    ,{field:'refundStatus', title: '退款状态'}
+                    ,{field:'body', title: '商品名称'}
+                    ,{field:'dataPacket', title: '商户数据包'}
+                    ,{field:'fee', title: '手续费'}
+                    ,{field:'rate', title: '费率'}
+                ]]
+                ,loading:true //是否显示加载条 默认true 该参数只适用于 url 参数开启的方式
+                ,text: { //自定义文本，如空数据时的异常提示等
+                    none: '暂无相关数据'
+                }
+//                ,initSort: { //初始排序状态
+//                    field: 'tradeTime' //排序字段，对应 cols 设定的各字段名
+//                    ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+//                }
+                ,skin: 'nob' //行边框风格
+                ,even: false //开启（true）关闭（false）隔行背景
+                ,size: 'lg' //大尺寸的表格
+                ,where: {
+                    billDate: $("#date").val().replace(new RegExp("-","g"),'')
+                },
+                done: function(res, curr, count){
+                    layer.close(index);
+                    layer.msg("查询完成", {icon: 1,time:3000});
+                }
+            });
+        })
+    });
+</script>
+<script></script>
+</body>
+</html>

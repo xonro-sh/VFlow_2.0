@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>消息管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="../../css/children.css">
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
+
+    <!--vue.js-->
+    <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
+</head>
+<body class="childrenBody">
+<div class="layui-tab layui-tab-brief">
+    <ul class="layui-tab-title">
+        <li class="layui-this">收到消息回复</li>
+        <li>被关注回复</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <form id="getMessage" class="layui-form" action="">
+                <input name="id" v-model="id" style="display: none">
+                <input name="type" v-model="type" style="display: none">
+                <input name="messageType" v-model="messageType" style="display: none">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">有效性</label>
+                    <div class="layui-input-block">
+                        <input v-model="isActive" name="isActive" value=true lay-filter="switch" lay-skin="switch" lay-text="是|否" type="checkbox" checked>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">消息内容</label>
+                    <div class="layui-input-block">
+                        <textarea v-model="content" name="content" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="savesetting">保存配置</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="layui-tab-item">
+            <form id="subscribe" class="layui-form" action="">
+                <input name="id" v-model="id" style="display: none">
+                <input name="type" v-model="type" style="display: none">
+                <input name="messageType" v-model="messageType" style="display: none">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">有效性</label>
+                    <div class="layui-input-block">
+                        <input v-model="isActive" name="isActive" value=true lay-filter="switch1" lay-skin="switch" lay-text="是|否" type="checkbox" checked>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">消息内容</label>
+                    <div class="layui-input-block">
+                        <textarea v-model="content" name="content" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="savesetting1">保存配置</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="../../lib/layui/layui.js"></script>
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['form','element'], function(){
+        var element = layui.element;
+        var form = layui.form;
+        //…
+        //监听按钮
+        form.on('switch(switch)', function(data){
+            if (!data.elem.checked){
+                getMessage.isActive = false;
+                layer.tips('温馨提示：有效性为否时配置将关闭', data.othis)
+            }
+        });
+        //监听按钮
+        form.on('switch(switch1)', function(data){
+            if (!data.elem.checked){
+                getMessage.isActive = false;
+                layer.tips('温馨提示：有效性为否时配置将关闭', data.othis)
+            }
+        });
+
+        //监听提交
+        form.on('submit(savesetting)', function(data){
+            var index = layer.msg('配置更新中',{icon: 16,time:false,shade:0.8});
+
+            //向服务端发送删除指令
+            $.ajax({
+                url: "../../wechat/updateMessageConf",
+                type: "post",
+                dataType: "json",
+                async: false,
+                data: {
+                    data: JSON.stringify(data.field)
+                },
+                success: function (data) {
+                    if (data.ok){
+                        layer.close(index);
+                        layer.msg("配置更新成功", {icon: 1,time:3000});
+                        getMessage.id = getMessageConf("1").id;//更新ID值
+                        return true;
+                    } else {
+                        layer.msg("配置更新失败，错误信息"+data.msg, {icon: 2,time:3000});
+
+                        return false;
+                    }
+                },
+                error : function (data) {
+                    top.layer.msg("配置更新失败，错误信息"+data.msg, {icon: 2,time:3000});
+                    return false;
+                }
+
+            });
+            return false;
+        });
+
+        //监听提交
+        form.on('submit(savesetting1)', function(data){
+            var index = layer.msg('配置更新中',{icon: 16,time:false,shade:0.8});
+
+            //向服务端发送删除指令
+            $.ajax({
+                url: "../../wechat/updateMessageConf",
+                type: "post",
+                dataType: "json",
+                async: false,
+                data: {
+                    data: JSON.stringify(data.field)
+                },
+                success: function (data) {
+                    if (data.ok){
+                        layer.close(index);
+                        layer.msg("配置更新成功", {icon: 1,time:3000});
+                        subscribe.id = getMessageConf("2").id;//更新ID值
+                        return true;
+                    } else {
+                        layer.msg("配置更新失败，错误信息"+data.msg, {icon: 2,time:3000});
+
+                        return false;
+                    }
+                },
+                error : function (data) {
+                    top.layer.msg("配置更新失败，错误信息"+data.msg, {icon: 2,time:3000});
+                    return false;
+                }
+
+            });
+            return false;
+        });
+    });
+</script>
+<script>
+    var getMessage = {};
+    var subscribe = {};
+    $(function () {
+        var messageConf = getMessageConf("1");
+        var subscribeConf = getMessageConf("2");
+        console.log(messageConf.isActive);
+        getMessage = new Vue({
+            el: "#getMessage",
+            data: {
+                id: messageConf.id,
+                content: messageConf.content,
+                isActive: messageConf.active==undefined? true:messageConf.active==false?"":messageConf.active,
+                type: "1",
+                messageType: "text" //暂时只有文本  后续在开发
+            },
+            methods: {
+
+            }
+        });
+        subscribe = new Vue({
+            el: "#subscribe",
+            data: {
+                id: subscribeConf.id,
+                content: subscribeConf.content,
+                isActive: subscribeConf.active==undefined? true:subscribeConf.active==false?"":subscribeConf.active,
+                type: "2",
+                messageType: "text" //暂时只有文本  后续在开发
+            },
+            methods: {
+
+            }
+        });
+    });
+
+    function getMessageConf(type) {
+        var info = {};
+        $.ajax({
+            url: "../../wechat/getMessageConf",
+            type: "get",
+            dataType: "json",
+            data:{
+               type: type
+            },
+            async: false,
+            success: function (data) {
+                if (data.ok){
+                    if (data.data != null){
+                        info = data.data;
+                    }
+
+                }
+            },
+            error : function (data) {
+            }
+        });
+        return info;
+    }
+</script>
+</body>
+</html>

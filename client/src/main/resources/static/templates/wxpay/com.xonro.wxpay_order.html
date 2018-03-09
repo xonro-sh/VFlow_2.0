@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单详情</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="../../css/children.css">
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
+    <!--vue.js-->
+    <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
+    <script src="../../js/util.js"></script>
+    <!--加载效果-->
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="https://cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+</head>
+<body class="childrenBody">
+<div id="orderDiv" class="layui-row layui-col-space10">
+    <div class="layui-form-item">
+        <label class="layui-form-label">设备号</label>
+        <div class="layui-input-block">
+            <input disabled placeholder="无" class="layui-input" type="text" v-model="device_info">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户标识</label>
+        <div class="layui-input-block">
+            <input disabled placeholder="无" class="layui-input" type="text" v-model="openid">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否关注公众账号</label>
+        <div class="layui-input-block">
+            <input disabled placeholder="无" class="layui-input" type="text" v-model="is_subscribe">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">交易类型</label>
+        <div class="layui-input-block">
+            <input disabled placeholder="无" class="layui-input" type="text" v-model="trade_type">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">交易状态</label>
+        <div class="layui-input-block">
+            <input disabled placeholder="无" class="layui-input" type="text" v-model="trade_state">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">付款银行</label>
+        <div class="layui-input-block">
+            <input disabled placeholder="无" class="layui-input" type="text" v-model="bank_type">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">标价金额</label>
+        <div class="layui-input-block">
+            <input disabled placeholder="无" class="layui-input" type="number" v-model="total_fee">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">应结订单金额</label>
+        <div class="layui-input-block">
+            <input disabled placeholder="无" class="layui-input" type="number" v-model="settlement_total_fee">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">标价币种</label>
+        <div class="layui-input-block">
+            <input disabled placeholder="无" class="layui-input" type="text" v-model="fee_type">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">现金支付金额</label>
+        <div class="layui-input-block">
+            <input disabled placeholder="无" class="layui-input" type="number" v-model="cash_fee">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">现金支付币种</label>
+        <div class="layui-input-block">
+            <input disabled placeholder="无" class="layui-input" type="text" v-model="cash_fee_type">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">微信支付订单号</label>
+        <div class="layui-input-block">
+            <input disabled placeholder="无" class="layui-input" type="text" v-model="transaction_id">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商户订单号</label>
+        <div class="layui-input-block">
+            <input disabled placeholder="无" class="layui-input" type="text" v-model="out_trade_no">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">附加数据</label>
+        <div class="layui-input-block">
+            <input disabled placeholder="无" class="layui-input" type="text" v-model="attach">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">支付完成时间</label>
+        <div class="layui-input-block">
+            <input disabled placeholder="无" class="layui-input" type="text" v-model="time_end">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">交易状态描述</label>
+        <div class="layui-input-block">
+            <input disabled placeholder="无" class="layui-input" type="text" v-model="trade_state_desc">
+        </div>
+    </div>
+</div>
+
+<script>
+    var orderInfo = {};
+    var order;
+    $(function () {
+        var transactionId = getUrlParameter("transactionId");
+        var pnonew = getUrlParameter("pnonew");
+        if (transactionId != undefined){
+            orderInfo = getOrderByTransactionId(transactionId);
+        }
+        order = new Vue({
+            el: "#orderDiv",
+            data: {
+                device_info: orderInfo.device_info,
+                openid: orderInfo.openid,
+                is_subscribe: orderInfo.is_subscribe,
+                trade_type: orderInfo.trade_type,
+                trade_state: orderInfo.trade_state,
+                bank_type: orderInfo.bank_type,
+                total_fee: orderInfo.total_fee,
+                settlement_total_fee: orderInfo.settlement_total_fee,
+                fee_type: orderInfo.fee_type,
+                cash_fee: orderInfo.cash_fee,
+                cash_fee_type: orderInfo.cash_fee_type,
+                transaction_id: orderInfo.transaction_id,
+                out_trade_no: orderInfo.out_trade_no,
+                attach: orderInfo.attach,
+                time_end: orderInfo.time_end,
+                trade_state_desc: orderInfo.trade_state_desc
+            },
+            methods: {
+
+            }
+        });
+    })
+
+    function getOrderByTransactionId(transactionId) {
+        var info = {};
+        $.ajax({
+            url: "../../wechat/getOrderByTransactionId",
+            type: "post",
+            dataType: "json",
+            async: false,
+            data: {
+                transactionId: transactionId
+            },
+            success: function (data) {
+                if (data.ok){
+                    info = data.data;
+                }
+            },
+            error : function (data) {
+            }
+        });
+        return info;
+    }
+</script>
+</body>
+</html>
