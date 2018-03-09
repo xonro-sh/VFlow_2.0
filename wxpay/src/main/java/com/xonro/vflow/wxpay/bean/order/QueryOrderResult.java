@@ -1,8 +1,10 @@
 package com.xonro.vflow.wxpay.bean.order;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.xonro.vflow.wxpay.bean.Coupon;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 订单查询结果
@@ -182,6 +184,11 @@ public class QueryOrderResult implements Serializable {
      */
     @JSONField(name = "trade_state_desc")
     private String tradeStateDesc;
+
+    /**
+     * 代金券
+     */
+    private List<Coupon> coupons;
 
     public String getReturnCode() {
         return returnCode;
@@ -397,5 +404,13 @@ public class QueryOrderResult implements Serializable {
 
     public void setTradeStateDesc(String tradeStateDesc) {
         this.tradeStateDesc = tradeStateDesc;
+    }
+
+    public List<Coupon> getCoupons() {
+        return coupons;
+    }
+
+    public void setCoupons(List<Coupon> coupons) {
+        this.coupons = coupons;
     }
 }

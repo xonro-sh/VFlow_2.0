@@ -5,8 +5,8 @@ import com.xonro.vflow.wxpay.bean.order.QueryOrderResult;
 import com.xonro.vflow.wxpay.bean.order.UnifiedOrderResult;
 
 /**
+ * 微信支付相关业务服务接口
  * @author louie
- * @Description: 微信支付相关业务服务接口
  * @date 2018-3-6 15:16
  */
 public interface OrderService {

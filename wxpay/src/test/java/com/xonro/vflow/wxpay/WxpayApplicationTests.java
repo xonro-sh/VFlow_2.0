@@ -1,6 +1,7 @@
 package com.xonro.vflow.wxpay;
 
 import com.alibaba.fastjson.JSON;
+import com.xonro.vflow.wxpay.bean.order.QueryOrderResult;
 import com.xonro.vflow.wxpay.bean.order.UnifiedOrderResult;
 import com.xonro.vflow.wxpay.service.OrderService;
 import org.junit.Test;
@@ -27,6 +28,12 @@ public class WxpayApplicationTests {
 	public void testOrderService(){
 		UnifiedOrderResult result = orderService.unifiedOrder("test body","test_trade_no",100,"test_open_id");
 		System.out.println(JSON.toJSONString(result));
+	}
+
+	@Test
+	public void testQueryOrder(){
+		QueryOrderResult queryOrderResult = orderService.queryOrderByTradeId("tradeid");
+		System.out.println(JSON.toJSONString(queryOrderResult));
 	}
 
 }

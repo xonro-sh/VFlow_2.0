@@ -21,7 +21,19 @@ public enum WxPayEnum {
     TRADE_STATE_CLOSED("CLOSED","已关闭"),
     TRADE_STATE_REVOKED("REVOKED","已撤销（刷卡支付）"),
     TRADE_STATE_PAYING("USERPAYING","用户支付中 "),
-    TRADE_STATE_ERROR("PAYERROR","支付失败(其他原因，如银行返回失败)")
+    TRADE_STATE_ERROR("PAYERROR","支付失败(其他原因，如银行返回失败)"),
+
+    /**
+     * 微信支付订单关闭错误码
+     */
+    ORDER_CLOSE_PAID("ORDERPAID","订单已支付，不能发起关单，请当作已支付的正常交易"),
+    ORDER_CLOSE_SYSERROR("SYSTEMERROR","系统异常，请重新调用该API"),
+    ORDER_CLOSE_CLOSED("ORDERCLOSED","订单已关闭，无需继续调用"),
+    ORDER_CLOSE_SIGNERROR("SIGNERROR","参数签名结果不正确"),
+    ORDER_CLOSE_POSTMETHODD("REQUIRE_POST_METHOD","请使用post方法"),
+    PRDER_CLOSE_XMLERROR("XML_FORMAT_ERROR","XML格式错误"),
+
+
     ;
 
     private String value;

@@ -11,8 +11,8 @@ import com.xonro.vflow.wxpay.bean.order.CloseOrderResult;
 import com.xonro.vflow.wxpay.bean.order.QueryOrderResult;
 import com.xonro.vflow.wxpay.bean.order.UnifiedOrder;
 import com.xonro.vflow.wxpay.bean.order.UnifiedOrderResult;
+import com.xonro.vflow.wxpay.helper.ServiceRequestHelper;
 import com.xonro.vflow.wxpay.service.OrderService;
-import com.xonro.vflow.wxpay.web.RequestHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ import java.util.Map;
  * @date created in 2018-3-6 15:16
  */
 @Service
-public class OrderServiceImpl extends RequestHelper implements OrderService {
+public class OrderServiceImpl extends ServiceRequestHelper implements OrderService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -37,24 +37,16 @@ public class OrderServiceImpl extends RequestHelper implements OrderService {
     @Autowired
     private WXPayConfig wxPayConfig;
 
-    /**
-     * 微信支付基础配置
-     */
-    private WxPayConf wxPayConf = confManager.getWxPayConf();
-
-    /**
-     * 微信支付执行工具
-     */
-    private WXPay wxPay = new WXPay(wxPayConfig,WXPayConstants.SignType.MD5,wxPayConf.isUseSandBox());
-
     @Override
     public UnifiedOrderResult unifiedOrder(String body, String tradeNo, Integer totalFee, String openId) {
+        WxPayConf wxPayConf = confManager.getWxPayConf();
+        WXPay wxPay = new WXPay(wxPayConfig,WXPayConstants.SignType.MD5,wxPayConf.isUseSandBox());
         try {
             String clientIp = InetAddress.getLocalHost().getHostAddress();
             UnifiedOrder unifiedOrder = new UnifiedOrder(body,tradeNo,totalFee,openId,clientIp,wxPayConf.getNotifyUrl());
 
             //将请求模型转为请求参数集合，并执行微信支付接口访问
-            Map params = JSON.parseObject(JSON.toJSONString(unifiedOrder));
+            Map params = JSON.parseObject(JSON.toJSONString(unifiedOrder),Map.class);
             Map<String,String> result = wxPay.unifiedOrder(params);
             if (validateRequestResult(result)){
                 return JSON.parseObject(JSON.toJSONString(result),UnifiedOrderResult.class);
@@ -70,24 +62,28 @@ public class OrderServiceImpl extends RequestHelper implements OrderService {
 
     @Override
     public QueryOrderResult queryOrderByTradeId(String tradeId) {
-        Map<String,String> params = new HashMap<>();
-        params.put("transaction_id",tradeId);
-
+        Map<String,String> params = new HashMap<String, String>(4){{
+            put("transaction_id",tradeId);
+        }};
         return orderQuery(params);
     }
 
     @Override
     public QueryOrderResult queryOrderByOutTradeId(String outTradeId) {
-        Map<String,String> params = new HashMap<>();
-        params.put("out_trade_no",outTradeId);
-
+        Map<String,String> params = new HashMap<String, String>(4){{
+            put("out_trade_no",outTradeId);
+        }};
         return orderQuery(params);
     }
 
     @Override
     public CloseOrderResult closeOrder(String outTradeId) {
-        Map<String,String> params = new HashMap<>();
-        params.put("out_trade_no",outTradeId);
+        WxPayConf wxPayConf = confManager.getWxPayConf();
+        WXPay wxPay = new WXPay(wxPayConfig,WXPayConstants.SignType.MD5,wxPayConf.isUseSandBox());
+
+        Map<String,String> params = new HashMap<String, String>(4){{
+            put("out_trade_no",outTradeId);
+        }};
 
         try {
             Map<String,String> result = wxPay.closeOrder(params);
@@ -108,10 +104,15 @@ public class OrderServiceImpl extends RequestHelper implements OrderService {
      * @return
      */
     private QueryOrderResult orderQuery(Map<String,String> params){
+        WxPayConf wxPayConf = confManager.getWxPayConf();
+        WXPay wxPay = new WXPay(wxPayConfig,WXPayConstants.SignType.MD5,wxPayConf.isUseSandBox());
+
         try {
             Map<String,String> result = wxPay.orderQuery(params);
             if (validateRequestResult(result)){
-                return JSON.parseObject(JSON.toJSONString(result),QueryOrderResult.class);
+                QueryOrderResult queryOrderResult = JSON.parseObject(JSON.toJSONString(result),QueryOrderResult.class);
+                queryOrderResult.setCoupons(parseOrderCoupon(result));
+                return queryOrderResult;
             }
         } catch (VFlowException e){
             logger.error(e.getMessage(),e);
