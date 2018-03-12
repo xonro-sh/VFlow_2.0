@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "b_xr_dataview_main")
-public class Report {
+public class DataView {
     /**
      * 唯一标识
      */

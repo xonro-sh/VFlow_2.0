@@ -5,9 +5,9 @@ package com.xonro.vflow.dataview.enums;
  * @author Alex
  * @date 2018/2/11
  */
-public enum ReportEnums {;
+public enum DataViewEnums {;
 
-    ReportEnums(String value, String desc){
+    DataViewEnums(String value, String desc){
         this.value = value;
         this.desc = desc;
     }

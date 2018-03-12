@@ -1,6 +1,7 @@
 package com.xonro.vflow.dataview.bean;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 
@@ -11,7 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "b_xr_dataview_theme")
-public class ReportTheme {
+public class DataViewTheme {
     /**
      * 唯一标识
      */
@@ -53,6 +54,7 @@ public class ReportTheme {
     }
 
     @Column(name = "theme")
+    @Length(max = 20000)
     public String getTheme() {
         return theme;
     }
