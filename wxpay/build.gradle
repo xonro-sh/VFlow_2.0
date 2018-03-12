@@ -27,6 +27,5 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 
 	compile group: 'com.github.wxpay', name: 'wxpay-sdk', version: '0.0.3'
-//	compile fileTree(dir:'libs',includes: ['*.jar'])
 
 }
