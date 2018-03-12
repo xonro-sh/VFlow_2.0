@@ -31,8 +31,41 @@ public enum WxPayEnum {
     ORDER_CLOSE_CLOSED("ORDERCLOSED","订单已关闭，无需继续调用"),
     ORDER_CLOSE_SIGNERROR("SIGNERROR","参数签名结果不正确"),
     ORDER_CLOSE_POSTMETHODD("REQUIRE_POST_METHOD","请使用post方法"),
-    PRDER_CLOSE_XMLERROR("XML_FORMAT_ERROR","XML格式错误"),
+    ORDER_CLOSE_XMLERROR("XML_FORMAT_ERROR","XML格式错误"),
 
+    /**
+     * 微信退款订单查询支付错误码
+     */
+    REFUND_ERROR_SYSERROR("SYSTEMERROR","系统超时"),
+    REFUND_REFUND_NOT_EXIT("REFUNDNOTEXIST","订单号错误或订单状态不正确"),
+    REFUND_INVALID_TRANSACTIONID("INVALID_TRANSACTIONID","无效transaction_id,检查原交易号是否存在或发起支付交易接口返回失败"),
+    REFUND_PARAM_ERROR("PARAM_ERROR","请求参数错误"),
+    REFUND_APPID_NOTEXIT("APPID_NOT_EXIST","APPID不存在"),
+    REFUND_MCHID_NOTEXIT("MCHID_NOT_EXIST","MCHID不存在"),
+    REFUND_REQUIRE_POST("REQUIRE_POST_METHOD","请使用post方法"),
+    REFUND_SIGN_ERROR("SIGNERROR","参数签名结果不正确"),
+    REFUND_XML_FORMAT_ERROR("XML_FORMAT_ERROR","XML格式错误"),
+
+    /**
+     * 微信支付下载对账单错误码
+     */
+    BILL_SYSTEM_ERROR("SYSTEMERROR","下载失败"),
+    BILL_INVALID_BILLTYPE("invalid bill_type","订单类型错误"),
+    BILL_DATA_FORMAT_ERROR("data format error","数据格式错误"),
+    BILL_MISS_PARAM("missing parameter","缺少参数"),
+    BILL_SIGN_ERROR("SIGN ERROR","签名错误"),
+    BILL_NOT_EXIT("NO BillDownload Exist","账单不存在,请先检查当前商户号在指定日期内是否有成功的交易"),
+    BILL_CREATING("BillDownload Creating","账单未生成,请先检查当前商户号在指定日期内是否有成功的交易"),
+    BILL_COMPRESS_GZIPERR("CompressGZip Error","账单压缩失败"),
+    BILL_UNCOMP_GZIPERR("UnCompressGZip Error","账单解压失败"),
+
+    /**
+     * 账单类型
+     */
+    BILL_TYPE_ALL("ALL","返回当日所有订单信息，默认值"),
+    BILL_TYPE_SUCCESS("SUCCESS","返回当日成功支付的订单"),
+    BILL_TYPE_REFUND("REFUND","返回当日退款订单"),
+    BILL_TYPE_RECHARGE_REFUND("RECHARGE_REFUND","返回当日充值退款订单"),
 
     ;
 

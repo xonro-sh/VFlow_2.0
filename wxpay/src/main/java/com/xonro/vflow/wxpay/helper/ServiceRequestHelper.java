@@ -53,9 +53,9 @@ public class ServiceRequestHelper {
                 int couponIndex = i;
                 coupons.add(
                         new Coupon(){{
-                            setCouponType(responseData.get("coupon_type_$"+couponIndex));
-                            setCouponId(responseData.get("coupon_id_$"+couponIndex));
-                            setCouponFee(responseData.get("coupon_fee_$"+couponIndex));
+                            setCouponType(responseData.get("coupon_type_"+couponIndex));
+                            setCouponId(responseData.get("coupon_id_"+couponIndex));
+                            setCouponFee(responseData.get("coupon_fee_"+couponIndex));
                         }}
                 );
             }
@@ -75,9 +75,9 @@ public class ServiceRequestHelper {
             for (Integer i = 0; i < Integer.valueOf(couponCount); i++) {
                 int index = i;
                 coupons.add(new Coupon(){{
-                    setCouponType(response.get("coupon_type_$"+index));
-                    setCouponId(response.get("coupon_refund_id_$"+index));
-                    setCouponFee(response.get("coupon_refund_fee_$"+index));
+                    setCouponType(response.get("coupon_type_"+index));
+                    setCouponId(response.get("coupon_refund_id_"+index));
+                    setCouponFee(response.get("coupon_refund_fee_"+index));
                 }});
             }
         }
@@ -100,19 +100,19 @@ public class ServiceRequestHelper {
                 //根据下标获取每次退款明细
                 int refundIndex = i;
                 refundDetails.add(new RefundDetail(){{
-                    setOutRefundNo(response.get("out_refund_no_$"+refundIndex));
-                    setRefundId(response.get("refund_id_$"+refundIndex));
-                    setRefundChannel(response.get("refund_channel_$"+refundIndex));
-                    setRefundFee(response.get("refund_fee_$"+refundIndex)==null? 0:Integer.valueOf(response.get("refund_fee_$"+refundIndex)));
-                    setSettlementRefundFee(response.get("settlement_refund_fee_$"+refundIndex)==null? 0:Integer.valueOf(response.get("settlement_refund_fee_$"+refundIndex)));
-                    setCouponRefundFee(response.get("coupon_refund_fee_$"+refundIndex)==null? 0:Integer.valueOf(response.get("coupon_refund_fee_$"+refundIndex)));
+                    setOutRefundNo(response.get("out_refund_no_"+refundIndex));
+                    setRefundId(response.get("refund_id_"+refundIndex));
+                    setRefundChannel(response.get("refund_channel_"+refundIndex));
+                    setRefundFee(response.get("refund_fee_"+refundIndex)==null? 0:Integer.valueOf(response.get("refund_fee_"+refundIndex)));
+                    setSettlementRefundFee(response.get("settlement_refund_fee_"+refundIndex)==null? 0:Integer.valueOf(response.get("settlement_refund_fee_"+refundIndex)));
+                    setCouponRefundFee(response.get("coupon_refund_fee_"+refundIndex)==null? 0:Integer.valueOf(response.get("coupon_refund_fee_"+refundIndex)));
 
-                    Integer couponRefundCount = response.get("coupon_refund_count_$"+refundIndex)==null? 0:Integer.valueOf(response.get("coupon_refund_count_$"+refundIndex));
+                    Integer couponRefundCount = response.get("coupon_refund_count_"+refundIndex)==null? 0:Integer.valueOf(response.get("coupon_refund_count_"+refundIndex));
                     setCouponRefundCount(couponRefundCount);
-                    setRefundStatus(response.get("refund_status_$"+refundIndex));
-                    setRefundAccount(response.get("refund_account_$"+refundIndex));
-                    setRefundRecvAccout(response.get("refund_recv_accout_$"+refundIndex));
-                    setRefundSuccessTime(response.get("refund_success_time_$"+refundIndex));
+                    setRefundStatus(response.get("refund_status_"+refundIndex));
+                    setRefundAccount(response.get("refund_account_"+refundIndex));
+                    setRefundRecvAccout(response.get("refund_recv_accout_"+refundIndex));
+                    setRefundSuccessTime(response.get("refund_success_time_"+refundIndex));
                     setCoupons(parseRefundDetailCoupon(refundIndex,couponRefundCount,response));
                 }});
             }
@@ -157,9 +157,9 @@ public class ServiceRequestHelper {
         for (Integer i = 0; i < couponCount; i++) {
             int couponIndex = i;
             coupons.add(new Coupon(){{
-                setCouponType(response.get("coupon_type_$"+refundIndex+"_$"+couponIndex));
-                setCouponId(response.get("coupon_refund_id_$"+refundIndex+"_$"+couponIndex));
-                setCouponFee(response.get("coupon_refund_fee_$"+refundIndex+"_$"+couponIndex));
+                setCouponType(response.get("coupon_type_"+refundIndex+"_"+couponIndex));
+                setCouponId(response.get("coupon_refund_id_"+refundIndex+"_"+couponIndex));
+                setCouponFee(response.get("coupon_refund_fee_"+refundIndex+"_"+couponIndex));
             }});
         }
         return coupons;
