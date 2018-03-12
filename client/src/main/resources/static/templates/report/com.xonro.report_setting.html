@@ -37,14 +37,14 @@
         var form = layui.form;
         var tables = table.render({
             elem: '#reportSetting'
-            ,url: "../../report/getReportTheme/"
+            ,url: "../../dataview/getAllDataViewTheme/"
             ,page: false
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,height: 'full-160'
             ,cols: [[
                 {field:'themeName',fixed:"left", title: '主题名称'}
                 ,{field:'theme', title: '主题样式'}
-                ,{field:'isActive', title: '是否使用'}
+                ,{field:'isActive', title: '是否使用', templet:"#switchHtml"}
                 ,{fixed: 'right', title: '操作',width:120, align:'center', toolbar: '#bar'}
             ]]
             ,loading:true //是否显示加载条 默认true 该参数只适用于 url 参数开启的方式
@@ -64,11 +64,16 @@
             var tr = obj.tr; //获得当前行 tr 的DOM对象
 
             if(layEvent === 'update'){ //
-                console.log(obj.data.isActive)
+
                 updateTheme.id = obj.data.id;
                 updateTheme.themeName = obj.data.themeName;
                 updateTheme.theme = obj.data.theme;
-                updateTheme.isActive = obj.data.isActive == undefined? true:obj.data.isActive==false?"":obj.data.isActive;
+                updateTheme.isActive = obj.data.isActive === undefined? true:obj.data.isActive===false?'':obj.data.isActive;
+                if (obj.data.isActive === true){
+                    check(form);
+                } else {
+                    uncheck(form);
+                }
                 indexOpen = layer.open({
                     type: 1,
                     area: ['800px', '380px'],
@@ -109,7 +114,7 @@
             var index = layer.msg('数据提交中',{icon: 16,time:false,shade:0.8});
             console.log(updateTheme.$data);
             $.ajax({
-                url: "../../report/updateReportTheme",
+                url: "../../dataview/updateDataViewTheme",
                 type: "post",
                 dataType: "json",
                 async: false,
@@ -122,7 +127,7 @@
                         layer.msg("提交成功", {icon: 1,time:3000});
                         layer.closeAll();
                         tables.reload('reportSetting',{
-                            url : '../../report/getReportTheme/'
+                            url : '../../dataview/getAllDataViewTheme/'
                         })
                     } else {
                         layer.msg("提交失败，错误信息"+data.msg, {icon: 1,time:3000});
@@ -159,9 +164,8 @@
     <div class="layui-row layui-col-space10">
         <div class="layui-form-item">
             <label class="layui-form-label">是否使用</label>
-            <div class="layui-input-block">
-                <input v-model="isActive" value=true name="isActive" lay-filter="switchBox" lay-skin="switch" lay-text="是|否" type="checkbox" checked>
-            </div>
+            <input id="isActive" value=true name="isActive" lay-filter="switchBox" lay-skin="switch" lay-text="是|否" type="checkbox" checked>
+
         </div>
     </div>
     <input v-model="id" style="display: none">
@@ -194,6 +198,21 @@
         });
         updateTheme.isActive=true;
     });
+    function check(form)
+    {
+        $("#isActive").prop("checked",true);
+        //重新刷新表单 否则表单的开关无法渲染
+        form.render('checkbox');
+    }
+    function uncheck(form)
+    {
+        $("#isActive").prop("checked",false);
+        //重新刷新表单 否则表单的开关无法渲染
+        form.render('checkbox');
+    }
+</script>
+<script type="text/html" id="switchHtml">
+    <input disabled {{ d.isActive == true ? 'checked' : '' }} name="isActive" lay-filter="switchHtml" lay-skin="switch" lay-text="是|否" type="checkbox">
 </script>
 </body>
 </html>
