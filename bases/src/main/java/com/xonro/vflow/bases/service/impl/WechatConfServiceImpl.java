@@ -25,13 +25,13 @@ public class WechatConfServiceImpl implements WechatConfService {
     private String serverHost;
 
     @Override
-    @Cacheable(value = "wechat",key = "new String('wecaht_configuration')",unless = "#result eq null")
+    @Cacheable(value = "wechat",key = "'wecaht_configuration'",unless = "#result eq null")
     public WechatConf getWechatConf() {
        return confRepository.findDistinctFirstByIdIsNotNull();
     }
 
     @Override
-    @CachePut(value = "wechat",key = "new String('wecaht_configuration')",unless = "#result eq null")
+    @CachePut(value = "wechat",key = "'wecaht_configuration'",unless = "#result eq null")
     public WechatConf saveWechatConf(WechatConf wechatConf) {
         wechatConf.setCallBackUrl(serverHost+"/wechat/access");
         return confRepository.save(wechatConf);
