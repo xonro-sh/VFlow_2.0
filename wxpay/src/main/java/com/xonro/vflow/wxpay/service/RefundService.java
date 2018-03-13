@@ -11,6 +11,9 @@ import com.xonro.vflow.wxpay.bean.refund.RefundResult;
  */
 public interface RefundService{
 
+    final String DEFAULT_CIPHER_ALGORITHM = "AES/ECB/PKCS7Padding";
+    final String KEY_ALGORITHM = "AES";
+
     /**
      * 申请微信退款
      * @param refund
@@ -45,5 +48,12 @@ public interface RefundService{
      * @return
      */
     public QueryRefundResult queryRefundByOutRefundId(String outRefundId);
+
+    /**
+     * 退款结果通知接收并处理
+     * @param notifyXml 微信通知数据
+     * @return
+     */
+    public String accessRefundNotify(String notifyXml);
 
 }

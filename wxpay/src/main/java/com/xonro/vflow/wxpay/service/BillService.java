@@ -1,5 +1,8 @@
 package com.xonro.vflow.wxpay.service;
 
+import com.xonro.vflow.wxpay.bean.WxPayResponse;
+import com.xonro.vflow.wxpay.bean.bill.QueryComment;
+
 import java.util.Map;
 
 /**
@@ -17,6 +20,13 @@ public interface BillService {
      * @return
      */
     public Map<String,String> billDownload(String billDate,String billType,String tarType);
+
+    /**
+     * 拉取订单评价数据
+     * @param queryComment
+     * @return
+     */
+    public WxPayResponse batchQueryComment(QueryComment queryComment);
 
 
 }

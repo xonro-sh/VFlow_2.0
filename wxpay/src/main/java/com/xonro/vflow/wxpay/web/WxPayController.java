@@ -28,5 +28,14 @@ public class WxPayController {
         return payService.accessPayNotify(notifyData);
     }
 
+    /**
+     * 退款结果通知
+     * @param notifyData 微信通知数据
+     * @return
+     */
+    @RequestMapping(value = "/refund_notify")
+    public String accessRefundNotify(@RequestBody String notifyData){
+        return "";
+    }
 
 }
