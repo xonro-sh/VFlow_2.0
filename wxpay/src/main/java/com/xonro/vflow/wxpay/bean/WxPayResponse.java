@@ -10,6 +10,21 @@ import java.io.Serializable;
  * @date created in 2018-3-9 18:04
  */
 public class WxPayResponse implements Serializable{
+    public WxPayResponse(){}
+
+    public WxPayResponse(String returnCode){
+        this.returnCode = returnCode;
+    }
+
+    public WxPayResponse(String returnCode,String returnMsg){
+        this.returnCode = returnCode;
+        this.returnMsg = returnMsg;
+    }
+
+    public void setResult(String returnCode, String returnMsg){
+        this.returnCode = returnCode;
+        this.returnMsg = returnMsg;
+    }
     /**
      * 返回状态码
      */

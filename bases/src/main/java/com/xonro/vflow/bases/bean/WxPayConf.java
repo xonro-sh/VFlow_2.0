@@ -36,6 +36,11 @@ public class WxPayConf implements Serializable{
     private String notifyUrl;
 
     /**
+     * 退款结果通知地址：开通该功能需要在商户平台-交易中心-退款配置中配置notify_url
+     */
+    private String refundNotifyUrl;
+
+    /**
      * 微信支付商户名称
      */
     private String businessName;
@@ -91,6 +96,14 @@ public class WxPayConf implements Serializable{
 
     public void setUseSandBox(boolean useSandBox) {
         this.useSandBox = useSandBox;
+    }
+
+    public String getRefundNotifyUrl() {
+        return refundNotifyUrl;
+    }
+
+    public void setRefundNotifyUrl(String refundNotifyUrl) {
+        this.refundNotifyUrl = refundNotifyUrl;
     }
 
     @Override

@@ -25,18 +25,18 @@ public class BasesApplicationTests {
 	@Test
 	public void testConf(){
 		WechatConf wechatConf = new WechatConf();
-		wechatConf.setAppId("test app id");
-		wechatConf.setAppSecret("test app secret");
-		wechatConf.setToken("test token");
+		wechatConf.setAppId("wx578001873c8e2895");
+		wechatConf.setAppSecret("3a758b63555f66a397c054e100ae04c5");
+		wechatConf.setToken("xonro");
 
 		confManager.saveWechatConf(wechatConf);
 		wechatConf = confManager.getWechatConf();
 
 		WxPayConf wxPayConf = new WxPayConf();
-		wxPayConf.setApiKey("test wxpay key");
-		wxPayConf.setBusinessName("test business name");
-		wxPayConf.setMchId("test mch_id");
-		wxPayConf.setUseSandBox(false);
+		wxPayConf.setApiKey("41915360030255580443224118959153");
+		wxPayConf.setBusinessName("威渡财行");
+		wxPayConf.setMchId("1301264401");
+		wxPayConf.setUseSandBox(true);
 
 		confManager.saveWxPayConf(wxPayConf);
 		wxPayConf = confManager.getWxPayConf();

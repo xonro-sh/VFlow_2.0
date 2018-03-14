@@ -2,6 +2,9 @@ package com.xonro.vflow.wxpay.helper;
 
 import com.alibaba.fastjson.JSON;
 import com.github.wxpay.sdk.WXPay;
+import com.github.wxpay.sdk.WXPayConfig;
+import com.github.wxpay.sdk.WXPayConstants;
+import com.github.wxpay.sdk.WXPayUtil;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.wxpay.bean.Coupon;
 import com.xonro.vflow.wxpay.bean.refund.QueryRefundResult;
@@ -143,6 +146,37 @@ public class ServiceRequestHelper {
             throw e;
         }
         return null;
+    }
+
+    /**
+     * 拉取订单评价数据
+     * @param wxPayConfig
+     * @param params
+     * @param isUseSandbox
+     * @return
+     * @throws Exception
+     */
+    public Map<String,String> batchQueryComment(WXPayConfig wxPayConfig,Map<String,String> params,boolean isUseSandbox) throws Exception {
+        WXPay wxPay = new WXPay(wxPayConfig, WXPayConstants.SignType.MD5);
+
+        String urlSuffix ;
+        if (isUseSandbox){
+            urlSuffix = WxPayEnum.URL_QUERYCOMMENT_SANDBOX_SUFFIX.getValue();
+        }else {
+            urlSuffix = WxPayEnum.URL_QUERYCOMMENT_SUFFIX.getValue();
+        }
+
+        try {
+            String responseXml = wxPay.requestWithCert(
+                    urlSuffix,
+                    wxPay.fillRequestData(params),
+                    wxPayConfig.getHttpConnectTimeoutMs(),wxPayConfig.getHttpReadTimeoutMs()
+            );
+            return WXPayUtil.xmlToMap(responseXml);
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
+            throw e;
+        }
     }
 
     /**

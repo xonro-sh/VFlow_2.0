@@ -67,6 +67,14 @@ public enum WxPayEnum {
     BILL_TYPE_REFUND("REFUND","返回当日退款订单"),
     BILL_TYPE_RECHARGE_REFUND("RECHARGE_REFUND","返回当日充值退款订单"),
 
+    /**
+     * 微信服务接口
+     */
+    URL_QUERYCOMMENT_SUFFIX ("/billcommentsp/batchquerycomment","拉取订单评价数据"),
+    URL_QUERYCOMMENT_SANDBOX_SUFFIX("/sandboxnew/billcommentsp/batchquerycomment","拉取订单评价数据,沙箱环境"),
+    URL_DOWNLOAD_FUNDFLOW_SUFFIX("/pay/downloadfundflow","下载资金流水"),
+    URL_DOWNLOAD_FUNDFLOW_SANDBOX_SUFFIX("/sandboxnew/pay/downloadfundflow","下载资金流水,沙箱环境"),
+
     ;
 
     private String value;

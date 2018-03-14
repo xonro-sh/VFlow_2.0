@@ -24,15 +24,16 @@ public class WxPayConfServiceImpl implements WxPayConfService {
     private String serverHost;
 
     @Override
-    @Cacheable(value = "wxpay",key = "new String('wxpay_configuration')",unless = "#result eq null ")
+    @Cacheable(value = "wxpay",key = "'wxpay_configuration'",unless = "#result eq null ")
     public WxPayConf getWxPayConf() {
         return confRepository.findFirstByIdIsNotNull();
     }
 
     @Override
-    @CachePut(value = "wxpay",key = "new String('wxpay_configuration')",unless = "#result eq null ")
+    @CachePut(value = "wxpay",key = "'wxpay_configuration'",unless = "#result eq null ")
     public WxPayConf saveWxPayConf(WxPayConf wxPayConf) {
-        wxPayConf.setNotifyUrl(serverHost+"/wxpay/payNotify");
+        wxPayConf.setNotifyUrl(serverHost+"/wxpay/pay_notify");
+        wxPayConf.setRefundNotifyUrl(serverHost+"/wxpay/refund_notify");
         return confRepository.save(wxPayConf);
     }
 }
