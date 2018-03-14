@@ -8,6 +8,8 @@ import com.xonro.vflow.dataview.service.DataViewService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +52,6 @@ public class DataViewServiceImpl implements DataViewService {
                 }
                 dataViewThemeRepository.saveAll(dataViewThemes);
             }
-            System.err.println(dataViewTheme.getTheme().length());
             dataViewThemeRepository.save(dataViewTheme);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -61,20 +62,22 @@ public class DataViewServiceImpl implements DataViewService {
     }
 
     @Override
-    public BaseResponse getDataViewTheme() {
-        BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setOk(true);
-        try {
-            //如果有已经生效的主题
-            List<DataViewTheme> dataViewThemes = dataViewThemeRepository.findByIsActive(true);
-            if (dataViewThemes.size() != 0){
-                baseResponse.setData(dataViewThemes.get(0).getTheme());
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            baseResponse.setOk(false);
-            baseResponse.setMsg(e.getMessage());
+    @Cacheable(value = "dataview",key = "#root.targetClass")
+    public DataViewTheme getDataViewThemeFromCache(){
+        List<DataViewTheme> dataViewThemes = dataViewThemeRepository.findByIsActive(true);
+        if (dataViewThemes.size() != 0){
+            return dataViewThemes.get(0);
         }
-        return baseResponse;
+        return null;
+    }
+
+    @Override
+    @CachePut(value = "dataview",key = "#root.targetClass")
+    public DataViewTheme updateDataViewThemeCache(){
+        List<DataViewTheme> dataViewThemes = dataViewThemeRepository.findByIsActive(true);
+        if (dataViewThemes.size() != 0){
+            return dataViewThemes.get(0);
+        }
+        return null;
     }
 }

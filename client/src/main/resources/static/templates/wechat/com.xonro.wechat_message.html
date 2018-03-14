@@ -98,7 +98,7 @@
 
             //向服务端发送删除指令
             $.ajax({
-                url: "../../wechat/updateMessageConf",
+                url: "../../wechat/update_message_conf",
                 type: "post",
                 dataType: "json",
                 async: false,
@@ -132,7 +132,7 @@
 
             //向服务端发送删除指令
             $.ajax({
-                url: "../../wechat/updateMessageConf",
+                url: "../../wechat/update_message_conf",
                 type: "post",
                 dataType: "json",
                 async: false,
@@ -199,7 +199,7 @@
     function getMessageConf(type) {
         var info = {};
         $.ajax({
-            url: "../../wechat/getMessageConf",
+            url: "../../wechat/get_message_conf",
             type: "get",
             dataType: "json",
             data:{

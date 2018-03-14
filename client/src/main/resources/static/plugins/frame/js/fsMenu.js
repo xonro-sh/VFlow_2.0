@@ -9,7 +9,7 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
 	
 	var menuConfig = {
 			dataType : "server" , //获取数据方式，local本地获取，server 服务端获取
-			loadUrl : "../../console/getMenu/", //加载数据地址
+			loadUrl : "../../console/get_menu/", //加载数据地址
 			rootMenuId : "0", //根目录菜单id
 			defaultSelectTopMenuId : "1", //默认选中头部菜单id
 			defaultSelectLeftMenuId : "111", //默认选中左边菜单id

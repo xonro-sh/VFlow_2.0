@@ -26,5 +26,7 @@ public interface DataViewService {
      * 获取主题的配置
      * @return 结果
      */
-    BaseResponse getDataViewTheme();
+    DataViewTheme getDataViewThemeFromCache();
+
+    DataViewTheme updateDataViewThemeCache();
 }

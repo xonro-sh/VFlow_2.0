@@ -507,7 +507,7 @@ function getTheme() {
         '    }\n' +
         '}';
     $.ajax({
-        url: "../../dataview/getDataViewTheme",
+        url: "../../dataview/get_dataview_theme",
         type: "post",
         dataType: "json",
         async: false,
