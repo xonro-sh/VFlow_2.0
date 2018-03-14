@@ -8,15 +8,22 @@ import com.xonro.vflow.bases.bean.WxPayConf;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.bases.helper.ConfManager;
 import com.xonro.vflow.wxpay.bean.WxPayResponse;
+import com.xonro.vflow.wxpay.bean.bill.Bill;
 import com.xonro.vflow.wxpay.bean.bill.QueryComment;
+import com.xonro.vflow.wxpay.dao.BillRepository;
 import com.xonro.vflow.wxpay.helper.ServiceRequestHelper;
 import com.xonro.vflow.wxpay.service.BillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,8 +40,11 @@ public class BillServiceImpl extends ServiceRequestHelper implements BillService
     @Autowired
     private WXPayConfig wxPayConfig;
 
+    @Resource
+    private BillRepository billRepository;
+
     @Override
-    public Map<String, String> billDownload(String billDate,String billType,String tarType) {
+    public WxPayResponse billDownload(String billDate,String billType,String tarType) throws Exception {
         WxPayConf wxPayConf = confManager.getWxPayConf();
         WXPay wxPay = new WXPay(wxPayConfig, WXPayConstants.SignType.MD5,wxPayConf.isUseSandBox());
 
@@ -47,14 +57,14 @@ public class BillServiceImpl extends ServiceRequestHelper implements BillService
                     }}
             );
             if (validateRequestResult(result)){
-                String billData = result.get("data");
-
-                // TODO: 2018-3-13 对订单数据进行解析处理
+                return JSON.parseObject(JSON.toJSONString(result),WxPayResponse.class);
             }
         } catch (VFlowException e){
             logger.error(e.getMessage(),e);
+            throw e;
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
+            throw e;
         }
         return null;
     }
@@ -69,16 +79,30 @@ public class BillServiceImpl extends ServiceRequestHelper implements BillService
                     wxPayConf.isUseSandBox()
             );
             if (validateRequestResult(result)){
-                //评价数据
-                String comment = result.get("data");
-
-                // TODO: 2018-3-13 对评价数据进行解析处理
+               return JSON.parseObject(JSON.toJSONString(result), WxPayResponse.class);
             }
             return JSON.parseObject(JSON.toJSONString(result),WxPayResponse.class);
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
         }
-
         return null;
     }
+
+    @Override
+    public Page<Bill> getAllBillByDateAndPage(String billDate, Integer pageNow, Integer perPageNumber) {
+        Pageable pageRequest = new PageRequest(pageNow,perPageNumber);
+        return billRepository.findBillByBillDate(billDate,pageRequest);
+    }
+
+    @Override
+    public Bill saveBill(Bill bill) {
+        return billRepository.saveAndFlush(bill);
+    }
+
+    @Override
+    public List<Bill> saveBillList(List<Bill> bills) {
+        return billRepository.save(bills);
+    }
+
+
 }

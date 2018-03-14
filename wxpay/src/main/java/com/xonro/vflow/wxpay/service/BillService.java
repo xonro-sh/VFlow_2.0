@@ -1,9 +1,11 @@
 package com.xonro.vflow.wxpay.service;
 
 import com.xonro.vflow.wxpay.bean.WxPayResponse;
+import com.xonro.vflow.wxpay.bean.bill.Bill;
 import com.xonro.vflow.wxpay.bean.bill.QueryComment;
+import org.springframework.data.domain.Page;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * 账单相关业务服务接口
@@ -19,7 +21,7 @@ public interface BillService {
      * @param tarType 压缩账单
      * @return
      */
-    public Map<String,String> billDownload(String billDate,String billType,String tarType);
+    public WxPayResponse billDownload(String billDate,String billType,String tarType) throws Exception;
 
     /**
      * 拉取订单评价数据
@@ -27,4 +29,27 @@ public interface BillService {
      * @return
      */
     public WxPayResponse batchQueryComment(QueryComment queryComment);
+
+    /**
+     * 分页查询订单数据
+     * @param billDate
+     * @param perPageNumber
+     * @param pageNow
+     * @return
+     */
+    public Page<Bill> getAllBillByDateAndPage(String billDate, Integer pageNow, Integer perPageNumber);
+
+    /**
+     * 保存账单数据
+     * @param bill
+     * @return
+     */
+    public Bill saveBill(Bill bill);
+
+    /**
+     * 批量保存账单数据
+     * @param bills
+     * @return
+     */
+    public List<Bill> saveBillList(List<Bill> bills);
 }

@@ -9,6 +9,7 @@ import com.xonro.vflow.bases.bean.WxPayConf;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.bases.helper.ConfManager;
 import com.xonro.vflow.wxpay.bean.WxPayResponse;
+import com.xonro.vflow.wxpay.bean.pay.DownloadFundFlow;
 import com.xonro.vflow.wxpay.bean.pay.PayNotify;
 import com.xonro.vflow.wxpay.bean.pay.PayitilReport;
 import com.xonro.vflow.wxpay.enums.WxPayEnum;
@@ -20,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,7 +39,7 @@ public class PayServiceImpl extends ServiceRequestHelper implements PayService {
     private ConfManager confManager;
 
     @Override
-    public String accessPayNotify(String notifyData) {
+    public WxPayResponse accessPayNotify(String notifyData) throws Exception {
         WxPayResponse response = new WxPayResponse(WxPayEnum.RETURN_CODE_OK.getValue());
         WXPay wxPay = new WXPay(wxPayConfig, WXPayConstants.SignType.MD5);
         try {
@@ -58,11 +60,11 @@ public class PayServiceImpl extends ServiceRequestHelper implements PayService {
                 //签名错误
                 response.setResult(WxPayEnum.RETURN_CODE_FAIL.getValue(),WxPayEnum.BILL_SIGN_ERROR.getValue());
             }
-            return WXPayUtil.mapToXml(JSON.parseObject(JSON.toJSONString(response),Map.class));
+            return response;
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
+            throw e;
         }
-        return null;
     }
 
     @Override
@@ -82,5 +84,29 @@ public class PayServiceImpl extends ServiceRequestHelper implements PayService {
             logger.error(e.getMessage(),e);
         }
         return null;
+    }
+
+    @Override
+    public WxPayResponse downloadFundFlow(DownloadFundFlow fundFlow) {
+        try {
+            Map<String,String> result = downloadFundFlow(
+                    wxPayConfig,
+                    JSON.parseObject(JSON.toJSONString(fundFlow),Map.class),
+                    confManager.getWxPayConf().isUseSandBox()
+            );
+            if (validateRequestResult(result)){
+                return JSON.parseObject(JSON.toJSONString(result),WxPayResponse.class);
+            }
+        } catch (VFlowException e){
+            logger.error(e.getMessage(),e);
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
+        }
+        return null;
+    }
+
+    @Override
+    public List<List<String>> parseWxData(String wxData) {
+        return super.parseWxData(wxData);
     }
 }

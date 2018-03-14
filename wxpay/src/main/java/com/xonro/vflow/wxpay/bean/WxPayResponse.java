@@ -80,6 +80,12 @@ public class WxPayResponse implements Serializable{
     @JSONField(name = "sign")
     private String sign;
 
+    /**
+     * 账单、评价、资金流水等业务场景下的业务数据
+     */
+    @JSONField(name = "data")
+    private String data;
+
     public String getReturnCode() {
         return returnCode;
     }
@@ -150,5 +156,13 @@ public class WxPayResponse implements Serializable{
 
     public void setSign(String sign) {
         this.sign = sign;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }
