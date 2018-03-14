@@ -29,7 +29,7 @@ public class ConsoleController {
      * @param data menu json数据
      * @return 结果
      */
-    @RequestMapping(value = "/addMenu",method = RequestMethod.POST)
+    @RequestMapping(value = "/menu_add",method = RequestMethod.POST)
     public BaseResponse addMenu(String data){
         return menuService.addMenu(JSON.parseObject(data, Menu.class));
     }
@@ -38,7 +38,7 @@ public class ConsoleController {
      * 获取menu
      * @return 结果 json格式
      */
-    @RequestMapping(value = "/getMenuByPage",method = RequestMethod.GET)
+    @RequestMapping(value = "/get_menu_page",method = RequestMethod.GET)
     public String getMenuByPage(Integer page, Integer limit){
         return JSON.toJSONString(menuService.getMenuByPage(page, limit));
     }
@@ -47,7 +47,7 @@ public class ConsoleController {
      * 获取menu
      * @return 结果
      */
-    @RequestMapping(value = "/getMenu")
+    @RequestMapping(value = "/get_menu")
     public BaseResponse getMenu(){
         return menuService.getMenu();
     }
@@ -57,7 +57,7 @@ public class ConsoleController {
      * @param id menu的id
      * @return 结果
      */
-    @RequestMapping(value = "/delMenu")
+    @RequestMapping(value = "/menu_del")
     public BaseResponse delMenu(String id){
         return menuService.delMenu(id);
     }
@@ -67,7 +67,7 @@ public class ConsoleController {
      * @param id menu的id
      * @return 结果
      */
-    @RequestMapping(value = "/getMenuById")
+    @RequestMapping(value = "/get_menu_by_id")
     public BaseResponse getMenuById(String id){
         return menuService.getMenuById(id);
     }
@@ -76,7 +76,7 @@ public class ConsoleController {
      * 获取树形菜单结构
      * @return 结果
      */
-    @RequestMapping(value = "/getMenuByTree")
+    @RequestMapping(value = "/get_menu_tree")
     public BaseResponse getMenuByTree(){
         return menuService.getMenuByTree();
     }
@@ -86,7 +86,7 @@ public class ConsoleController {
      * @param pNo 父级代码
      * @return 结果
      */
-    @RequestMapping(value = "/getMenuByPNo/{pNo}",method = RequestMethod.GET)
+    @RequestMapping(value = "/get_menu_by_pno/{pNo}",method = RequestMethod.GET)
     public String getMenuByPNo(@PathVariable String pNo){
         return JSON.toJSONString(menuService.getMenuByPNo(pNo));
     }
@@ -97,7 +97,7 @@ public class ConsoleController {
      * @param type 类型 up or down
      * @return 结果
      */
-    @RequestMapping(value = "/changeMenuIndex")
+    @RequestMapping(value = "/change_menu_index")
     BaseResponse changeMenuIndex(String itemNo, String type){
         return menuService.changeMenuIndex(itemNo, type);
     }
