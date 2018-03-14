@@ -1,9 +1,11 @@
 package com.xonro.vflow.dataview.bean;
 
+import com.sun.xml.internal.ws.developer.Serialization;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * 报表主题配置表
@@ -12,7 +14,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "b_xr_dataview_theme")
-public class DataViewTheme {
+public class DataViewTheme implements Serializable{
     /**
      * 唯一标识
      */
