@@ -30,7 +30,7 @@
  */
 var js_signature = {};
 $.ajax({
-    url: "../wechat/jsSignature/",
+    url: "../wechat/js_signature/",
     data: {
         rquestPage: encodeURIComponent(this.window.location)
     },

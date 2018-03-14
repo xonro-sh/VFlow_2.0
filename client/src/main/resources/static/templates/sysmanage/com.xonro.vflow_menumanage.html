@@ -57,7 +57,7 @@
         //表单初始化
         var tables = table.render({
             elem: '#menu'
-            ,url: '../../console/getMenuByPNo/0' //数据接口
+            ,url: '../../console/get_menu_by_pno/0' //数据接口
             ,page: false //关闭
             ,cols: [[ //表头
                 {checkbox: true}
@@ -89,7 +89,7 @@
             ,click: function(node){
                 tables = table.render({
                     elem: '#menu'
-                    ,url: '../../console/getMenuByPNo/'+node.id //数据接口
+                    ,url: '../../console/get_menu_by_pno/'+node.id //数据接口
                     ,page: false //关闭
                     ,cols: [[ //表头
                         {checkbox: true}
@@ -147,7 +147,7 @@
 
                     //向服务端发送删除指令
                     $.ajax({
-                        url: "../../console/delMenu",
+                        url: "../../console/menu_del",
                         type: "post",
                         dataType: "json",
                         async: false,
@@ -197,7 +197,7 @@
     function getMenuByTree() {
         var info = {};
         $.ajax({
-            url: "../../console/getMenuByTree",
+            url: "../../console/get_menu_tree",
             type: "get",
             dataType: "json",
             async: false,
@@ -218,7 +218,7 @@
 
         //向服务端发送删除指令
         $.ajax({
-            url: "../../console/changeMenuIndex",
+            url: "../../console/change_menu_index",
             type: "post",
             dataType: "json",
             async: false,

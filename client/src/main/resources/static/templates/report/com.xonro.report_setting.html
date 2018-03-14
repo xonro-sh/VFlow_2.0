@@ -37,7 +37,7 @@
         var form = layui.form;
         var tables = table.render({
             elem: '#reportSetting'
-            ,url: "../../dataview/getAllDataViewTheme/"
+            ,url: "../../dataview/get_all_dataview_theme/"
             ,page: false
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,height: 'full-160'
@@ -114,7 +114,7 @@
             var index = layer.msg('数据提交中',{icon: 16,time:false,shade:0.8});
             console.log(updateTheme.$data);
             $.ajax({
-                url: "../../dataview/updateDataViewTheme",
+                url: "../../dataview/update_dataview_theme",
                 type: "post",
                 dataType: "json",
                 async: false,
@@ -127,7 +127,7 @@
                         layer.msg("提交成功", {icon: 1,time:3000});
                         layer.closeAll();
                         tables.reload('reportSetting',{
-                            url : '../../dataview/getAllDataViewTheme/'
+                            url : '../../dataview/get_all_dataview_theme/'
                         })
                     } else {
                         layer.msg("提交失败，错误信息"+data.msg, {icon: 1,time:3000});

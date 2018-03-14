@@ -15,7 +15,7 @@
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
     <legend>基本配置</legend>
 </fieldset>
-<form id="serviceNoConf" class="layui-form" action="">
+<form id="wechatConf" class="layui-form" action="">
     <input name="id" v-model="id" style="display: none">
     <div class="layui-form-item">
         <label class="layui-form-label">开发者标识<br>(AppID)</label>
@@ -47,7 +47,7 @@
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit lay-filter="servicenosetting">保存配置</button>
+            <button class="layui-btn" lay-submit lay-filter="wechatsetting">保存配置</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
@@ -61,12 +61,12 @@
         var form = layui.form;
 
         //监听提交
-        form.on('submit(servicenosetting)', function(data){
+        form.on('submit(wechatsetting)', function(data){
             var index = top.layer.msg('配置更新中',{icon: 16,time:false,shade:0.8});
 
             //向服务端发送删除指令
             $.ajax({
-                url: "../../wechat/updateServiceNoConf",
+                url: "../../wechat/update_wechat_conf",
                 type: "post",
                 dataType: "json",
                 async: false,
@@ -77,8 +77,8 @@
                     if (data.ok){
                         top.layer.close(index);
                         top.layer.msg("配置更新成功", {icon: 1,time:3000});
-                        serviceNo.id = getServiceNoConf().id;//更新ID值
-                        serviceNo.callBackUrl = getServiceNoConf().callBackUrl;//更新url
+                        serviceNo.id = getWechatConf().id;//更新ID值
+                        serviceNo.callBackUrl = getWechatConf().callBackUrl;//更新url
                         return true;
                     } else {
                         top.layer.msg("配置更新失败，错误信息"+data.msg, {icon: 2,time:3000});
@@ -97,28 +97,28 @@
     });
 </script>
 <script>
-    var serviceConf = {};
+    var wechatConf = {};
     var serviceNo;
     $(function () {
-        serviceConf = getServiceNoConf();
+        wechatConf = getWechatConf();
         serviceNo = new Vue({
-            el: "#serviceNoConf",
+            el: "#wechatConf",
             data: {
-                id: serviceConf.id,
-                appId: serviceConf.appId,
-                appSecret: serviceConf.appSecret,
-                token: serviceConf.token,
-                callBackUrl: serviceConf.callBackUrl
+                id: wechatConf.id,
+                appId: wechatConf.appId,
+                appSecret: wechatConf.appSecret,
+                token: wechatConf.token,
+                callBackUrl: wechatConf.callBackUrl
             },
             methods: {
 
             }
         });
     });
-    function getServiceNoConf() {
+    function getWechatConf() {
         var info = {};
         $.ajax({
-            url: "../../wechat/getServiceNoConf",
+            url: "../../wechat/get_wechat_conf",
             type: "get",
             dataType: "json",
             async: false,

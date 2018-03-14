@@ -93,7 +93,7 @@
             var index = top.layer.msg('数据提交中',{icon: 16,time:false,shade:0.8});
             console.log(data);
             $.ajax({
-                url: "../../console/addMenu",
+                url: "../../console/menu_add",
                 type: "post",
                 dataType: "json",
                 async: false,
@@ -109,7 +109,7 @@
 //                        var tree = parent.window.layui.tree;
 //                        tree.reload();
                         tables.reload('menu',{
-                            url : '../../console/getMenuByPNo/'+menuadd.pNo
+                            url : '../../console/get_menu_by_pno/'+menuadd.pNo
                         })
                     }
                 },
@@ -155,7 +155,7 @@
     function getMenuInfo(id) {
         var info = {};
         $.ajax({
-            url: "../../console/getMenuById",
+            url: "../../console/get_menu_by_id",
             type: "post",
             dataType: "json",
             async: false,
@@ -176,7 +176,7 @@
     function getItemoNoNew(pNo) {
         var info = null;
         $.ajax({
-            url: '../../console/getMenuByPNo/'+pNo,
+            url: '../../console/get_menu_by_pno/'+pNo,
             type: "get",
             dataType: "json",
             async: false,

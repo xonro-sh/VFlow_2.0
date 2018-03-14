@@ -41,7 +41,7 @@
         var layer = layui.layer;
         var tables = table.render({
             elem: '#wxUser'
-            ,url: "../../wechat/getUserInfoList/"
+            ,url: "../../wechat/get_user_info_list/"
             ,page: true
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,height: 'full-160'
@@ -72,7 +72,7 @@
         $("#refresh").on("click",function () {
             tables.reload({
                 elem: '#wxUser'
-                ,url: "../../wechat/getUserInfoList/"
+                ,url: "../../wechat/get_user_info_list/"
             });
         });
         var indexOpen;
@@ -104,7 +104,7 @@
         $("#updateremark").on("click", function () {
             var index1 = layer.msg('数据提交中',{icon: 16,time:false,shade:0.8});
             $.ajax({
-                url: "../../wechat/updateRemark",
+                url: "../../wechat/update_remark",
                 type: "post",
                 dataType: "json",
                 async: false,
@@ -119,7 +119,7 @@
                         layer.close(indexOpen);
                         tables.reload({
                             elem: '#wxUser'
-                            ,url: "../../wechat/getUserInfoList/"
+                            ,url: "../../wechat/get_user_info_list/"
                         });
                     } else {
                         layer.msg("提交失败，错误信息"+data.msg, {icon: 1,time:3000});
