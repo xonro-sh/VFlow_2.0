@@ -27,6 +27,4 @@ public interface BillService {
      * @return
      */
     public WxPayResponse batchQueryComment(QueryComment queryComment);
-
-
 }

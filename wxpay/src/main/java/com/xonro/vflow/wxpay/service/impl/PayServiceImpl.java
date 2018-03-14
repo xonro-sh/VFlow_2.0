@@ -8,7 +8,6 @@ import com.github.wxpay.sdk.WXPayUtil;
 import com.xonro.vflow.bases.bean.WxPayConf;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.bases.helper.ConfManager;
-import com.xonro.vflow.wxpay.bean.BaseResponse;
 import com.xonro.vflow.wxpay.bean.WxPayResponse;
 import com.xonro.vflow.wxpay.bean.pay.PayNotify;
 import com.xonro.vflow.wxpay.bean.pay.PayitilReport;
@@ -39,7 +38,7 @@ public class PayServiceImpl extends ServiceRequestHelper implements PayService {
 
     @Override
     public String accessPayNotify(String notifyData) {
-        BaseResponse response = new BaseResponse(WxPayEnum.RETURN_CODE_OK.getValue());
+        WxPayResponse response = new WxPayResponse(WxPayEnum.RETURN_CODE_OK.getValue());
         WXPay wxPay = new WXPay(wxPayConfig, WXPayConstants.SignType.MD5);
         try {
             Map<String,String> notifyParams = WXPayUtil.xmlToMap(notifyData);
@@ -53,11 +52,11 @@ public class PayServiceImpl extends ServiceRequestHelper implements PayService {
                     // TODO: 2018-3-12 本地未处理订单做状态处理
                 }else {
                     //接口通信失败
-                    response.init(payNotify.getReturnCode(),payNotify.getReturnMsg());
+                    response.setResult(payNotify.getReturnCode(),payNotify.getReturnMsg());
                 }
             }else {
                 //签名错误
-                response.init(WxPayEnum.RETURN_CODE_FAIL.getValue(),WxPayEnum.BILL_SIGN_ERROR.getValue());
+                response.setResult(WxPayEnum.RETURN_CODE_FAIL.getValue(),WxPayEnum.BILL_SIGN_ERROR.getValue());
             }
             return WXPayUtil.mapToXml(JSON.parseObject(JSON.toJSONString(response),Map.class));
         } catch (Exception e) {

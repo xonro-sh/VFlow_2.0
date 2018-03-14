@@ -2,7 +2,6 @@ package com.xonro.vflow.wxpay;
 
 import com.alibaba.fastjson.JSON;
 import com.github.wxpay.sdk.WXPayUtil;
-import com.xonro.vflow.wxpay.bean.BaseResponse;
 import com.xonro.vflow.wxpay.bean.Coupon;
 import com.xonro.vflow.wxpay.bean.order.UnifiedOrder;
 import com.xonro.vflow.wxpay.bean.pay.PayNotify;
@@ -74,13 +73,6 @@ public class BaseTestCases {
                 "</xml> ";
         String map = JSON.toJSONString(WXPayUtil.xmlToMap(xml));
         System.out.println(JSON.parseObject(map, PayNotify.class));
-
-        BaseResponse response = new BaseResponse(){{
-            setReturnCode("this is return code");
-            setReturnMsg("this is return message");
-        }};
-
-        System.out.println(WXPayUtil.mapToXml(JSON.parseObject(JSON.toJSONString(response),Map.class)));
 
     }
 

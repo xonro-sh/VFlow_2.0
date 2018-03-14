@@ -62,26 +62,19 @@ public class BillServiceImpl extends ServiceRequestHelper implements BillService
     @Override
     public WxPayResponse batchQueryComment(QueryComment queryComment) {
         WxPayConf wxPayConf = confManager.getWxPayConf();
-        WXPay wxPay = new WXPay(wxPayConfig, WXPayConstants.SignType.MD5,wxPayConf.isUseSandBox());
-
-        String url ;
-        if (wxPayConf.isUseSandBox()){
-            url = "https://api.mch.weixin.qq.com/sandboxnew/billcommentsp/batchquerycomment";
-        }else {
-            url = "https://api.mch.weixin.qq.com/billcommentsp/batchquerycomment";
-        }
-
         try {
-            Map<String,String> params = wxPay.fillRequestData(JSON.parseObject(JSON.toJSONString(queryComment),Map.class));
-            String responseXml = wxPay.requestWithCert(url,params,wxPayConfig.getHttpConnectTimeoutMs(),wxPayConfig.getHttpReadTimeoutMs());
-            Map<String,String> result = wxPay.processResponseXml(responseXml);
+            Map<String,String> result = batchQueryComment(
+                    wxPayConfig,
+                    JSON.parseObject(JSON.toJSONString(queryComment),Map.class),
+                    wxPayConf.isUseSandBox()
+            );
             if (validateRequestResult(result)){
                 //评价数据
                 String comment = result.get("data");
 
                 // TODO: 2018-3-13 对评价数据进行解析处理
             }
-            return JSON.parseObject(responseXml,WxPayResponse.class);
+            return JSON.parseObject(JSON.toJSONString(result),WxPayResponse.class);
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
         }

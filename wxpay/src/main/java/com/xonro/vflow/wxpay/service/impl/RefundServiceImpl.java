@@ -8,7 +8,7 @@ import com.github.wxpay.sdk.WXPayUtil;
 import com.xonro.vflow.bases.bean.WxPayConf;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.bases.helper.ConfManager;
-import com.xonro.vflow.wxpay.bean.BaseResponse;
+import com.xonro.vflow.wxpay.bean.WxPayResponse;
 import com.xonro.vflow.wxpay.bean.refund.QueryRefundResult;
 import com.xonro.vflow.wxpay.bean.refund.Refund;
 import com.xonro.vflow.wxpay.bean.refund.RefundNotify;
@@ -128,7 +128,7 @@ public class RefundServiceImpl extends ServiceRequestHelper implements RefundSer
 
     @Override
     public String accessRefundNotify(String notifyXml) {
-        BaseResponse response = new BaseResponse(WxPayEnum.RETURN_CODE_OK.getValue());
+        WxPayResponse response = new WxPayResponse(WxPayEnum.RETURN_CODE_OK.getValue());
         WXPay wxPay = new WXPay(wxPayConfig, WXPayConstants.SignType.MD5);
         WxPayConf wxPayConf = confManager.getWxPayConf();
 
@@ -156,12 +156,12 @@ public class RefundServiceImpl extends ServiceRequestHelper implements RefundSer
 
                 }else {
                     //微信通知接口通信错误
-                    response.init(returnCode,notifyData.get("return_msg"));
+                    response.setResult(returnCode,notifyData.get("return_msg"));
                     logger.error("wxpay refund notify error,return_code:"+returnCode+",return_msg:"+notifyData.get("return_msg"));
                 }
             }else {
                 //微信通知签名校验错误
-                response.init(WxPayEnum.RETURN_CODE_FAIL.getValue(),WxPayEnum.BILL_SIGN_ERROR.getValue());
+                response.setResult(WxPayEnum.RETURN_CODE_FAIL.getValue(),WxPayEnum.BILL_SIGN_ERROR.getValue());
                 logger.error("wxpay refund notify sign error");
             }
             return WXPayUtil.mapToXml(JSON.parseObject(JSON.toJSONString(response),Map.class));
