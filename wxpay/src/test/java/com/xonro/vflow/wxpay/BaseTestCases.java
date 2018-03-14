@@ -5,9 +5,12 @@ import com.github.wxpay.sdk.WXPayUtil;
 import com.xonro.vflow.wxpay.bean.Coupon;
 import com.xonro.vflow.wxpay.bean.order.UnifiedOrder;
 import com.xonro.vflow.wxpay.bean.pay.PayNotify;
+import com.xonro.vflow.wxpay.service.PayService;
+import com.xonro.vflow.wxpay.service.impl.PayServiceImpl;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -81,14 +84,21 @@ public class BaseTestCases {
         String data = "`2017-07-01 10:00:05,` 1001690740201411100005734289,`5,`赞，水果很新鲜\n" +
                 "`2017-07-01 11:00:05,` 1001690740201411100005734278,`5,`不错，支付渠道很方便\n" +
                 "`2017-07-01 11:30:05,` 1001690740201411100005734250,`4,`东西还算符合预期 ";
-        System.out.println(data.contains("`"));
-        String[] lineArr = new String[]{};
-        lineArr = data.split("\n");
-        for (String s : lineArr) {
-            System.out.println("------"+s);
-        }
 
+        PayService payService = new PayServiceImpl();
+        List<List<String>> result = payService.parseWxData(data);
 
+        System.out.println(result);
+    }
+
+    @Test
+    public void testPutNull(){
+        Map<String,String> map = new HashMap<String, String>(8){{
+            put("a","1");
+            put("b","2");
+            put("c","");
+        }};
+        System.out.println(JSON.toJSONString(map));
     }
 
 }

@@ -127,7 +127,7 @@ public class RefundServiceImpl extends ServiceRequestHelper implements RefundSer
     }
 
     @Override
-    public String accessRefundNotify(String notifyXml) {
+    public WxPayResponse accessRefundNotify(String notifyXml) {
         WxPayResponse response = new WxPayResponse(WxPayEnum.RETURN_CODE_OK.getValue());
         WXPay wxPay = new WXPay(wxPayConfig, WXPayConstants.SignType.MD5);
         WxPayConf wxPayConf = confManager.getWxPayConf();
@@ -164,7 +164,7 @@ public class RefundServiceImpl extends ServiceRequestHelper implements RefundSer
                 response.setResult(WxPayEnum.RETURN_CODE_FAIL.getValue(),WxPayEnum.BILL_SIGN_ERROR.getValue());
                 logger.error("wxpay refund notify sign error");
             }
-            return WXPayUtil.mapToXml(JSON.parseObject(JSON.toJSONString(response),Map.class));
+            return response;
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
         }

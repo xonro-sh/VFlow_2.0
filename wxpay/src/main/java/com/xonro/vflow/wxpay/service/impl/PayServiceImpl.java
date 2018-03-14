@@ -39,7 +39,7 @@ public class PayServiceImpl extends ServiceRequestHelper implements PayService {
     private ConfManager confManager;
 
     @Override
-    public String accessPayNotify(String notifyData) {
+    public WxPayResponse accessPayNotify(String notifyData) throws Exception {
         WxPayResponse response = new WxPayResponse(WxPayEnum.RETURN_CODE_OK.getValue());
         WXPay wxPay = new WXPay(wxPayConfig, WXPayConstants.SignType.MD5);
         try {
@@ -60,11 +60,11 @@ public class PayServiceImpl extends ServiceRequestHelper implements PayService {
                 //签名错误
                 response.setResult(WxPayEnum.RETURN_CODE_FAIL.getValue(),WxPayEnum.BILL_SIGN_ERROR.getValue());
             }
-            return WXPayUtil.mapToXml(JSON.parseObject(JSON.toJSONString(response),Map.class));
+            return response;
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
+            throw e;
         }
-        return null;
     }
 
     @Override

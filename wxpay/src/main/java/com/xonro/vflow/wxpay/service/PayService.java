@@ -18,7 +18,7 @@ public interface PayService {
      * @param notifyData
      * @return
      */
-    public String accessPayNotify(String notifyData);
+    public WxPayResponse accessPayNotify(String notifyData) throws Exception;
 
     /**
      * 微信接口调用数据上报

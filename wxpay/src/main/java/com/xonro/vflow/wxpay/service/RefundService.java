@@ -1,5 +1,6 @@
 package com.xonro.vflow.wxpay.service;
 
+import com.xonro.vflow.wxpay.bean.WxPayResponse;
 import com.xonro.vflow.wxpay.bean.refund.QueryRefundResult;
 import com.xonro.vflow.wxpay.bean.refund.Refund;
 import com.xonro.vflow.wxpay.bean.refund.RefundResult;
@@ -54,6 +55,6 @@ public interface RefundService{
      * @param notifyXml 微信通知数据
      * @return
      */
-    public String accessRefundNotify(String notifyXml);
+    public WxPayResponse accessRefundNotify(String notifyXml);
 
 }
