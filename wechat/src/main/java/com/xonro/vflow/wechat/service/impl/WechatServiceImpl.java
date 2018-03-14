@@ -82,7 +82,7 @@ public class WechatServiceImpl implements WechatService {
      * @return 结果
      */
     @Override
-    public BaseResponse updateServiceNoConf(WechatConf wechatConf) {
+    public BaseResponse updateWechatConf(WechatConf wechatConf) {
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setOk(true);
         try {
@@ -101,7 +101,7 @@ public class WechatServiceImpl implements WechatService {
      * @return 结果
      */
     @Override
-    public BaseResponse getServiceNoConf() {
+    public BaseResponse getWechatConf() {
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setOk(true);
         try {

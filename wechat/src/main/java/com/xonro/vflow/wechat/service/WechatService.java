@@ -40,13 +40,13 @@ public interface WechatService {
      * @param wechatConf 服务号配置实体
      * @return 结果
      */
-    BaseResponse updateServiceNoConf(WechatConf wechatConf);
+    BaseResponse updateWechatConf(WechatConf wechatConf);
 
     /**
      * 获取微信服务号配置
      * @return 结果
      */
-    BaseResponse getServiceNoConf();
+    BaseResponse getWechatConf();
 
     /**
      * 获取缓存的公众号配置

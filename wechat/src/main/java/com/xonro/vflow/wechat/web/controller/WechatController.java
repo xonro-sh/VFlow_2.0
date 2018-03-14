@@ -58,7 +58,7 @@ public class WechatController {
      * @param rquestPage 请求页面
      * @return js签名
      */
-    @RequestMapping(value = "/jsSignature")
+    @RequestMapping(value = "/js_signature")
     public WechatJsSignature getJsSignature(String rquestPage){
         return jsApiService.getSignature(rquestPage);
     }
@@ -78,18 +78,18 @@ public class WechatController {
      * @param data json数据
      * @return 结果
      */
-    @RequestMapping(value = "/updateServiceNoConf")
-    public BaseResponse updateServiceNoConf(String data){
-        return wechatService.updateServiceNoConf(JSON.parseObject(data, WechatConf.class));
+    @RequestMapping(value = "/update_wechat_conf")
+    public BaseResponse updateWechatConf(String data){
+        return wechatService.updateWechatConf(JSON.parseObject(data, WechatConf.class));
     }
 
     /**
      * 获取微信服务号配置
      * @return 结果
      */
-    @RequestMapping(value = "/getServiceNoConf")
-    public BaseResponse getServiceNoConf(){
-        return wechatService.getServiceNoConf();
+    @RequestMapping(value = "/get_wechat_conf")
+    public BaseResponse getWechatConf(){
+        return wechatService.getWechatConf();
     }
 
     /**
@@ -97,7 +97,7 @@ public class WechatController {
      * @param type 消息类型（大类）
      * @return 结果
      */
-    @RequestMapping(value = "/getMessageConf")
+    @RequestMapping(value = "/get_message_conf")
     public BaseResponse getMessageConf(String type){
         return wechatService.getMessageConf(type);
     }
@@ -107,12 +107,12 @@ public class WechatController {
      * @param data 信息对象
      * @return 结果
      */
-    @RequestMapping(value = "/updateMessageConf")
+    @RequestMapping(value = "/update_message_conf")
     public BaseResponse updateMessageConf(String data){
         return wechatService.updateMessageConf(JSON.parseObject(data, Message.class));
     }
 
-    @RequestMapping(value = "/getUserInfoList")
+    @RequestMapping(value = "/get_user_info_list")
     public String getUserInfoList(Integer page, Integer limit){
         return JSON.toJSONString(userService.getUserInfoList("", page, limit));
     }
@@ -123,7 +123,7 @@ public class WechatController {
      * @param remark 备注
      * @return
      */
-    @RequestMapping(value = "/updateRemark")
+    @RequestMapping(value = "/update_remark")
     public BaseResponse updateRemark(String openId, String remark){
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setOk(true);
