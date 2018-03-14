@@ -76,4 +76,19 @@ public class BaseTestCases {
 
     }
 
+    @Test
+    public void testParseData(){
+        String data = "`2017-07-01 10:00:05,` 1001690740201411100005734289,`5,`赞，水果很新鲜\n" +
+                "`2017-07-01 11:00:05,` 1001690740201411100005734278,`5,`不错，支付渠道很方便\n" +
+                "`2017-07-01 11:30:05,` 1001690740201411100005734250,`4,`东西还算符合预期 ";
+        System.out.println(data.contains("`"));
+        String[] lineArr = new String[]{};
+        lineArr = data.split("\n");
+        for (String s : lineArr) {
+            System.out.println("------"+s);
+        }
+
+
+    }
+
 }

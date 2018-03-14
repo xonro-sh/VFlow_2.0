@@ -157,19 +157,75 @@ public class ServiceRequestHelper {
      * @throws Exception
      */
     public Map<String,String> batchQueryComment(WXPayConfig wxPayConfig,Map<String,String> params,boolean isUseSandbox) throws Exception {
-        WXPay wxPay = new WXPay(wxPayConfig, WXPayConstants.SignType.MD5);
-
-        String urlSuffix ;
+        String url ;
         if (isUseSandbox){
-            urlSuffix = WxPayEnum.URL_QUERYCOMMENT_SANDBOX_SUFFIX.getValue();
+            url = WxPayEnum.URL_QUERYCOMMENT_SANDBOX.getValue();
         }else {
-            urlSuffix = WxPayEnum.URL_QUERYCOMMENT_SUFFIX.getValue();
+            url = WxPayEnum.URL_QUERYCOMMENT.getValue();
         }
+        return executeRequest(url,wxPayConfig,params);
+    }
 
+    /**
+     * 下载资金流水
+     * @param wxPayConfig
+     * @param params
+     * @param useSandbox
+     * @return
+     */
+    public Map<String,String> downloadFundFlow(WXPayConfig wxPayConfig,Map<String,String> params,boolean useSandbox) throws Exception {
+        String url;
+        if (useSandbox){
+            url = WxPayEnum.URL_DOWNLOAD_FUNDFLOW_SANDBOX.getValue();
+        }else {
+            url = WxPayEnum.URL_DOWNLOAD_FUNDFLOW.getValue();
+        }
+        return executeRequest(url,wxPayConfig,params);
+    }
+
+    /**
+     * 解析微信的业务数据，如账单、订单评价、资金流水
+     * @param wxData
+     * @return 解析后的数据集，List<List>为行，List<String>为每行的行数据
+     */
+    public List<List<String>> parseWxData(String wxData){
+        List<List<String>> result = new ArrayList<>();
+        String[] lineArr = wxData.split("\n");
+
+        for (String line : lineArr) {
+            //行数据集
+            List<String> dataList = new ArrayList<>();
+
+            String[] dataArr = new String[]{};
+            if (line.contains("`")){
+                //业务数据
+                dataArr = line.split(",`");
+            }else {
+                //标题
+                dataArr = line.split(",");
+            }
+
+            for (String data : dataArr) {
+                dataList.add(data.replaceAll("`","").trim());
+            }
+            result.add(dataList);
+        }
+        return result;
+    }
+
+    /**
+     * 执行微信请求
+     * @param url
+     * @param wxPayConfig
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    private Map<String,String> executeRequest(String url,WXPayConfig wxPayConfig,Map<String,String> params) throws Exception {
+        WXPay wxPay = new WXPay(wxPayConfig, WXPayConstants.SignType.MD5);
         try {
             String responseXml = wxPay.requestWithCert(
-                    urlSuffix,
-                    wxPay.fillRequestData(params),
+                    url,wxPay.fillRequestData(params),
                     wxPayConfig.getHttpConnectTimeoutMs(),wxPayConfig.getHttpReadTimeoutMs()
             );
             return WXPayUtil.xmlToMap(responseXml);

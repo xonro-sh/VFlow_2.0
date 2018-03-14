@@ -70,10 +70,10 @@ public enum WxPayEnum {
     /**
      * 微信服务接口
      */
-    URL_QUERYCOMMENT_SUFFIX ("/billcommentsp/batchquerycomment","拉取订单评价数据"),
-    URL_QUERYCOMMENT_SANDBOX_SUFFIX("/sandboxnew/billcommentsp/batchquerycomment","拉取订单评价数据,沙箱环境"),
-    URL_DOWNLOAD_FUNDFLOW_SUFFIX("/pay/downloadfundflow","下载资金流水"),
-    URL_DOWNLOAD_FUNDFLOW_SANDBOX_SUFFIX("/sandboxnew/pay/downloadfundflow","下载资金流水,沙箱环境"),
+    URL_QUERYCOMMENT("https://api.mch.weixin.qq.com/billcommentsp/batchquerycomment","拉取订单评价数据"),
+    URL_QUERYCOMMENT_SANDBOX("https://api.mch.weixin.qq.com/sandboxnew/billcommentsp/batchquerycomment","拉取订单评价数据,沙箱环境"),
+    URL_DOWNLOAD_FUNDFLOW("https://api.mch.weixin.qq.com/pay/downloadfundflow","下载资金流水"),
+    URL_DOWNLOAD_FUNDFLOW_SANDBOX("https://api.mch.weixin.qq.com/sandboxnew/pay/downloadfundflow","下载资金流水,沙箱环境"),
 
     ;
 

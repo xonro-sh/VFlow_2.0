@@ -34,7 +34,7 @@ public class BillServiceImpl extends ServiceRequestHelper implements BillService
     private WXPayConfig wxPayConfig;
 
     @Override
-    public Map<String, String> billDownload(String billDate,String billType,String tarType) {
+    public WxPayResponse billDownload(String billDate,String billType,String tarType) {
         WxPayConf wxPayConf = confManager.getWxPayConf();
         WXPay wxPay = new WXPay(wxPayConfig, WXPayConstants.SignType.MD5,wxPayConf.isUseSandBox());
 
@@ -47,9 +47,7 @@ public class BillServiceImpl extends ServiceRequestHelper implements BillService
                     }}
             );
             if (validateRequestResult(result)){
-                String billData = result.get("data");
-
-                // TODO: 2018-3-13 对订单数据进行解析处理
+                return JSON.parseObject(JSON.toJSONString(result),WxPayResponse.class);
             }
         } catch (VFlowException e){
             logger.error(e.getMessage(),e);
@@ -69,16 +67,12 @@ public class BillServiceImpl extends ServiceRequestHelper implements BillService
                     wxPayConf.isUseSandBox()
             );
             if (validateRequestResult(result)){
-                //评价数据
-                String comment = result.get("data");
-
-                // TODO: 2018-3-13 对评价数据进行解析处理
+               return JSON.parseObject(JSON.toJSONString(result), WxPayResponse.class);
             }
             return JSON.parseObject(JSON.toJSONString(result),WxPayResponse.class);
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
         }
-
         return null;
     }
 }

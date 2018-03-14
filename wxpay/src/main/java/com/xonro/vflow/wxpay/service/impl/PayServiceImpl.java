@@ -9,6 +9,7 @@ import com.xonro.vflow.bases.bean.WxPayConf;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.bases.helper.ConfManager;
 import com.xonro.vflow.wxpay.bean.WxPayResponse;
+import com.xonro.vflow.wxpay.bean.pay.DownloadFundFlow;
 import com.xonro.vflow.wxpay.bean.pay.PayNotify;
 import com.xonro.vflow.wxpay.bean.pay.PayitilReport;
 import com.xonro.vflow.wxpay.enums.WxPayEnum;
@@ -20,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -82,5 +84,29 @@ public class PayServiceImpl extends ServiceRequestHelper implements PayService {
             logger.error(e.getMessage(),e);
         }
         return null;
+    }
+
+    @Override
+    public WxPayResponse downloadFundFlow(DownloadFundFlow fundFlow) {
+        try {
+            Map<String,String> result = downloadFundFlow(
+                    wxPayConfig,
+                    JSON.parseObject(JSON.toJSONString(fundFlow),Map.class),
+                    confManager.getWxPayConf().isUseSandBox()
+            );
+            if (validateRequestResult(result)){
+                return JSON.parseObject(JSON.toJSONString(result),WxPayResponse.class);
+            }
+        } catch (VFlowException e){
+            logger.error(e.getMessage(),e);
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
+        }
+        return null;
+    }
+
+    @Override
+    public List<List<String>> parseWxData(String wxData) {
+        return super.parseWxData(wxData);
     }
 }
