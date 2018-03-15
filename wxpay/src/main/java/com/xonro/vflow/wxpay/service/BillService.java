@@ -21,14 +21,14 @@ public interface BillService {
      * @param tarType 压缩账单
      * @return
      */
-    public WxPayResponse billDownload(String billDate,String billType,String tarType) throws Exception;
+    WxPayResponse billDownload(String billDate,String billType,String tarType) throws Exception;
 
     /**
      * 拉取订单评价数据
      * @param queryComment
      * @return
      */
-    public WxPayResponse batchQueryComment(QueryComment queryComment);
+    WxPayResponse batchQueryComment(QueryComment queryComment);
 
     /**
      * 分页查询订单数据
@@ -37,19 +37,19 @@ public interface BillService {
      * @param pageNow
      * @return
      */
-    public Page<Bill> getAllBillByDateAndPage(String billDate, Integer pageNow, Integer perPageNumber);
+    Page<Bill> getAllBillByDateAndPage(String billDate, Integer pageNow, Integer perPageNumber);
 
     /**
      * 保存账单数据
      * @param bill
      * @return
      */
-    public Bill saveBill(Bill bill);
+    Bill saveBill(Bill bill);
 
     /**
      * 批量保存账单数据
      * @param bills
      * @return
      */
-    public List<Bill> saveBillList(List<Bill> bills);
+    List<Bill> saveBillList(List<Bill> bills);
 }

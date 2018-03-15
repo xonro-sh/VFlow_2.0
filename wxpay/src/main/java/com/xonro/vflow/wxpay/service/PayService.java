@@ -18,14 +18,14 @@ public interface PayService {
      * @param notifyData
      * @return
      */
-    public WxPayResponse accessPayNotify(String notifyData) throws Exception;
+    WxPayResponse accessPayNotify(String notifyData) throws Exception;
 
     /**
      * 微信接口调用数据上报
      * @param report
      * @return
      */
-    public WxPayResponse payitilReport(PayitilReport report);
+    WxPayResponse payitilReport(PayitilReport report);
 
     /**
      * 下载资金流水
@@ -33,12 +33,12 @@ public interface PayService {
      * @return WxPayResponse
      *  接口访问结果，result_code为success时，流水数据为data属性值
      */
-    public WxPayResponse downloadFundFlow(DownloadFundFlow fundFlow);
+    WxPayResponse downloadFundFlow(DownloadFundFlow fundFlow);
 
     /**
      * 解析微信的业务数据，如账单、订单评价、资金流水
      * @param wxData
      * @return 解析后的数据集，List<List>为行，List<String>为每行的行数据
      */
-    public List<List<String>> parseWxData(String wxData);
+    List<List<String>> parseWxData(String wxData);
 }

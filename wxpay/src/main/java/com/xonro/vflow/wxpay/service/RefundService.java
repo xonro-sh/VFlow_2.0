@@ -12,49 +12,49 @@ import com.xonro.vflow.wxpay.bean.refund.RefundResult;
  */
 public interface RefundService{
 
-    final String DEFAULT_CIPHER_ALGORITHM = "AES/ECB/PKCS7Padding";
-    final String KEY_ALGORITHM = "AES";
+    String DEFAULT_CIPHER_ALGORITHM = "AES/ECB/PKCS7Padding";
+    String KEY_ALGORITHM = "AES";
 
     /**
      * 申请微信退款
      * @param refund
      * @return
      */
-    public RefundResult refund(Refund refund);
+    RefundResult refund(Refund refund);
 
     /**
      * 根据微信订单号查询退款
      * @param tradeId
      * @return
      */
-    public QueryRefundResult queryRefundByTradeId(String tradeId);
+    QueryRefundResult queryRefundByTradeId(String tradeId);
 
     /**
      * 根据商户订单号查询退款
      * @param outTradeId
      * @return
      */
-    public QueryRefundResult queryRefundByOutTradeId(String outTradeId);
+    QueryRefundResult queryRefundByOutTradeId(String outTradeId);
 
     /**
      * 根据微信退款单号查询退款
      * @param refundId
      * @return
      */
-    public QueryRefundResult queryRefundByRefundId(String refundId);
+    QueryRefundResult queryRefundByRefundId(String refundId);
 
     /**
      * 根据商户退款单号查询退款
      * @param outRefundId
      * @return
      */
-    public QueryRefundResult queryRefundByOutRefundId(String outRefundId);
+    QueryRefundResult queryRefundByOutRefundId(String outRefundId);
 
     /**
      * 退款结果通知接收并处理
      * @param notifyXml 微信通知数据
      * @return
      */
-    public WxPayResponse accessRefundNotify(String notifyXml);
+    WxPayResponse accessRefundNotify(String notifyXml);
 
 }
