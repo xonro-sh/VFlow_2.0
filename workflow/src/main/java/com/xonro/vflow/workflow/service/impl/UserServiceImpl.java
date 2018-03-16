@@ -57,9 +57,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @CachePut(value = "user_info",key = "'picture_'+#userId",unless = "#result eq null ")
     public Picture setUserPicture(String userId,byte[] pictureData, String pictureName) {
         Picture picture = new Picture(pictureData,pictureName);
         identityService.setUserPicture(userId,picture);
         return picture;
     }
+
+    @Override
+    @Cacheable(value = "user_info",key = "'picture_'+#userId",unless = "#result eq null ")
+    public Picture getUserPicture(String userId) {
+        return identityService.getUserPicture(userId);
+    }
+
+
 }

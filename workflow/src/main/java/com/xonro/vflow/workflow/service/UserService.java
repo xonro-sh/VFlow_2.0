@@ -58,4 +58,11 @@ public interface UserService {
      * @return 保存的图片信息
      */
     Picture setUserPicture(String userId, byte[] pictureData, String pictureName);
+
+    /**
+     * 获取用户图片
+     * @param userId
+     * @return 用户图片信息
+     */
+    Picture getUserPicture(String userId);
 }

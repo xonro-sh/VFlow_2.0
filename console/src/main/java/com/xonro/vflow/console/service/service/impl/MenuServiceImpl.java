@@ -44,8 +44,10 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public BaseResponse addMenu(Menu menu) {
-        BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setOk(true);
+        BaseResponse baseResponse = new BaseResponse(){{
+            setOk(true);
+        }};
+//        baseResponse.setOk(true);
         try {
             menuRepository.save(menu);
         } catch (Exception e) {
