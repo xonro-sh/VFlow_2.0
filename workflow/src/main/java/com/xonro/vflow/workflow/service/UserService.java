@@ -1,5 +1,6 @@
 package com.xonro.vflow.workflow.service;
 
+import com.xonro.vflow.workflow.bean.UserInfo;
 import org.activiti.engine.identity.Picture;
 import org.activiti.engine.identity.User;
 
@@ -65,4 +66,34 @@ public interface UserService {
      * @return 用户图片信息
      */
     Picture getUserPicture(String userId);
+
+    /**
+     * 保存用户信息
+     * @param userInfo
+     * @return
+     */
+    UserInfo saveUserInfo(UserInfo userInfo);
+
+    /**
+     * 获取用户详细信息
+     * @param userId
+     * @return
+     */
+    UserInfo getUserInfo(String userId);
+
+    /**
+     * 获取指定分组内的用户列表
+     * @param groupId 分组id
+     * @return
+     */
+    List<User> userInGroup(String groupId);
+
+    /**
+     * 获取指定分组内用户列表，分页
+     * @param groupId 用户组id
+     * @param firstResult 查询起始数量
+     * @param limit 查询数量
+     * @return
+     */
+    List<User> userInGroupPage(String groupId,Integer firstResult,Integer limit);
 }
