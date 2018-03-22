@@ -2,6 +2,7 @@ package com.xonro.vflow.workflow;
 
 import com.xonro.vflow.workflow.bean.UserInfo;
 import com.xonro.vflow.workflow.service.UserService;
+import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,6 +44,14 @@ public class WorkflowApplicationTests {
 	@Test
 	public void getUserInfo(){
 		System.out.println(userService.getUserInfo("fe938166-f268-4de4-9e72-5a428f51e651"));
+	}
+
+	@Autowired
+	private IdentityService identityService;
+	@Test
+	public void testIdGenerator(){
+		identityService.deleteUserInfo("fe938166-f268-4de4-9e72-5a428f51e651","positionLevel");
+		identityService.setUserInfo("fe938166-f268-4de4-9e72-5a428f51e651","positionLevel","1");
 	}
 
 }

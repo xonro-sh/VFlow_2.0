@@ -99,6 +99,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean checkUserPassword(String userId, String password) {
+        return identityService.checkPassword(userId,password);
+    }
+
+    @Override
     @Cacheable(value = "user",key = "'info_'+#userId")
     public UserInfo getUserInfo(String userId) {
         List<String> infoKeys = identityService.getUserInfoKeys(userId);

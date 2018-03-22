@@ -75,6 +75,14 @@ public interface UserService {
     UserInfo saveUserInfo(UserInfo userInfo);
 
     /**
+     * 校验用户密码,校验通过返回true，否则返回false
+     * @param userId
+     * @param password
+     * @return
+     */
+    boolean checkUserPassword(String userId,String password);
+
+    /**
      * 获取用户详细信息
      * @param userId
      * @return
