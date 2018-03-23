@@ -3,7 +3,7 @@ package com.xonro.vflow.console.web.controller;
 import com.alibaba.fastjson.JSON;
 import com.xonro.vflow.bases.bean.BaseResponse;
 import com.xonro.vflow.console.bean.Menu;
-import com.xonro.vflow.console.service.service.MenuService;
+import com.xonro.vflow.console.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

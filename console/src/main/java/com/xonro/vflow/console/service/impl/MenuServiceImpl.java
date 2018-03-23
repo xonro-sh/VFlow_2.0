@@ -1,4 +1,4 @@
-package com.xonro.vflow.console.service.service.impl;
+package com.xonro.vflow.console.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.xonro.vflow.bases.bean.BaseResponse;
@@ -7,7 +7,7 @@ import com.xonro.vflow.console.bean.Menu;
 import com.xonro.vflow.console.bean.NodeResponse;
 import com.xonro.vflow.console.dao.MenuRepository;
 import com.xonro.vflow.console.enums.ConsoleEnums;
-import com.xonro.vflow.console.service.service.MenuService;
+import com.xonro.vflow.console.service.MenuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,6 @@ public class MenuServiceImpl implements MenuService {
         BaseResponse baseResponse = new BaseResponse(){{
             setOk(true);
         }};
-//        baseResponse.setOk(true);
         try {
             menuRepository.save(menu);
         } catch (Exception e) {
