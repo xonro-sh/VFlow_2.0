@@ -1,6 +1,10 @@
 package com.xonro.vflow.workflow.bean;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
@@ -15,6 +19,9 @@ public class Tenant implements Serializable{
     /**
      * 租赁id
      */
+    @Id
+    @GenericGenerator(name = "idGenerator",strategy = "uuid")
+    @GeneratedValue(generator = "idGenerator")
     private String id;
 
     /**
@@ -30,7 +37,7 @@ public class Tenant implements Serializable{
     /**
      * 租户是否激活
      */
-    private boolean active;
+    private boolean active = true;
 
     public String getId() {
         return id;

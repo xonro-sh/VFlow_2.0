@@ -1,6 +1,10 @@
 package com.xonro.vflow.workflow.bean;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
@@ -15,6 +19,9 @@ public class Role implements Serializable{
     /**
      * 角色id
      */
+    @Id
+    @GenericGenerator(name = "idGenerator",strategy = "uuid")
+    @GeneratedValue(generator = "idGenerator")
     private String id;
 
     /**

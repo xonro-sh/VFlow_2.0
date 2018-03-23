@@ -1,6 +1,10 @@
 package com.xonro.vflow.workflow.bean;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
@@ -12,6 +16,9 @@ import java.io.Serializable;
 @Entity
 @Table(name = "b_xr_vflow_department")
 public class Department implements Serializable{
+    @Id
+    @GenericGenerator(name = "idGenerator",strategy = "uuid")
+    @GeneratedValue(generator = "idGenerator")
     private String id;
     private String name;
     private String parentId;

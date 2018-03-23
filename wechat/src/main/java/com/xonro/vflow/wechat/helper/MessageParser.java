@@ -39,7 +39,7 @@ public class MessageParser {
      * @return
      */
     public OrdinaryMsg parse() throws DocumentException {
-        messageData = new HashMap<>();
+        messageData = new HashMap<>(16);
         try {
             Document document = DocumentHelper.parseText(xmlMessage);
             Element rootElement = document.getRootElement();
