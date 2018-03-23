@@ -1,4 +1,4 @@
-package com.xonro.vflow.console.service.service;
+package com.xonro.vflow.console.service;
 
 import com.xonro.vflow.bases.bean.BaseResponse;
 import com.xonro.vflow.bases.bean.TableResponse;
