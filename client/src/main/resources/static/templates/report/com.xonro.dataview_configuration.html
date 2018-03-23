@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--tab点击功能-->
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="https://cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/children.css">
+    <script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
+    <!--vue.js-->
+    <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
+    <script src="../../lib/layui/layui.js"></script>
+    <script type="text/javascript" src="../../js/util.js"></script>
+    <style>
+        .layui-tab-brief>.layui-tab-more li.layui-this:after, .layui-tab-brief>.layui-tab-title .layui-this:after{
+            border:none;
+            border-radius:0;
+            border-top:2px solid #5FB878;
+        }
+        .xonro-tab-bottom{
+            position:fixed;
+            bottom:0;
+        }
+        .layui-field-title{
+            margin: 0 0 20px;
+            border-width: 1px 0 0;
+        }
+        .xonro-layout-iframe{
+            width: 100%;
+            border-width: 0;
+            position: absolute;
+            min-width: 320px;
+            display: none;
+        }
+        .layui-show .xonro-layout-iframe{
+            width: 100%;
+            border-width: 0;
+            position: absolute;
+            min-width: 320px;
+            display: block;
+        }
+        .layui-tab-content{
+            padding: 0;
+        }
+        .layui-tab{
+            margin: 0 0 10px 0;
+            text-align: left!important;
+        }
+        .layui-tab-item{
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0;
+            margin: 0;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="layui-tab layui-tab-brief">
+    <ul class="layui-tab-title xonro-tab-bottom">
+        <li class="layui-this" onclick="javascript:document.getElementById('basicinfo').contentWindow.location.reload(true);">基本信息</li>
+        <li onclick="javascript:document.getElementById('datasource').contentWindow.location.reload(true);">数据源</li>
+        <li onclick="javascript:document.getElementById('graph').contentWindow.location.reload(true);">图形设置</li>
+        <li onclick="javascript:document.getElementById('query').contentWindow.location.reload(true);">查询设置</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <iframe id="basicinfo" class="xonro-layout-iframe" src="com.xonro.dataview_basicinfo.html">
+            </iframe>
+        </div>
+        <div class="layui-tab-item">
+            <iframe id="datasource" class="xonro-layout-iframe" src="com.xonro.dataview_datasource.html">
+            </iframe>
+        </div>
+        <div class="layui-tab-item">
+            <iframe id="graph" class="xonro-layout-iframe" src="com.xonro.dataview_graph.html">
+            </iframe>
+        </div>
+        <div class="layui-tab-item">
+            <iframe id="query" class="xonro-layout-iframe" src="com.xonro.dataview_query.html" >
+            </iframe>
+        </div>
+    </div>
+
+
+</div>
+<input id="id" style="display: none">
+<script>
+    var dataviewData = [];
+    $(function () {
+        $(window).on('resize', function () {
+            var $content = $('.layui-tab-content');
+            $content.height($(this).height()-60);
+            $content.find('.layui-tab-item .xonro-layout-iframe ').each(function () {
+                $(this).height($content.height());
+            })
+        }).resize()
+        $("#id").val(getUrlParameter("id")==undefined?"":getUrlParameter("id"));
+        dataviewData = getDataView($("#id").val());
+    });
+    function getDataView(id) {
+        var info = [];
+        $.ajax({
+            url: "../../dataview/get_dataview",
+            type: "get",
+            dataType: "json",
+            data:{
+                id:id
+            },
+            async: false,
+            success: function (data) {
+                if (data.ok){
+                    if (data.data != null){
+                        info = JSON.parse(data.data);
+                    } else {
+                    }
+
+                } else {
+                }
+            },
+            error : function (data) {
+            }
+        });
+        return info;
+    }
+</script>
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+        var element = layui.element;
+
+        //…
+    });
+</script>
+
+</body>
+</html>

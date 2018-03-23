@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--tab点击功能-->
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="https://cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/children.css">
+    <script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
+    <!--vue.js-->
+    <script src="../../lib/layui/layui.js"></script>
+    <script type="text/javascript" src="../../js/dataview/com.xonro.dataview_graph_container.js"></script>
+    <script type="text/javascript" src="../../js/dataview/com.xonro.dataview_util.js"></script>
+    <script type="text/javascript" src="../../js/dataview/com.xonro.dataview_graph.js"></script>
+    <style type="text/css">
+        .button_left{
+            float: left;
+        }
+        .xonro_icon{
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            position: relative;
+            margin-bottom: -4%
+        }
+        .xonro_icon_bar{
+            background: url(../../img/dataview/bar.ico) no-repeat;
+            background-size:16px;
+        }
+        .xonro_icon_pie{
+            background: url(../../img/dataview/pie.ico) no-repeat;
+            background-size:16px;
+        }
+        .xonro_icon_line{
+            background: url(../../img/dataview/line.ico) no-repeat;
+            background-size:16px;
+        }
+        .xonro_icon_scatter{
+            background: url(../../img/dataview/scatter.ico) no-repeat;
+            background-size:16px;
+        }
+        .xonro_icon_funnel{
+            background: url(../../img/dataview/funnel.ico) no-repeat;
+            background-size:16px;
+        }
+        .xonro_icon_gauge{
+            background: url(../../img/dataview/gauge.ico) no-repeat;
+            background-size:16px;
+        }
+        .xonro_icon_treemap{
+            background: url(../../img/dataview/treemap.ico) no-repeat;
+            background-size:16px;
+        }
+    </style>
+</head>
+<body class="childrenBody">
+<form id="graph" class="layui-form" action="">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12 layui-col-space1">
+            <div class="layui-form-item" style="text-align: right;margin: 0">
+                <span class="layui-btn-group button_left" style="float:left">
+                    <button lay-submit class="layui-btn" id="save" lay-filter="save">保存</button>
+                    <button lay-submit class="layui-btn layui-btn-normal" id="advanced_options" lay-filter="advanced_options">预览</button>
+                </span>
+                <span style="float: right">
+                    <div class="layui-tab layui-tab-brief" lay-filter="select_graph" style="margin: 0">
+                      <ul class="layui-tab-title">
+                        <li class="layui-this">
+                            <div class="xonro_icon xonro_icon_bar"></div>
+                            柱图
+                        </li>
+                        <li>
+                            <div class="xonro_icon xonro_icon_pie"></div>
+                            饼图
+                        </li>
+                        <li>
+                            <div class="xonro_icon xonro_icon_line"></div>
+                            折线图
+                        </li>
+                        <li>
+                            <div class="xonro_icon xonro_icon_scatter"></div>
+                            散点图
+                        </li>
+                        <li>
+                            <div class="xonro_icon xonro_icon_funnel"></div>
+                            漏斗图
+                        </li>
+                        <li>
+                            <div class="xonro_icon xonro_icon_gauge"></div>
+                            仪表盘
+                        </li>
+                        <li>
+                            <div class="xonro_icon xonro_icon_treemap"></div>
+                            矩阵树图
+                        </li>
+                      </ul>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>图形设置</legend>
+    </fieldset>
+    <input id="type" name="type" type="text" style="display: none">
+    <div class="layui-row layui-col-space10" id="container">
+        <div class="layui-collapse">
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">数据</h2>
+                <div class="layui-colla-content layui-show">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">值</label>
+                        <div class="layui-input-block">
+                            <select name="xAxis" lay-verify="required">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">Y轴</label>
+                        <div class="layui-input-block">
+                             <select name="yAxis" lay-verify="required">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">系列</label>
+                        <div class="layui-input-block">
+                            <select name="series" lay-verify="required">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">标题</h2>
+                <div class="layui-colla-content layui-show">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">名称</label>
+                        <div class="layui-input-block">
+                            <input id="text" name="text" autocomplete="off" class="layui-input" type="text">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">副标题名称</label>
+                        <div class="layui-input-block">
+                            <input id="subtext" name="subtext" autocomplete="off" class="layui-input" type="text">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">对齐</label>
+                        <div class="layui-input-block">
+                            <select name="left" id="left" lay-verify="required">
+                                <option value="left">居左</option>
+                                <option value="center">居中</option>
+                                <option value="right">居右</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">图形</h2>
+                <div class="layui-colla-content layui-show">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">背景色</label>
+                        <div class="layui-input-block">
+                            <input id="backgroundColor" name="backgroundColor" autocomplete="off" class="layui-input" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">图例</h2>
+                <div class="layui-colla-content layui-show">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">排列方式</label>
+                        <div class="layui-input-block">
+                            <select name="orient" id="orient">
+                                <option value="horizontal">水平</option>
+                                <option value="vertical">垂直</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">对齐</label>
+                        <div class="layui-input-block">
+                            <select name="legend_left" id="legend_left">
+                                <option value="left">居左</option>
+                                <option value="center">居中</option>
+                                <option value="right">居右</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文字颜色</label>
+                        <div class="layui-input-block">
+                            <input id="color" name="color" autocomplete="off" class="layui-input" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+</body>
+</html>
