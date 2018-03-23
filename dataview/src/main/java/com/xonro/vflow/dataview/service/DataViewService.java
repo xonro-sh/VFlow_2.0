@@ -2,7 +2,10 @@ package com.xonro.vflow.dataview.service;
 
 import com.xonro.vflow.bases.bean.BaseResponse;
 import com.xonro.vflow.bases.bean.TableResponse;
+import com.xonro.vflow.dataview.bean.DataView;
 import com.xonro.vflow.dataview.bean.DataViewTheme;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Alex
@@ -29,4 +32,47 @@ public interface DataViewService {
     DataViewTheme getDataViewThemeFromCache();
 
     DataViewTheme updateDataViewThemeCache();
+
+    /**
+     * 获取数据源sql的字段名
+     * @return
+     */
+    BaseResponse getTableColumns(String sql);
+
+    /**
+     * 根据ID获取dataView配置
+     * @param id id
+     * @return
+     */
+    BaseResponse getDataView(String id);
+
+    /**
+     * 保存报表
+     * @param dataView 报表
+     * @return
+     */
+    BaseResponse saveDataView(DataView dataView);
+
+    /**
+     * 获取报表用的数据
+     * @param id id
+     * @param xAxis 横坐标
+     * @param series 系列
+     * @return
+     */
+    BaseResponse getDataSet(String id, String xAxis, String series);
+
+    /**
+     * 获取表格类型的报表数据
+     * @param id id
+     * @return
+     */
+    TableResponse getDataViewByTable(String id);
+
+    /**
+     * 删除报表
+     * @param id
+     * @return
+     */
+    BaseResponse delDataView(DataView dataView);
 }

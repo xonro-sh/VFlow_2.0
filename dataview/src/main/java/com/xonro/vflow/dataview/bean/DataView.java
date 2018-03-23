@@ -21,6 +21,11 @@ public class DataView {
     private String id;
 
     /**
+     * 标题
+     */
+    private String title;
+
+    /**
      * 数据源（可以为其他数据库）
      */
     private String dataSource;
@@ -62,6 +67,15 @@ public class DataView {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Column(name = "title")
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Column(name = "data_source")

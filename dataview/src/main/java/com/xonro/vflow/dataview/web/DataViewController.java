@@ -1,7 +1,9 @@
 package com.xonro.vflow.dataview.web;
 
 import com.alibaba.fastjson.JSON;
+import com.sun.org.apache.regexp.internal.RE;
 import com.xonro.vflow.bases.bean.BaseResponse;
+import com.xonro.vflow.dataview.bean.DataView;
 import com.xonro.vflow.dataview.bean.DataViewTheme;
 import com.xonro.vflow.dataview.service.DataViewService;
 import org.apache.commons.lang3.StringUtils;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Alex
@@ -67,5 +71,35 @@ public class DataViewController {
             baseResponse.setMsg(e.getMessage());
         }
         return baseResponse;
+    }
+
+    @RequestMapping(value = "/get_table_columns")
+    BaseResponse getTableColumns(String sql){
+        return dataViewService.getTableColumns(sql);
+    }
+
+    @RequestMapping(value = "save_dataview")
+    BaseResponse saveDataView(String data){
+        return dataViewService.saveDataView(JSON.parseObject(data, DataView.class));
+    }
+
+    @RequestMapping(value = "get_dataview")
+    BaseResponse getDataView(String id){
+        return dataViewService.getDataView(id);
+    }
+
+    @RequestMapping(value = "get_dataset")
+    BaseResponse getDataSet(String id, String xAxis, String series){
+        return dataViewService.getDataSet(id, xAxis, series);
+    }
+
+    @RequestMapping(value = "get_table_dataview")
+    String getDataViewByTable(String id){
+        return JSON.toJSONString(dataViewService.getDataViewByTable(id));
+    }
+
+    @RequestMapping(value = "del_dataview")
+    BaseResponse delDataView(String data){
+        return dataViewService.delDataView(JSON.parseObject(data, DataView.class));
     }
 }

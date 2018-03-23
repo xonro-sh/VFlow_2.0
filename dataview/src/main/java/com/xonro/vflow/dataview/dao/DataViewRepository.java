@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface DataViewRepository extends JpaRepository<DataView, Long> {
+    DataView findById(String id);
 }
