@@ -153,9 +153,6 @@ layui.use(['table', 'form', 'layer', "jquery"], function(){
 
 function compareSQL() {
     newSql = $.trim($('#queryStat').val());
-    if (newSql.toLowerCase().indexOf("where") > -1) {
-        newSql = newSql.substring(0, newSql.toLowerCase().indexOf("where"));
-    }
     newSql = newSql.toLowerCase();
 }
 
