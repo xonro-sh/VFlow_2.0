@@ -1,10 +1,15 @@
 package com.xonro.vflow.dataview.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.sun.xml.internal.bind.v2.TODO;
 import com.xonro.vflow.bases.bean.BaseResponse;
 import com.xonro.vflow.bases.bean.TableResponse;
+import com.xonro.vflow.bases.helper.FileHelper;
 import com.xonro.vflow.dataview.bean.DataView;
 import com.xonro.vflow.dataview.bean.DataViewTheme;
+import com.xonro.vflow.dataview.bean.request.TreeMapRequest;
+import com.xonro.vflow.dataview.bean.request.TreeMapResponse;
 import com.xonro.vflow.dataview.dao.DataViewRepository;
 import com.xonro.vflow.dataview.dao.DataViewThemeRepository;
 import com.xonro.vflow.dataview.helper.DataViewHelper;
@@ -19,17 +24,14 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
-import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Alex
@@ -42,10 +44,12 @@ public class DataViewServiceImpl implements DataViewService {
     @PersistenceContext
     private EntityManager em;
     private final DataViewRepository dataViewRepository;
+    private final FileHelper fileHelper;
     @Autowired
-    public DataViewServiceImpl(DataViewThemeRepository dataViewThemeRepository, DataViewRepository dataViewRepository) {
+    public DataViewServiceImpl(DataViewThemeRepository dataViewThemeRepository, DataViewRepository dataViewRepository, FileHelper fileHelper) {
         this.dataViewThemeRepository = dataViewThemeRepository;
         this.dataViewRepository = dataViewRepository;
+        this.fileHelper = fileHelper;
     }
 
 
@@ -161,10 +165,15 @@ public class DataViewServiceImpl implements DataViewService {
             setMsg("");
         }};
         try {
+            //判断是否为新建
             if (dataView.getId() != null){
                 DataView dataView1 = dataViewRepository.findById(dataView.getId());
                 if (dataView.getReportAttr()!=null){
                     dataView1.setReportAttr(dataView.getReportAttr());
+
+                }
+                if (dataView.getExtText() != null ){
+                    dataView1.setExtText(dataView.getExtText());
                 }
                 if (dataView.getQueryStat() != null) {
                     dataView1.setQueryStat(dataView.getQueryStat());
@@ -173,7 +182,11 @@ public class DataViewServiceImpl implements DataViewService {
                 }
                 dataViewRepository.save(dataView1);
             } else {
-                dataViewRepository.save(dataView);
+                DataView dataView1 = dataViewRepository.save(dataView);
+                String id = dataView1.getId();
+                //TODO 还需优化路径问题  暂时为写死 18/03/30
+                //生成报表html 目录格式../{id}/echarts.html
+                fileHelper.createDataViewFile("D:"+ File.separator+"IdeaProjects"+File.separator+"VFlow_2.0_N"+File.separator+"client"+File.separator+"src"+File.separator+"main"+File.separator+"resources"+File.separator+"static"+File.separator+"templates"+File.separator+"demo"+File.separator+id);
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -240,6 +253,69 @@ public class DataViewServiceImpl implements DataViewService {
         try {
             dataViewRepository.delete(dataView);
         } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            baseResponse.setOk(false);
+            baseResponse.setMsg(e.getMessage());
+        }
+        return baseResponse;
+    }
+
+    @Override
+    public BaseResponse getTreeMapDataView(String id, String param) {
+        BaseResponse baseResponse = new BaseResponse(){{
+            setOk(true);
+            setData("");
+            setMsg("");
+        }};
+        List<TreeMapResponse> treeMapResponses;
+        try {
+            TreeMapRequest treeMapRequest = JSON.parseObject(param, TreeMapRequest.class);
+            String parentName = treeMapRequest.getParentName();
+            String name = treeMapRequest.getName();
+            String showName = treeMapRequest.getShowName();
+            String value = treeMapRequest.getValue();
+            String rootNodeCondition = treeMapRequest.getRootNodeCondition();
+            DataView dataView = dataViewRepository.findById(id);
+            String sql = dataView.getQueryStat();
+            //获取表名
+            String tableName = DataViewHelper.findTableNameFromSql(sql);
+            String parentSql = " select SUM("+value+") AS value,"+name+" AS name from " + tableName ;
+            if (!value.startsWith("select") && StringUtils.isNotEmpty(rootNodeCondition)){
+                parentSql =  parentSql+" where "+ rootNodeCondition;
+            }
+            parentSql = parentSql + " GROUP BY "+name;
+            Query query = em.createNativeQuery(parentSql);
+            query.unwrap(NativeQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+            if (query.getResultList().size() !=0 ){
+                List list = query.getResultList();
+                treeMapResponses = JSON.parseObject(JSON.toJSONString(list), new TypeReference<List<TreeMapResponse>>(){});
+                List<TreeMapResponse> treeMapResponses1;
+                for (TreeMapResponse treeMapResponse: treeMapResponses){
+                    TreeMapResponse treeMapResponse1 = new TreeMapResponse();
+                    String childSql = "with RECURSIVE cte as " +
+                            "( " +
+                            "select a."+name+",a."+value+",a."+parentName+",a."+showName+" from " + tableName + " a where "+name+"='"+treeMapResponse.getName()+"' " +
+                            "union all " +
+                            "select k."+name+",k."+value+",k."+parentName+",k."+showName+"  from " + tableName + " k inner join cte c on c."+name+" = k."+parentName+" " +
+                            ")select "+showName+" AS name,"+value+" AS value from cte where "+name+"<>'"+treeMapResponse.getName()+"' ";
+                    Query query1 = em.createNativeQuery(childSql);
+                    query1.unwrap(NativeQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+                    if (query1.getResultList().size() !=0 ){
+                        List list1 = query1.getResultList();
+                        treeMapResponses1 = new ArrayList<>();
+                        treeMapResponse1.setTreeMapResponses(JSON.parseObject(JSON.toJSONString(list1), new TypeReference<List<TreeMapResponse>>(){}));
+                        treeMapResponses1.add(treeMapResponse1);
+                        treeMapResponse.setTreeMapResponses(treeMapResponses1);
+                    }
+
+                }
+                System.err.println(JSON.toJSONString(treeMapResponses));
+                baseResponse.setData(JSON.toJSONString(treeMapResponses));
+            } else {
+                baseResponse.setOk(false);
+                baseResponse.setMsg("当前数据源无数据");
+            }
+        } catch (Exception e){
             logger.error(e.getMessage(), e);
             baseResponse.setOk(false);
             baseResponse.setMsg(e.getMessage());

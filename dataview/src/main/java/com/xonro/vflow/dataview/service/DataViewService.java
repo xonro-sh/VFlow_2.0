@@ -71,8 +71,17 @@ public interface DataViewService {
 
     /**
      * 删除报表
-     * @param id
+     * @param dataView
      * @return
      */
     BaseResponse delDataView(DataView dataView);
+
+    /**
+     * 获取矩形树图数据
+     * @param id id
+     * @param param json数据
+     * @return
+     */
+    BaseResponse getTreeMapDataView(String id, String param);
+
 }
