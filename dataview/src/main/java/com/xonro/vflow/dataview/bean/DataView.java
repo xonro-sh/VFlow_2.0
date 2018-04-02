@@ -60,6 +60,11 @@ public class DataView {
      */
     private String queryCondition;
 
+    /**
+     * 扩展字段
+     */
+    private String extText;
+
     @Column(name = "id")
     public String getId() {
         return id;
@@ -139,5 +144,14 @@ public class DataView {
 
     public void setQueryCondition(String queryCondition) {
         this.queryCondition = queryCondition;
+    }
+
+    @Column(name = "ext_text")
+    public String getExtText() {
+        return extText;
+    }
+
+    public void setExtText(String extText) {
+        this.extText = extText;
     }
 }

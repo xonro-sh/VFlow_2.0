@@ -23,6 +23,8 @@ public class DataViewDemo {
     private String id;
     private String name;
     private Integer score;
+    private String no;
+    private String pno;
 
     public String getId() {
         return id;
@@ -46,5 +48,21 @@ public class DataViewDemo {
 
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    public String getNo() {
+        return no;
+    }
+
+    public void setNo(String no) {
+        this.no = no;
+    }
+
+    public String getPno() {
+        return pno;
+    }
+
+    public void setPno(String pno) {
+        this.pno = pno;
     }
 }
