@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="../../css/children.css">
     <script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
-    <!--vue.js-->
     <script src="../../lib/layui/layui.js"></script>
     <script type="text/javascript" src="../../js/dataview/com.xonro.dataview_util.js"></script>
     <script type="text/javascript" src="../../js/dataview/com.xonro.dataview_center.js"></script>
@@ -33,6 +32,22 @@
 <script type="text/html" id="bar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/html" id="dataview">
+    {{#  if(d.type == 0){ }}
+    <div>数据视图</div>
+    {{#  } }}
+    {{#  if(d.type == 1){ }}
+    <div>报表视图</div>
+    {{#  } }}
+</script>
+<script type="text/html" id="report">
+    {{#  if(d.typeSub == 0){ }}
+    <div>图形报表</div>
+    {{#  } }}
+    {{#  if(d.typeSub == '' || d.typeSub == null ){ }}
+    <div>/</div>
+    {{#  } }}
 </script>
 </body>
 <form id="addtemp" class="layui-form childrenBody" style="display: none" >
