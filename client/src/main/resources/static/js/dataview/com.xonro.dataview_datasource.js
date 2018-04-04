@@ -140,11 +140,13 @@ layui.use(['table', 'form', 'layer', "jquery"], function(){
             },
             success: function (data) {
                 if (data.ok){
+                    layer.msg("保存成功", {icon: 1,time:3000});
                 }else {
-                    alert(data.msg);
+                    layer.msg("保存失败，错误信息："+data.msg, {icon: 2,time:3000});
                 }
             },
             error : function (data) {
+                layer.msg("保存失败，错误信息："+data.msg, {icon: 2,time:3000});
             }
         });
         return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
