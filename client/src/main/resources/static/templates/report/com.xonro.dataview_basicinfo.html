@@ -2,10 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-
+    <title>基本信息</title>
+    <!--tab点击功能-->
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="https://cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/children.css">
+    <script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../lib/layui/layui.js"></script>
+    <script type="text/javascript" src="../../js/dataview/com.xonro.dataview_util.js"></script>
+    <script type="text/javascript" src="../../js/dataview/com.xonro.dataview_basicinfo.js"></script>
 </head>
-<body>
-
+<body class="childrenBody">
+<form id="basicinfo" class="layui-form" action="">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12 layui-col-space1">
+            <span style="float: left">
+                <button id="save" lay-submit class="layui-btn" lay-filter="save">保存</button>
+            </span>
+        </div>
+    </div>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>基本信息</legend>
+    </fieldset>
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block">
+            <input id="title" name="title" autocomplete="off" class="layui-input" type="text">
+        </div>
+    </div>
+</form>
 </body>
 </html>
