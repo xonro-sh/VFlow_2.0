@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="../../css/children.css">
     <script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
-    <!--vue.js-->
     <script src="../../lib/layui/layui.js"></script>
     <script type="text/javascript" src="../../js/dataview/com.xonro.dataview_graph_container.js"></script>
     <script type="text/javascript" src="../../js/dataview/com.xonro.dataview_util.js"></script>
@@ -108,48 +107,34 @@
     <input id="type" name="type" type="text" style="display: none">
     <div class="layui-row layui-col-space10" id="container">
         <div class="layui-collapse">
-            <div class="layui-colla-item">
-                <h2 class="layui-colla-title">数据</h2>
-                <div class="layui-colla-content layui-show">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">父数据字段名</label>
-                        <div class="layui-input-block">
-                            <select name="parentName" lay-verify="required">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">子数据字段名</label>
-                        <div class="layui-input-block">
-                             <select name="name" lay-verify="required">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">根节点条件</label>
-                        <div class="layui-input-block">
-                            <input id="rootNodeCondition" name="rootNodeCondition" autocomplete="off" class="layui-input" type="text">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">显示名称</label>
-                        <div class="layui-input-block">
-                            <select name="showName" lay-verify="required">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                    </div>
+             <div class="layui-colla-item">
+                 <h2 class="layui-colla-title">数据</h2>
+                 <div class="layui-colla-content layui-show">
                     <div class="layui-form-item">
                         <label class="layui-form-label">值</label>
                         <div class="layui-input-block">
-                            <select name="value" lay-verify="required">
+                            <select name="xAxis" lay-verify="required">
                                 <option value=""></option>
                             </select>
                         </div>
                     </div>
-                </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">Y轴</label>
+                        <div class="layui-input-block">
+                            <select name="yAxis" lay-verify="required">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">系列</label>
+                        <div class="layui-input-block">
+                            <select name="series" lay-verify="required">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                 </div>
             </div>
             <div class="layui-colla-item">
                 <h2 class="layui-colla-title">标题</h2>
@@ -189,8 +174,38 @@
                     </div>
                 </div>
             </div>
-
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">图例</h2>
+                <div class="layui-colla-content layui-show">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">排列方式</label>
+                        <div class="layui-input-block">
+                            <select name="orient" id="orient">
+                                <option value="horizontal">水平</option>
+                                <option value="vertical">垂直</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">对齐</label>
+                        <div class="layui-input-block">
+                            <select name="legend_left" id="legend_left">
+                                <option value="left">居左</option>
+                                <option value="center">居中</option>
+                                <option value="right">居右</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文字颜色</label>
+                        <div class="layui-input-block">
+                            <input id="color" name="color" autocomplete="off" class="layui-input" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
 </form>
 </body>
