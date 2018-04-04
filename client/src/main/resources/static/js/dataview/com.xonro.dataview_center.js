@@ -12,8 +12,8 @@ layui.use(['table', 'form','layer'], function(){
             ,{field: 'title', title: '标题'}
             ,{field: 'dataSource', title: '数据源', sort: true}
             ,{field: 'queryStat', title: '查询语句'}
-            ,{field: 'type', title: '视图类型'}
-            ,{field: 'typeSub', title: '报表类型'}
+            ,{field: 'type', title: '视图类型', templet:'#dataview'}
+            ,{field: 'typeSub', title: '报表类型', templet:'#report'}
             ,{fixed: 'right', title: '操作',width:120, align:'center', toolbar: '#bar'}
         ]]
         ,loading:true //是否显示加载条 默认true 该参数只适用于 url 参数开启的方式
