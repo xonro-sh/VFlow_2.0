@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据视图模板</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="../../css/children.css">
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
+    <script src="../../lib/layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-col-md12 layui-col-space1">
+    <!--<div class="layui-btn-group">-->
+        <!--<button class="layui-btn layui-btn-normal" id="add">新增</button>-->
+    <!--</div>-->
+    <table class="layui-hide" id="datagrid" lay-filter="datagrid" lay-data="{id:'datagrid'}"></table>
+</div>
+<script>
+    layui.use(['table'],function () {
+        var table = layui.table;
+        var tables = table.render({
+            elem: '#datagrid'
+            ,url: ''
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,height: 'full-160'
+            ,cols: [[
+                {field:'id', title: 'id', templet: '<div>{{ d.LAY_INDEX }}</div>'}
+                ,{field:'columnName', title: '列名称'}
+                ,{field:'title', title: '列标题'}
+                ,{field:'group', title: '分组'}
+                ,{field:'statistical_type', title: '统计类型'}
+            ]]
+            ,loading:true //是否显示加载条 默认true 该参数只适用于 url 参数开启的方式
+            ,text: { //自定义文本，如空数据时的异常提示等
+                none: '暂无相关数据'
+            }
+            ,skin: 'nob' //行边框风格
+            ,even: false //开启（true）关闭（false）隔行背景
+            ,size: 'lg' //大尺寸的表格
+            ,limit: 20
+        });
+    });
+</script>
+</body>
+</html>
