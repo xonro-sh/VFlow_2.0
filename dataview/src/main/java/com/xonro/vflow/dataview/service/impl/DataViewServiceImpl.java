@@ -180,6 +180,9 @@ public class DataViewServiceImpl implements DataViewService {
                     dataView1.setColumnProp(dataView.getColumnProp());
                     dataView1.setDataSource(dataView.getDataSource());
                 }
+                if (dataView.getTitle() != null){
+                    dataView1.setTitle(dataView.getTitle());
+                }
                 dataViewRepository.save(dataView1);
             } else {
                 DataView dataView1 = dataViewRepository.save(dataView);
