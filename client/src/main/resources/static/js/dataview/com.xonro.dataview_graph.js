@@ -245,22 +245,22 @@ function getDataSet(layer,id, xAxis, series) {
                             if (data.ok){
 
                             }else {
-                                layer.msg(data.msg, {icon: 1,time:3000});
+                                layer.msg(data.msg, {icon: 2,time:3000});
                             }
                         },
                         error : function (data) {
                         }
                     });
                 } else {
-                    layer.msg(data.msg, {icon: 1,time:3000});
+                    layer.msg(data.msg, {icon: 2,time:3000});
                 }
 
             } else {
-                layer.msg(data.msg, {icon: 1,time:3000});
+                layer.msg(data.msg, {icon: 2,time:3000});
             }
         },
         error : function (data) {
-            layer.msg(data.msg, {icon: 1,time:3000});
+            layer.msg(data.msg, {icon: 2,time:3000});
         }
     });
 }
@@ -298,22 +298,22 @@ function getTreeMapDataView(layer, id, param) {
                             if (data.ok){
 
                             }else {
-                                layer.msg(data.msg, {icon: 1,time:3000});
+                                layer.msg(data.msg, {icon: 2,time:3000});
                             }
                         },
                         error : function (data) {
                         }
                     });
                 } else {
-                    layer.msg(data.msg, {icon: 1,time:3000});
+                    layer.msg(data.msg, {icon: 2,time:3000});
                 }
 
             } else {
-                layer.msg(data.msg, {icon: 1,time:3000});
+                layer.msg(data.msg, {icon: 2,time:3000});
             }
         },
         error : function (data) {
-            layer.msg(data.msg, {icon: 1,time:3000});
+            layer.msg(data.msg, {icon: 2,time:3000});
         }
     });
 }

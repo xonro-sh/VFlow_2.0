@@ -81,7 +81,7 @@ layui.use(['table', 'form','layer'], function(){
             parent.layui.element.tabDelete("fsTab", obj.data.id);
             parent.layui.element.tabAdd("fsTab", {
                 title: "报表"+obj.data.title
-                ,content: '<iframe src="../report/com.xonro.dataview_configuration.html?id='+obj.data.id+'"></iframe>'//支持传入html
+                ,content: '<iframe src="../dataview/com.xonro.dataview_configuration.html?id='+obj.data.id+'"></iframe>'//支持传入html
                 ,id: obj.data.id
             });
             console.log(parent.$("#fsTabMenu"));
