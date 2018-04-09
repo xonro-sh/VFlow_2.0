@@ -3,14 +3,12 @@ package com.xonro.vflow.bases.helper;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.xonro.vflow.bases.exception.VFlowException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
-import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.StringBody;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
@@ -23,8 +21,8 @@ import java.util.Map;
  * @Description: 请求执行器
  * @date 2018-3-1 19:02
  */
+@Slf4j
 public class RequestExecutor {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Charset CHARSET = Charset.forName("UTF-8");
 
     /**
@@ -70,10 +68,10 @@ public class RequestExecutor {
                 return this;
             }
         } catch (IOException e) {
-            logger.error(e.getMessage(),e);
+            log.error(e.getMessage(),e);
             throw e;
         }catch (VFlowException e){
-            logger.error(e.getMessage(),e);
+            log.error(e.getMessage(),e);
             throw e;
         }
         return null;
@@ -113,10 +111,10 @@ public class RequestExecutor {
                 return this;
             }
         } catch (IOException e) {
-            logger.error(e.getMessage(),e);
+            log.error(e.getMessage(),e);
             throw e;
         } catch (VFlowException e) {
-            logger.error(e.getMessage(),e);
+            log.error(e.getMessage(),e);
             throw e;
         }
         return null;
@@ -151,10 +149,10 @@ public class RequestExecutor {
                 return this;
             }
         } catch (IOException e) {
-            logger.error(e.getMessage(),e);
+            log.error(e.getMessage(),e);
             throw e;
         } catch (VFlowException e) {
-            logger.error(e.getMessage(),e);
+            log.error(e.getMessage(),e);
             throw e;
         }
         return null;
@@ -188,10 +186,10 @@ public class RequestExecutor {
             }
 
         } catch (IOException e) {
-            logger.error(e.getMessage(),e);
+            log.error(e.getMessage(),e);
             throw e;
         }catch (VFlowException e){
-            logger.error(e.getMessage(),e);
+            log.error(e.getMessage(),e);
             throw e;
         }
         return this;
@@ -228,7 +226,7 @@ public class RequestExecutor {
         if (StringUtils.isEmpty(errorCode) || "0".equals(errorCode.trim())){
             return true;
         }
-        logger.error("访问微信失败，url："+requestUrl+",错误信息："+result);
+        log.error("访问微信失败，url：{},错误信息：{}",requestUrl,result);
         throw new VFlowException(errorCode,resultJson.getString("errmsg"));
     }
 
