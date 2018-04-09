@@ -41,6 +41,11 @@ public class DataView {
     private String columnProp;
 
     /**
+     * 数据表格参数
+     */
+    private String datagridAttr;
+
+    /**
      * 类型 大类
      */
     private String type;
@@ -108,6 +113,15 @@ public class DataView {
 
     public void setColumnProp(String columnProp) {
         this.columnProp = columnProp;
+    }
+
+    @Column(name = "datagrid_attr")
+    public String getDatagridAttr() {
+        return datagridAttr;
+    }
+
+    public void setDatagridAttr(String datagridAttr) {
+        this.datagridAttr = datagridAttr;
     }
 
     @Column(name = "type")

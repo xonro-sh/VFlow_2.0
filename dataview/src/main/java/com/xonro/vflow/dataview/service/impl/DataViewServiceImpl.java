@@ -1,7 +1,10 @@
 package com.xonro.vflow.dataview.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.serializer.*;
 import com.sun.xml.internal.bind.v2.TODO;
 import com.xonro.vflow.bases.bean.BaseResponse;
 import com.xonro.vflow.bases.bean.TableResponse;
@@ -22,13 +25,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.io.File;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +53,7 @@ public class DataViewServiceImpl implements DataViewService {
     private EntityManager em;
     private final DataViewRepository dataViewRepository;
     private final FileHelper fileHelper;
+    private JpaRepository jpaRepository;
     @Autowired
     public DataViewServiceImpl(DataViewThemeRepository dataViewThemeRepository, DataViewRepository dataViewRepository, FileHelper fileHelper) {
         this.dataViewThemeRepository = dataViewThemeRepository;
@@ -172,6 +181,9 @@ public class DataViewServiceImpl implements DataViewService {
                     dataView1.setReportAttr(dataView.getReportAttr());
 
                 }
+                if (dataView.getDatagridAttr()!=null){
+                    dataView1.setDatagridAttr(dataView.getDatagridAttr());
+                }
                 if (dataView.getExtText() != null ){
                     dataView1.setExtText(dataView.getExtText());
                 }
@@ -189,7 +201,7 @@ public class DataViewServiceImpl implements DataViewService {
                 String id = dataView1.getId();
                 //TODO 还需优化路径问题  暂时为写死 18/03/30
                 //生成报表html 目录格式../{id}/echarts.html
-                fileHelper.createDataViewFile("D:"+ File.separator+"IdeaProjects"+File.separator+"VFlow_2.0_N"+File.separator+"client"+File.separator+"src"+File.separator+"main"+File.separator+"resources"+File.separator+"static"+File.separator+"templates"+File.separator+"demo"+File.separator+id);
+                fileHelper.createDataViewFile("D:"+ File.separator+"IdeaProjects"+File.separator+"VFlow_2.0_N"+File.separator+"client"+File.separator+"src"+File.separator+"main"+File.separator+"resources"+File.separator+"static"+File.separator+"templates"+File.separator+"demo"+File.separator+id,dataView1.getType());
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -325,4 +337,72 @@ public class DataViewServiceImpl implements DataViewService {
         }
         return baseResponse;
     }
+
+    @Override
+    public BaseResponse getDataGridConf(String id) {
+        BaseResponse baseResponse = new BaseResponse(){{
+            setOk(true);
+            setData("");
+            setMsg("");
+        }};
+        try {
+            DataView dataView = dataViewRepository.findById(id);
+            initDataGrid(dataView);
+            baseResponse.setData(dataView);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            baseResponse.setOk(false);
+            baseResponse.setMsg(e.getMessage());
+        }
+        return baseResponse;
+    }
+
+    @Override
+    public TableResponse getDataGridDataSet(String id,Integer page, Integer rows) {
+        TableResponse tableResponse = new TableResponse(){{
+            setCode(0);
+            setData("");
+            setMsg("");
+        }};
+        DataView dataView = dataViewRepository.findById(id);
+        String sql = dataView.getQueryStat();
+        String countSql = sql.replaceAll("(?<=select).*?(?=from)"," count(*) ");
+        sql = sql + " limit " + rows + " offset " + (page-1) ;
+        Query query = em.createNativeQuery(sql);
+        Query query1 = em.createNativeQuery(countSql);
+        query.unwrap(NativeQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        if (query.getResultList().size() !=0 ){
+            List list = query.getResultList();
+            tableResponse.setData(list);
+            tableResponse.setCount(((BigInteger) query1.getResultList().get(0)).longValue());
+        } else {
+            tableResponse.setCode(1);
+            tableResponse.setMsg("当前数据源无数据");
+        }
+        return tableResponse;
+    }
+
+    private void initDataGrid(DataView dataView) {
+        ValueFilter valueFilter = (object, name, value) -> {
+            if ("unresize".equals(name)){
+                return "1".equals(value);
+            }
+            if ("sort".equals(name)){
+                return "1".equals(value);
+            }
+            return value;
+        };
+        PropertyFilter propertyFilter = (object, name, value) -> {
+            if ("LAY_TABLE_INDEX".equals(name)){
+                return false;
+            }
+            if ("index".equals(name)){
+                return false;
+            }
+            return true;
+        };
+        JSONArray jsonArray = JSON.parseArray(dataView.getColumnProp());
+        dataView.setColumnProp(JSON.toJSONString(jsonArray, new SerializeFilter[]{propertyFilter,valueFilter}));
+    }
+
 }

@@ -84,4 +84,18 @@ public interface DataViewService {
      */
     BaseResponse getTreeMapDataView(String id, String param);
 
+    /**
+     * 获取数据表格配置
+     * @param id
+     * @return
+     */
+    BaseResponse getDataGridConf(String id);
+
+    /**
+     * 获取数据表格数据
+     * @param id
+     * @return
+     */
+    TableResponse getDataGridDataSet(String id,Integer page, Integer rows);
+
 }
