@@ -1,25 +1,31 @@
 package com.xonro.vflow.console.config;
 
+import com.alibaba.druid.filter.Filter;
+import com.alibaba.druid.filter.logging.Slf4jLogFilter;
 import com.alibaba.druid.pool.DruidDataSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.alibaba.druid.support.http.StatViewServlet;
+import com.alibaba.druid.support.http.WebStatFilter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 阿里巴巴Druid数据库监控配置
  * @author louie
  * @date created in 2018-3-23 11:19
  */
+@Slf4j
 @Configuration
 public class DruidDataSourceConfig {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Value("${spring.datasource.url}")
     private String dbUrl;
     @Value("${spring.datasource.username}")
@@ -58,6 +64,8 @@ public class DruidDataSourceConfig {
     private String connectionProperties;
     @Value("${spring.datasource.useGlobalDataSourceStat}")
     private boolean useGlobalDataSourceStat;
+    @Value("${xonro.vflow.log.sql}")
+    private boolean sqlLog;
 
     /**
      * 在同样的DataSource中，首先使用被标注的DataSource
@@ -71,7 +79,6 @@ public class DruidDataSourceConfig {
         dataSource.setPassword(password);
         dataSource.setDriverClassName(driverClassName);
 
-        //configuration
         dataSource.setInitialSize(initialSize);
         dataSource.setMinIdle(minIdle);
         dataSource.setMaxActive(maxActive);
@@ -86,14 +93,59 @@ public class DruidDataSourceConfig {
         dataSource.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
         dataSource.setUseGlobalDataSourceStat(useGlobalDataSourceStat);
 
+        if (sqlLog){
+            List<Filter> logFilters = new ArrayList<Filter>(){{
+                add(logFilter());
+            }};
+            dataSource.setProxyFilters(logFilters);
+        }
+
         try {
             dataSource.setFilters(filters);
         } catch (SQLException e) {
-            logger.error(e.getMessage(),e);
+            log.error(e.getMessage(),e);
         }
         dataSource.setConnectionProperties(connectionProperties);
 
         return dataSource;
+    }
+
+    @Bean
+    public ServletRegistrationBean druidStatViewServlet(){
+        ServletRegistrationBean<StatViewServlet> registrationBean = new ServletRegistrationBean<StatViewServlet>(
+                new StatViewServlet(),"/druid/*"
+        ){{
+            //登录查看信息的账号密码
+//            addInitParameter("loginUsername","druid");
+//            addInitParameter("loginPassword","druid");
+
+            //是否能够重置数据
+            addInitParameter("resetEnable","false");
+        }};
+        return registrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean<WebStatFilter> druidStatFilter(){
+        FilterRegistrationBean<WebStatFilter> registrationBean = new FilterRegistrationBean<WebStatFilter>(new WebStatFilter()){{
+            addUrlPatterns("/*");
+            addInitParameter("exclusions","*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*");
+        }};
+        return registrationBean;
+    }
+
+
+    @Bean
+    public Slf4jLogFilter logFilter(){
+        Slf4jLogFilter filter = new Slf4jLogFilter();
+        filter.setResultSetLogEnabled(false);
+        filter.setConnectionLogEnabled(false);
+        filter.setStatementParameterClearLogEnable(false);
+        filter.setStatementCreateAfterLogEnabled(false);
+        filter.setStatementCloseAfterLogEnabled(false);
+        filter.setStatementParameterSetLogEnabled(false);
+        filter.setStatementPrepareAfterLogEnabled(false);
+        return  filter;
     }
 
 }
