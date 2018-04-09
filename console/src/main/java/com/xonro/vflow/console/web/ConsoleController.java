@@ -1,4 +1,4 @@
-package com.xonro.vflow.console.web.controller;
+package com.xonro.vflow.console.web;
 
 import com.alibaba.fastjson.JSON;
 import com.xonro.vflow.bases.bean.BaseResponse;
