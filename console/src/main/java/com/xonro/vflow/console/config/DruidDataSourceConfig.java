@@ -112,7 +112,7 @@ public class DruidDataSourceConfig {
 
     @Bean
     public ServletRegistrationBean druidStatViewServlet(){
-        ServletRegistrationBean<StatViewServlet> registrationBean = new ServletRegistrationBean<StatViewServlet>(
+        ServletRegistrationBean registrationBean = new ServletRegistrationBean(
                 new StatViewServlet(),"/druid/*"
         ){{
             //登录查看信息的账号密码
@@ -126,8 +126,8 @@ public class DruidDataSourceConfig {
     }
 
     @Bean
-    public FilterRegistrationBean<WebStatFilter> druidStatFilter(){
-        FilterRegistrationBean<WebStatFilter> registrationBean = new FilterRegistrationBean<WebStatFilter>(new WebStatFilter()){{
+    public FilterRegistrationBean druidStatFilter(){
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean(new WebStatFilter()){{
             addUrlPatterns("/*");
             addInitParameter("exclusions","*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*");
         }};

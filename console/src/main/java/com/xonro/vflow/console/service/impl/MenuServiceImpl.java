@@ -37,8 +37,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public TableResponse getMenuByPage(Integer page, Integer rows) {
-        Pageable pages = PageRequest.of(page-1, rows);
-        Page<Menu> list = menuRepository.findAll(pages);
+        Page<Menu> list = menuRepository.findAll(new PageRequest(page-1,rows));
         return new TableResponse(0, "", list.getTotalElements(),list.getContent());
     }
 
