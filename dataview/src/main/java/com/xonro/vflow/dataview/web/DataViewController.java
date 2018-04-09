@@ -2,6 +2,7 @@ package com.xonro.vflow.dataview.web;
 
 import com.alibaba.fastjson.JSON;
 import com.xonro.vflow.bases.bean.BaseResponse;
+import com.xonro.vflow.bases.bean.TableResponse;
 import com.xonro.vflow.dataview.bean.DataView;
 import com.xonro.vflow.dataview.bean.DataViewTheme;
 import com.xonro.vflow.dataview.service.DataViewService;
@@ -102,5 +103,14 @@ public class DataViewController {
     @RequestMapping(value = "get_treemap_dataview")
     BaseResponse getTreeMapDataView(String id, String param){
         return dataViewService.getTreeMapDataView(id, param);
+    }
+
+    @RequestMapping(value = "get_datagrid_conf")
+    BaseResponse getDataGridConf(String id){
+        return dataViewService.getDataGridConf(id);
+    }
+    @RequestMapping(value = "get_datagrid_dataset")
+    String getDataGridDataSet(String id, Integer page, Integer limit){
+        return JSON.toJSONString(dataViewService.getDataGridDataSet(id, page, limit));
     }
 }

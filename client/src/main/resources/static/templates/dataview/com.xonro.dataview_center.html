@@ -32,20 +32,20 @@
 <script type="text/html" id="bar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="deploy">部署</a>
 </script>
 <script type="text/html" id="dataview">
-    {{#  if(d.type == 0){ }}
+    {{#  if(d.type == '0'){ }}
     <div>数据视图</div>
     {{#  } }}
-    {{#  if(d.type == 1){ }}
+    {{#  if(d.type == '1'){ }}
     <div>报表视图</div>
     {{#  } }}
 </script>
 <script type="text/html" id="report">
-    {{#  if(d.typeSub == 0){ }}
+    {{#  if(d.typeSub == '0'){ }}
     <div>图形报表</div>
-    {{#  } }}
-    {{#  if(d.typeSub == '' || d.typeSub == null ){ }}
+    {{#  } else {  }}
     <div>/</div>
     {{#  } }}
 </script>

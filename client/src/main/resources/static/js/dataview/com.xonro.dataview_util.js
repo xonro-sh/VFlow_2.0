@@ -53,7 +53,7 @@ function getTableColumns(layer, sql) {
 function getDataView(id) {
     var info = [];
     $.ajax({
-        url: "../../dataview/get_dataview",
+        url: "../../../dataview/get_dataview",
         type: "get",
         dataType: "json",
         data:{
@@ -75,6 +75,35 @@ function getDataView(id) {
     });
     return info;
 }
+
+
+function getDataGridConf(id) {
+    var info = [];
+    $.ajax({
+        url: "../../../dataview/get_datagrid_conf",
+        type: "get",
+        dataType: "json",
+        data:{
+            id:id
+        },
+        async: false,
+        success: function (data) {
+            if (data.ok){
+                if (data.data != null){
+                    info = data.data;
+                    console.log(info);
+                } else {
+                }
+
+            } else {
+            }
+        },
+        error : function (data) {
+        }
+    });
+    return info;
+}
+
 
 function delDataView(layer, id) {
     var jsonData = {

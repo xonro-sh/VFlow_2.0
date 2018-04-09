@@ -54,14 +54,6 @@ layui.use(['table', 'form', 'layer', "jquery"], function(){
         })
     });
 
-    $("#save").on("click", function () {
-        var data = new FormData();
-        data.append("id",parent.$("#id").val());
-        data.append("dataSource",parent.$("#id").val());
-        data.append("queryStat",newSql);
-        data.append("columnProp",JSON.stringify(table.cache.grpstats));
-    });
-
     //监听工具条
     table.on('tool(grpstats)', function(obj){
 

@@ -14,7 +14,7 @@ layui.use(['table', 'form','layer'], function(){
             ,{field: 'queryStat', title: '查询语句'}
             ,{field: 'type', title: '视图类型', templet:'#dataview'}
             ,{field: 'typeSub', title: '报表类型', templet:'#report'}
-            ,{fixed: 'right', title: '操作',width:120, align:'center', toolbar: '#bar'}
+            ,{fixed: 'right', title: '操作',width:180, align:'center', toolbar: '#bar'}
         ]]
         ,loading:true //是否显示加载条 默认true 该参数只适用于 url 参数开启的方式
         ,text: { //自定义文本，如空数据时的异常提示等
@@ -81,7 +81,7 @@ layui.use(['table', 'form','layer'], function(){
             parent.layui.element.tabDelete("fsTab", obj.data.id);
             parent.layui.element.tabAdd("fsTab", {
                 title: "报表"+obj.data.title
-                ,content: '<iframe src="../dataview/com.xonro.dataview_configuration.html?id='+obj.data.id+'"></iframe>'//支持传入html
+                ,content: '<iframe src="../dataview/com.xonro.dataview_configuration.html?id='+obj.data.id+'&type='+obj.data.type+'"></iframe>'//支持传入html
                 ,id: obj.data.id
             });
             console.log(parent.$("#fsTabMenu"));
