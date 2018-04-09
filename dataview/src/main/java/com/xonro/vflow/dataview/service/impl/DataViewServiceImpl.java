@@ -367,6 +367,7 @@ public class DataViewServiceImpl implements DataViewService {
         DataView dataView = dataViewRepository.findById(id);
         String sql = dataView.getQueryStat();
         String countSql = sql.replaceAll("(?<=select).*?(?=from)"," count(*) ");
+        //TODO 还需优化查询条件  暂时没做 18/04/09
         sql = sql + " limit " + rows + " offset " + (page-1) ;
         Query query = em.createNativeQuery(sql);
         Query query1 = em.createNativeQuery(countSql);
