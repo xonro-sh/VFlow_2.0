@@ -7,8 +7,10 @@ import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,16 +43,42 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role updateRole(String roleId, String roleName) {
-        return null;
+        Role role = roleRepository.findById(roleId);
+        Assert.notNull(role,"can not find role where id = "+roleId);
+
+        String groupId = role.getGroupId();
+        Group group = identityService.createGroupQuery().groupId(groupId).singleResult();
+        group.setName(roleName);
+        role.setName(roleName);
+
+        identityService.saveGroup(group);
+        roleRepository.save(role);
+        return role;
     }
 
     @Override
     public Role deleteRole(String roleId) {
-        return null;
+        Role role = roleRepository.findById(roleId);
+        if (role != null){
+            String groupId = role.getGroupId();
+            identityService.deleteGroup(groupId);
+            roleRepository.delete(role);
+        }
+        return role;
     }
 
     @Override
     public List<Role> getAll(String tenantId) {
-        return null;
+        return roleRepository.findAll();
+    }
+
+    @Override
+    public List<Role> getUserRole(String userId) {
+        List<Role> roleList = new ArrayList<>();
+        List<Group> userGroupList = identityService.createGroupQuery().groupType("role").groupMember(userId).list();
+        for (Group group : userGroupList) {
+            roleList.add(roleRepository.findByGroupId(group.getId()));
+        }
+        return roleList;
     }
 }

@@ -3,8 +3,6 @@ package com.xonro.vflow.workflow.service.impl;
 import com.xonro.vflow.workflow.bean.Tenant;
 import com.xonro.vflow.workflow.dao.TenantRepository;
 import com.xonro.vflow.workflow.service.TenantService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -16,7 +14,6 @@ import javax.annotation.Resource;
  */
 @Service
 public class TenantServiceImpl implements TenantService {
-    Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     private TenantRepository tenantRepository;
 

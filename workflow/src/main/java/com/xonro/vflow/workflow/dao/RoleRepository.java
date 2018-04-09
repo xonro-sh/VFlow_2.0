@@ -11,4 +11,18 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RoleRepository extends JpaRepository<Role,Long>{
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    Role findById(String id);
+
+    /**
+     * 根据分组id获取角色
+     * @param groupId
+     * @return
+     */
+    Role findByGroupId(String groupId);
+
 }
