@@ -29,15 +29,15 @@ public class WechatController {
     private final JsApiService jsApiService;
     private final MessageService messageService;
     private final WechatService wechatService;
-    private final UserService userService;
+    private final WechatUserService wechatUserService;
 
     @Autowired
-    public WechatController(TokenService tokenService, JsApiService jsApiService, MessageService messageService, WechatService wechatService, UserService userService) {
+    public WechatController(TokenService tokenService, JsApiService jsApiService, MessageService messageService, WechatService wechatService, WechatUserService wechatUserService) {
         this.tokenService = tokenService;
         this.jsApiService = jsApiService;
         this.messageService = messageService;
         this.wechatService = wechatService;
-        this.userService = userService;
+        this.wechatUserService = wechatUserService;
     }
 
     /**
@@ -114,7 +114,7 @@ public class WechatController {
 
     @RequestMapping(value = "/get_user_info_list")
     public String getUserInfoList(Integer page, Integer limit){
-        return JSON.toJSONString(userService.getUserInfoList("", page, limit));
+        return JSON.toJSONString(wechatUserService.getUserInfoList("", page, limit));
     }
 
     /**
@@ -128,7 +128,7 @@ public class WechatController {
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setOk(true);
         try {
-            userService.updateRemark(openId, remark);
+            wechatUserService.updateRemark(openId, remark);
             return baseResponse;
         } catch (VFlowException | IOException e) {
             baseResponse.setOk(false);

@@ -8,7 +8,7 @@ import com.xonro.vflow.wechat.bean.user.UserInfo;
 import com.xonro.vflow.wechat.bean.user.UserListResult;
 import com.xonro.vflow.wechat.dao.UserRepository;
 import com.xonro.vflow.wechat.helper.UrlBuilder;
-import com.xonro.vflow.wechat.service.UserService;
+import com.xonro.vflow.wechat.service.WechatUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ import java.util.*;
  * 用户管理
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class WechatUserServiceImpl implements WechatUserService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final UrlBuilder urlBuilder;
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Autowired
-    public UserServiceImpl(UrlBuilder urlBuilder, UserRepository userRepository) {
+    public WechatUserServiceImpl(UrlBuilder urlBuilder, UserRepository userRepository) {
         this.urlBuilder = urlBuilder;
         this.userRepository = userRepository;
     }

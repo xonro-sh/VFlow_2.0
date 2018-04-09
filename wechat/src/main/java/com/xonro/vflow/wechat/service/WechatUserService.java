@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author louie
  * @date 2018-01-11
  */
-public interface UserService {
+public interface WechatUserService {
 
     /**
      * 获取用户基本信息
