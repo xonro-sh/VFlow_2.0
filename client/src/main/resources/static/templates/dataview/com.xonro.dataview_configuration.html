@@ -62,30 +62,25 @@
 <body>
 
 <div class="layui-tab layui-tab-brief">
-    <ul class="layui-tab-title xonro-tab-bottom">
-        <li class="layui-this" onclick="javascript:document.getElementById('basicinfo').contentWindow.location.reload(true);">基本信息</li>
-        <li onclick="javascript:document.getElementById('datasource').contentWindow.location.reload(true);">数据源</li>
-        <li onclick="javascript:document.getElementById('graph').contentWindow.location.reload(true);">图形设置</li>
-        <li onclick="javascript:document.getElementById('query').contentWindow.location.reload(true);">查询设置</li>
-    </ul>
-    <div class="layui-tab-content">
-        <div class="layui-tab-item layui-show">
-            <iframe id="basicinfo" class="xonro-layout-iframe" src="com.xonro.dataview_report_basicinfo.html">
-            </iframe>
-        </div>
-        <div class="layui-tab-item">
-            <iframe id="datasource" class="xonro-layout-iframe" src="com.xonro.dataview_report_datasource.html">
-            </iframe>
-        </div>
-        <div class="layui-tab-item">
-            <iframe id="graph" class="xonro-layout-iframe" src="com.xonro.dataview_report_graph.html">
-            </iframe>
-        </div>
-        <div class="layui-tab-item">
-            <iframe id="query" class="xonro-layout-iframe" src="com.xonro.dataview_report_query.html" >
-            </iframe>
-        </div>
-    </div>
+    <!--<ul class="layui-tab-title xonro-tab-bottom">-->
+        <!--<li class="layui-this" onclick="javascript:document.getElementById('basicinfo').contentWindow.location.reload(true);">基本信息</li>-->
+        <!--<li onclick="javascript:document.getElementById('datasource').contentWindow.location.reload(true);">数据源</li>-->
+        <!--<li onclick="javascript:document.getElementById('query').contentWindow.location.reload(true);">查询设置</li>-->
+    <!--</ul>-->
+    <!--<div class="layui-tab-content">-->
+        <!--<div class="layui-tab-item layui-show">-->
+            <!--<iframe id="basicinfo" class="xonro-layout-iframe" src="com.xonro.dataview_datagrid_basicinfo.html">-->
+            <!--</iframe>-->
+        <!--</div>-->
+        <!--<div class="layui-tab-item">-->
+            <!--<iframe id="datasource" class="xonro-layout-iframe" src="com.xonro.dataview_datagrid_datasource.html">-->
+            <!--</iframe>-->
+        <!--</div>-->
+        <!--<div class="layui-tab-item">-->
+            <!--<iframe id="query" class="xonro-layout-iframe" src="com.xonro.dataview_datagrid_query.html" >-->
+            <!--</iframe>-->
+        <!--</div>-->
+    <!--</div>-->
 
 
 </div>
@@ -99,9 +94,58 @@
             $content.find('.layui-tab-item .xonro-layout-iframe ').each(function () {
                 $(this).height($content.height());
             })
-        }).resize()
+        }).resize();
         $("#id").val(getUrlParameter("id")==undefined?"":getUrlParameter("id"));
         dataviewData = getDataView($("#id").val());
+        var html;
+        if (getUrlParameter("type") === "0"){
+            html = "<ul class=\"layui-tab-title xonro-tab-bottom\">\n" +
+                "        <li class=\"layui-this\" onclick=\"javascript:document.getElementById('basicinfo').contentWindow.location.reload(true);\">基本信息</li>\n" +
+                "        <li onclick=\"javascript:document.getElementById('datasource').contentWindow.location.reload(true);\">数据源</li>\n" +
+                "        <li onclick=\"javascript:document.getElementById('query').contentWindow.location.reload(true);\">查询设置</li>\n" +
+                "    </ul>\n" +
+                "    <div class=\"layui-tab-content\">\n" +
+                "        <div class=\"layui-tab-item layui-show\">\n" +
+                "            <iframe id=\"basicinfo\" class=\"xonro-layout-iframe\" src=\"com.xonro.dataview_datagrid_basicinfo.html\">\n" +
+                "            </iframe>\n" +
+                "        </div>\n" +
+                "        <div class=\"layui-tab-item\">\n" +
+                "            <iframe id=\"datasource\" class=\"xonro-layout-iframe\" src=\"com.xonro.dataview_datagrid_datasource.html\">\n" +
+                "            </iframe>\n" +
+                "        </div>\n" +
+                "        <div class=\"layui-tab-item\">\n" +
+                "            <iframe id=\"query\" class=\"xonro-layout-iframe\" src=\"com.xonro.dataview_datagrid_query.html\" >\n" +
+                "            </iframe>\n" +
+                "        </div>\n" +
+                "    </div>";
+            $(".layui-tab").html(html);
+        } else {
+            html = "<ul class=\"layui-tab-title xonro-tab-bottom\">\n" +
+                "        <li class=\"layui-this\" onclick=\"javascript:document.getElementById('basicinfo').contentWindow.location.reload(true);\">基本信息</li>\n" +
+                "        <li onclick=\"javascript:document.getElementById('datasource').contentWindow.location.reload(true);\">数据源</li>\n" +
+                "        <li onclick=\"javascript:document.getElementById('graph').contentWindow.location.reload(true);\">图形设置</li>\n" +
+                "        <li onclick=\"javascript:document.getElementById('query').contentWindow.location.reload(true);\">查询设置</li>\n" +
+                "    </ul>\n" +
+                "    <div class=\"layui-tab-content\">\n" +
+                "        <div class=\"layui-tab-item layui-show\">\n" +
+                "            <iframe id=\"basicinfo\" class=\"xonro-layout-iframe\" src=\"com.xonro.dataview_report_basicinfo.html\">\n" +
+                "            </iframe>\n" +
+                "        </div>\n" +
+                "        <div class=\"layui-tab-item\">\n" +
+                "            <iframe id=\"datasource\" class=\"xonro-layout-iframe\" src=\"com.xonro.dataview_report_datasource.html\">\n" +
+                "            </iframe>\n" +
+                "        </div>\n" +
+                "        <div class=\"layui-tab-item\">\n" +
+                "            <iframe id=\"graph\" class=\"xonro-layout-iframe\" src=\"com.xonro.dataview_report_graph.html\">\n" +
+                "            </iframe>\n" +
+                "        </div>\n" +
+                "        <div class=\"layui-tab-item\">\n" +
+                "            <iframe id=\"query\" class=\"xonro-layout-iframe\" src=\"com.xonro.dataview_report_query.html\" >\n" +
+                "            </iframe>\n" +
+                "        </div>\n" +
+                "    </div>";
+            $(".layui-tab").html(html);
+        }
     });
     function getDataView(id) {
         var info = [];

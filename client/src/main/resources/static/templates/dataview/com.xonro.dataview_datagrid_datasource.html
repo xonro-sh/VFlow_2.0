@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据源</title>
+    <!--tab点击功能-->
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="https://cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/children.css">
+    <script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../lib/layui/layui.js"></script>
+    <script type="text/javascript" src="../../js/dataview/com.xonro.dataview_util.js"></script>
+    <script type="text/javascript" src="../../js/util.js"></script>
+    <script type="text/javascript" src="../../js/dataview/com.xonro.dataview_datagrid_datasource.js"></script>
+</head>
+<body class="childrenBody">
+<form id="datasource" class="layui-form" action="">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12 layui-col-space1">
+        <span class="layui-btn-group button_left" style="float: left">
+            <button id="save" lay-submit class="layui-btn" lay-filter="save">保存</button>
+            <button lay-submit class="layui-btn layui-btn-normal" id="advanced_options" lay-filter="advanced_options">预览</button>
+        </span>
+        </div>
+    </div>
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>数据源</legend>
+    </fieldset>
+    <div class="layui-form-item">
+        <label class="layui-form-label">数据源</label>
+        <div class="layui-input-block">
+            <select name="dataSource" lay-verify="required">
+                <option value="0">当前数据源</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">查询语句</label>
+        <div class="layui-input-block">
+            <textarea onblur="compareSQL()" onchange="compareSQL()" id="queryStat" name="queryStat" placeholder="填写SQL语句时必须包含关键字 WHERE和1=1且1=1要作为查询条件放在WHERE关键字后。建议不要使用select * 的写法" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>表格设置</legend>
+    </fieldset>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">每页条数</label>
+            <div class="layui-input-block">
+                <input id="limit" name="limit" lay-verify="required" autocomplete="off" class="layui-input" type="number">
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">加载条</label>
+            <div class="layui-input-block">
+                <input value=true id="loading" name="loading" lay-filter="loading" lay-skin="switch" lay-text="开启|关闭" type="checkbox" checked>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序字段</label>
+            <div class="layui-input-block">
+                <select id="field1" name="field1">
+
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序方式</label>
+            <div class="layui-input-block">
+                <select id="type" name="type">
+                    <option value="null">默认排序</option>
+                    <option value="asc">升序</option>
+                    <option value="desc">降序</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">表格风格</label>
+            <div class="layui-input-block">
+                <select id="skin" name="skin">
+                    <option value="line">行边框风格</option>
+                    <option value="row">列边框风格</option>
+                    <option value="nob">无边框风格</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">隔行背景</label>
+            <div class="layui-input-block">
+                <input value=true id="even" name="even" lay-filter="even" lay-skin="switch" lay-text="开启|关闭" type="checkbox" checked>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">表格尺寸</label>
+            <div class="layui-input-block">
+                <select id="size" name="size">
+                    <option value="sm">小尺寸</option>
+                    <option value="lg">大尺寸</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</form>
+<fieldset class="layui-elem-field layui-field-title">
+    <legend>字段设置</legend>
+</fieldset>
+<div class="layui-col-md12 layui-col-space1">
+    <div class="layui-btn-group">
+        <button class="layui-btn layui-btn-normal" id="add">新增</button>
+    </div>
+    <table class="layui-hide" id="columnProp" lay-filter="columnProp" lay-data="{id:'columnProp'}"></table>
+</div>
+<script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<form id="addtemp" class="layui-form childrenBody" style="display: none" >
+    <br><br>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">列名称</label>
+            <div class="layui-input-block">
+                <select id="field" name="field" lay-verify="required">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">列标题</label>
+            <div class="layui-input-block">
+                <input id="title" name="title" lay-verify="required" autocomplete="off" class="layui-input" type="text">
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <select id="sort" name="sort">
+                    <option value="1">开启</option>
+                    <option value="0">关闭</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">禁用拖拽列宽</label>
+            <div class="layui-input-block">
+                <select id="unresize" name="unresize">
+                    <option value="1">开启</option>
+                    <option value="0">关闭</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <input id="index" name="index" style="display: none" class="layui-input" type="text">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item" style="text-align: right">
+            <div class="layui-btn-group">
+                <button lay-submit class="layui-btn" id="up" lay-filter="up">提交</button>
+                <button lay-submit class="layui-btn" id="modify" lay-filter="modify">修改</button>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>
