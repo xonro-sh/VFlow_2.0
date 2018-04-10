@@ -1,6 +1,10 @@
 package com.xonro.vflow.console.service.impl;
 
-import com.xonro.vflow.workflow.bean.Tenant;
+
+import com.xonro.vflow.console.bean.Tenant;
+import com.xonro.vflow.console.dao.TenantRepository;
+import com.xonro.vflow.console.service.TenantService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -9,8 +13,9 @@ import org.springframework.util.Assert;
  * @date created in 2018-3-22 17:15
  */
 @Service
-public class TenantServiceImpl{
-
+public class TenantServiceImpl implements TenantService{
+    @Autowired
+    private TenantRepository tenantRepository;
     @Override
     public Tenant createTenant(String name, String password) {
         Tenant tenant = new Tenant();

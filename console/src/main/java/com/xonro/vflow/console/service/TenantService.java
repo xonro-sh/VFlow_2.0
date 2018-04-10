@@ -1,6 +1,7 @@
 package com.xonro.vflow.console.service;
 
-import com.xonro.vflow.workflow.bean.Tenant;
+
+import com.xonro.vflow.console.bean.Tenant;
 
 /**
  * 租户相关服务接口
