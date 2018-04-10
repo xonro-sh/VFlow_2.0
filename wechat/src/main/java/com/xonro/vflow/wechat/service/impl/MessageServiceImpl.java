@@ -12,7 +12,7 @@ import com.xonro.vflow.wechat.dao.UserRepository;
 import com.xonro.vflow.wechat.enums.WechatEnums;
 import com.xonro.vflow.wechat.helper.MessageParser;
 import com.xonro.vflow.wechat.service.MessageService;
-import com.xonro.vflow.wechat.service.UserService;
+import com.xonro.vflow.wechat.service.WechatUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +29,15 @@ import java.util.List;
 public class MessageServiceImpl implements MessageService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final UserService userService;
+    private final WechatUserService wechatUserService;
 
     private final UserRepository userRepository;
 
     private final MessageRepository messageRepository;
 
     @Autowired
-    public MessageServiceImpl(UserService userService, UserRepository userRepository, MessageRepository messageRepository) {
-        this.userService = userService;
+    public MessageServiceImpl(WechatUserService wechatUserService, UserRepository userRepository, MessageRepository messageRepository) {
+        this.wechatUserService = wechatUserService;
         this.userRepository = userRepository;
         this.messageRepository = messageRepository;
     }
@@ -179,7 +179,7 @@ public class MessageServiceImpl implements MessageService {
 
         //用户订阅事件：1、保存用户信息；2、根据配置响应关注后信息
         if (eventType.equals(WechatEnums.EVENT_SUBSCRIBE.getValue())){
-            userRepository.save(userService.getUserInfo(userOpenId));
+            userRepository.save(wechatUserService.getUserInfo(userOpenId));
 
             //获取系统配置消息
             List<Message> messages = messageRepository.findByType(WechatEnums.MSG_TYPE_SECOND.getValue());

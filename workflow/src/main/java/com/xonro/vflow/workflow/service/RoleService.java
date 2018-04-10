@@ -40,4 +40,11 @@ public interface RoleService {
      * @return
      */
     List<Role> getAll(String tenantId);
+
+    /**
+     * 获取用户的所有角色
+     * @param userId
+     * @return
+     */
+    List<Role> getUserRole(String userId);
 }

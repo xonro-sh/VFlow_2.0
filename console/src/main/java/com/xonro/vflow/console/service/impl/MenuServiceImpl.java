@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -37,8 +36,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public TableResponse getMenuByPage(Integer page, Integer rows) {
-        Pageable pages = PageRequest.of(page-1, rows);
-        Page<Menu> list = menuRepository.findAll(pages);
+        Page<Menu> list = menuRepository.findAll(new PageRequest(page-1,rows));
         return new TableResponse(0, "", list.getTotalElements(),list.getContent());
     }
 
@@ -190,7 +188,7 @@ public class MenuServiceImpl implements MenuService {
         List<Menu> menuList = new ArrayList<>();
         menuList.add(menu);
         menuList.add(menu1);
-        menuRepository.saveAll(menuList);
+        menuRepository.save(menuList);
         return baseResponse;
     }
 }
