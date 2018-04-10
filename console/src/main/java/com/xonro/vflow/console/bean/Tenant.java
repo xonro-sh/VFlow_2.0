@@ -1,4 +1,4 @@
-package com.xonro.vflow.workflow.bean;
+package com.xonro.vflow.console.bean;
 
 import org.hibernate.annotations.GenericGenerator;
 

@@ -1,4 +1,4 @@
-package com.xonro.vflow.workflow.service;
+package com.xonro.vflow.console.service;
 
 import com.xonro.vflow.workflow.bean.Tenant;
 
@@ -15,7 +15,7 @@ public interface TenantService {
      * @param password
      * @return 创建后的租户信息
      */
-    Tenant createTenant(String name,String password);
+    Tenant createTenant(String name, String password);
 
     /**
      * 删除租户

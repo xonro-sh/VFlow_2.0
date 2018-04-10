@@ -1,4 +1,4 @@
-package com.xonro.vflow.workflow.dao;
+package com.xonro.vflow.console.dao;
 
 import com.xonro.vflow.workflow.bean.Tenant;
 import org.springframework.data.jpa.repository.JpaRepository;

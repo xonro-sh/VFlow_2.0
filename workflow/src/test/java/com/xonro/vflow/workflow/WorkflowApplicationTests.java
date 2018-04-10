@@ -1,8 +1,6 @@
 package com.xonro.vflow.workflow;
 
-import com.xonro.vflow.workflow.bean.Tenant;
 import com.xonro.vflow.workflow.bean.UserInfo;
-import com.xonro.vflow.workflow.service.TenantService;
 import com.xonro.vflow.workflow.service.UserService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.User;
@@ -56,15 +54,6 @@ public class WorkflowApplicationTests {
 		identityService.setUserInfo("fe938166-f268-4de4-9e72-5a428f51e651","positionLevel","1");
 	}
 
-	@Autowired
-	private TenantService tenantService;
 
-	@Test
-	public void testTenant(){
-		Tenant tenant = tenantService.createTenant("xonro","1");
-
-		tenant.setPassword("123456");
-		tenantService.updateTenant(tenant);
-	}
 
 }
