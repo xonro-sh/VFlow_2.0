@@ -11,8 +11,8 @@ public enum ConsoleEnums {
      * 菜单常量
      */
     MENU_UP("up","菜单向上换位置"),
-    MENU_DOWN("down","菜单向下换位置")
-    ;
+    MENU_DOWN("down","菜单向下换位置"),
+        ;
 
     ConsoleEnums(String value, String desc){
         this.value = value;

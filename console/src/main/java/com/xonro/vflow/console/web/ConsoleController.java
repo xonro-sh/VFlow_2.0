@@ -101,4 +101,5 @@ public class ConsoleController {
     BaseResponse changeMenuIndex(String itemNo, String type){
         return menuService.changeMenuIndex(itemNo, type);
     }
+
 }
