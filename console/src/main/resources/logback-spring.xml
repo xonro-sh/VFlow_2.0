@@ -6,7 +6,7 @@
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <!--格式化输出：%d:表示日期    %thread:表示线程名     %-5level:级别从左显示5个字符宽度  %msg:日志消息    %n:是换行符-->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{15}) Line:%-3L - %highlight(%msg) %n</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
@@ -23,7 +23,9 @@
         </rollingPolicy>
         <append>true</append>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger Line:%-3L - %msg%n</pattern>
+            <pattern>
+                [%thread] %highlight(%-5level) %cyan(%logger) Line:%-3L -  %highlight(%msg) %n
+            </pattern>
             <charset>UTF-8</charset>
         </encoder>
         <!-- 此日志文件只记录error级别的 -->
@@ -49,7 +51,7 @@
         </rollingPolicy>
         <append>true</append>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger Line:%-3L - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{15}) Line:%-3L - %highlight(%msg) %n</pattern>
             <charset>UTF-8</charset>
         </encoder>
         <!-- 此日志文件只记录warn级别的 -->
@@ -76,7 +78,7 @@
         <append>true</append>
 
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger Line:%-3L - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{15}) Line:%-3L - %highlight(%msg) %n</pattern>
             <charset>UTF-8</charset>
         </encoder>
         <!-- 此日志文件只记录info级别的 -->
@@ -102,7 +104,7 @@
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
             <pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{15}) Line:%-3L - %highlight(%msg) %n
             </pattern>
         </encoder>
     </appender>
