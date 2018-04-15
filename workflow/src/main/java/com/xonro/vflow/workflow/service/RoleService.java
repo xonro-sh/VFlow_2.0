@@ -1,6 +1,7 @@
 package com.xonro.vflow.workflow.service;
 
 import com.xonro.vflow.workflow.bean.Role;
+import org.activiti.engine.identity.User;
 
 import java.util.List;
 
@@ -42,9 +43,11 @@ public interface RoleService {
     List<Role> getAll(String tenantId);
 
     /**
-     * 获取用户的所有角色
-     * @param userId
-     * @return
+     * 获取角色用户
+     * @param roleId 角色id
+     * @return 拥有角色的用户列表
      */
-    List<Role> getUserRole(String userId);
+    List<User> getRoleUser(String roleId);
+
+
 }

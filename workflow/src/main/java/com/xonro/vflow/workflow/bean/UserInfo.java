@@ -147,6 +147,11 @@ public class UserInfo implements Serializable{
      */
     private String remark;
 
+    /**
+     * 租赁id
+     */
+    private String tenantId;
+
     public String getUserId() {
         return userId;
     }
@@ -369,6 +374,14 @@ public class UserInfo implements Serializable{
 
     public void setIdCardPicture2(byte[] idCardPicture2) {
         this.idCardPicture2 = idCardPicture2;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 
     @Override
