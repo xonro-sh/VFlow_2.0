@@ -183,8 +183,11 @@ public class DataViewServiceImpl implements DataViewService {
                     dataView1.setReportAttr(dataView.getReportAttr());
 
                 }
-                if (dataView.getDatagridAttr()!=null){
-                    dataView1.setDatagridAttr(dataView.getDatagridAttr());
+                if (dataView.getDatagridBasicAttr()!=null){
+                    dataView1.setDatagridBasicAttr(dataView.getDatagridBasicAttr());
+                }
+                if (dataView.getDatagridSortAttr() != null){
+                    dataView1.setDatagridSortAttr(dataView.getDatagridSortAttr());
                 }
                 if (dataView.getExtText() != null ){
                     dataView1.setExtText(dataView.getExtText());
