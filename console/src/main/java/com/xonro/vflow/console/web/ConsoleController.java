@@ -3,6 +3,7 @@ package com.xonro.vflow.console.web;
 import com.alibaba.fastjson.JSON;
 import com.xonro.vflow.bases.bean.BaseResponse;
 import com.xonro.vflow.console.bean.Menu;
+import com.xonro.vflow.console.service.LoginService;
 import com.xonro.vflow.console.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class ConsoleController {
     private final MenuService menuService;
 
+    private final LoginService loginService;
+
     @Autowired
-    public ConsoleController(MenuService menuService) {
+    public ConsoleController(MenuService menuService, LoginService loginService) {
         this.menuService = menuService;
+        this.loginService = loginService;
     }
 
     /**
@@ -102,4 +106,14 @@ public class ConsoleController {
         return menuService.changeMenuIndex(itemNo, type);
     }
 
+    /**
+     *  后台登陆
+     * @param account 账号
+     * @param password 密码
+     * @return 结果
+     */
+    @RequestMapping(value = "/login")
+    BaseResponse login(String account, String password){
+        return loginService.getTenantInfoFromCache(account, password);
+    }
 }
