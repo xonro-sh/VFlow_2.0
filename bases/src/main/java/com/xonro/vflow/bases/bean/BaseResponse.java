@@ -15,6 +15,11 @@ public class BaseResponse {
         super();
     }
 
+    public BaseResponse(boolean ok,Object data){
+        this.ok = ok;
+        this.data = data;
+    }
+
     public BaseResponse(boolean ok, String code, String msg) {
         this.ok = ok;
         this.code = code;

@@ -5,12 +5,12 @@ import com.xonro.vflow.workflow.dao.RoleRepository;
 import com.xonro.vflow.workflow.service.RoleService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
+import org.activiti.engine.identity.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -73,12 +73,11 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role> getUserRole(String userId) {
-        List<Role> roleList = new ArrayList<>();
-        List<Group> userGroupList = identityService.createGroupQuery().groupType("role").groupMember(userId).list();
-        for (Group group : userGroupList) {
-            roleList.add(roleRepository.findByGroupId(group.getId()));
-        }
-        return roleList;
+    public List<User> getRoleUser(String roleId) {
+        Role role = roleRepository.findById(roleId);
+        Assert.notNull(role,"role is not exit,roleId:"+roleId);
+
+        return identityService.createUserQuery().memberOfGroup(role.getGroupId()).list();
     }
+
 }
