@@ -78,12 +78,11 @@ public class FileHelper {
                             "    layui.use(['table'],function () {\n" +
                             "        var table = layui.table;\n" +
                             "        var datagrid = getDataGridConf(getUrlParameter(\"id\"));\n" +
-                            "        var datagridAttr = JSON.parse(datagrid.datagridAttr);\n" +
-                            "        console.log(datagrid);\n" +
-                            "        console.log(JSON.parse(datagrid.columnProp));\n" +
+                            "        var datagridSortAttr = JSON.parse(datagrid.datagridSortAttr);\n" +
+                            "        var datagridBasicAttr = JSON.parse(datagrid.datagridBasicAttr);\n" +
                             "        var tables = table.render({\n" +
                             "            elem: '#datagrid'\n" +
-                            "            ,url: '../../../dataview/get_datagrid_dataset?id='+getUrlParameter(\"id\")\n" +
+                            "            ,url: '../../../../dataview/get_datagrid_dataset?id='+getUrlParameter(\"id\")\n" +
                             "            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增\n" +
                             "            ,height: 'full-160'\n" +
                             "            ,page: true\n" +
@@ -91,16 +90,16 @@ public class FileHelper {
                             "            ,text: { //自定义文本，如空数据时的异常提示等\n" +
                             "                none: '暂无相关数据'\n" +
                             "            },\n" +
-                            "            loading : datagridAttr.loading,\n" +
-                            "            initSort: datagridAttr.initSort,\n" +
-                            "            limit: datagridAttr.limit,\n" +
-                            "            skin: datagridAttr.skin,\n" +
-                            "            even: datagridAttr.even,\n" +
-                            "            size: datagridAttr.size\n" +
+                            "            loading : datagridBasicAttr.loading,\n" +
+                            "            initSort: datagridSortAttr.initSort,\n" +
+                            "            limit: datagridBasicAttr.limit,\n" +
+                            "            skin: datagridBasicAttr.skin,\n" +
+                            "            even: datagridBasicAttr.even,\n" +
+                            "            size: datagridBasicAttr.size\n" +
                             "        });\n" +
                             "        console.log(tables);\n" +
                             "    });\n" +
-                            "</script>\n" +
+                            "</script>" +
                             "</body>\n" +
                             "</html>";
                 }
