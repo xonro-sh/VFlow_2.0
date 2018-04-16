@@ -113,7 +113,7 @@ public class DruidDataSourceConfig {
     @Bean
     public ServletRegistrationBean druidStatViewServlet(){
         ServletRegistrationBean registrationBean = new ServletRegistrationBean(
-                new StatViewServlet(),"/druid/*"
+                new StatViewServlet(),"/console/druid/*"
         ){{
             //登录查看信息的账号密码
 //            addInitParameter("loginUsername","druid");
