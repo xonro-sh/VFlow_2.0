@@ -10,10 +10,9 @@ layui.use(['table', 'form','layer'], function(){
         ,cols: [[ //表头
             {field: 'id', title: 'ID', fixed: 'left'}
             ,{field: 'title', title: '标题'}
-            ,{field: 'dataSource', title: '数据源', sort: true}
+            ,{field: 'dataSource', title: '数据源', templet:'#datasouorce'}
             ,{field: 'queryStat', title: '查询语句'}
             ,{field: 'type', title: '视图类型', templet:'#dataview'}
-            ,{field: 'typeSub', title: '报表类型', templet:'#report'}
             ,{fixed: 'right', title: '操作',width:180, align:'center', toolbar: '#bar'}
         ]]
         ,loading:true //是否显示加载条 默认true 该参数只适用于 url 参数开启的方式
@@ -28,7 +27,6 @@ layui.use(['table', 'form','layer'], function(){
     $("#add_dataview").on("click", function () {
         //数据初始化
         $("#type").val("");
-        $("#typeSub").val("");
         $("#title").val("");
         form.render();
         addData = layer.open({
@@ -40,22 +38,12 @@ layui.use(['table', 'form','layer'], function(){
     $("#refresh").on("click",function () {
         tables.reload();
     });
-    //监听下拉框选择
-    form.on('select(type)', function(data){
-        console.log(data.value); //得到被选中的值
-        console.log(data.othis); //得到美化后的DOM对象
-        if (data.value === "0"){
-            $("#typeSubDiv").hide();
-        } else {
-            $("#typeSubDiv").show();
-        }
-    });
+
 
     form.on('submit(up)', function(data){//提交新增
         layer.close(addData);
         var jsonData = {
             type: data.field.type,
-            typeSub: data.field.typeSub,
             title: data.field.title
         };
         console.log(jsonData);
@@ -78,13 +66,29 @@ layui.use(['table', 'form','layer'], function(){
         var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
         var tr = obj.tr; //获得当前行 tr 的DOM对象
         if(layEvent === 'edit'){ //编辑
-            parent.layui.element.tabDelete("fsTab", obj.data.id);
-            parent.layui.element.tabAdd("fsTab", {
-                title: "报表"+obj.data.title
-                ,content: '<iframe src="../dataview/com.xonro.dataview_configuration.html?id='+obj.data.id+'&type='+obj.data.type+'"></iframe>'//支持传入html
-                ,id: obj.data.id
-            });
-            console.log(parent.$("#fsTabMenu"));
+            var li = parent.$("li[lay-id="+obj.data.id+"]").length;
+            if(li > 0){
+                parent.layui.element.tabChange("fsTab", obj.data.id);
+            } else {
+                if (obj.data.type === '0'){
+                    parent.layui.element.tabAdd("fsTab", {
+                        title: "数据表格"+obj.data.title
+                        ,content: '<iframe src="../dataview/com.xonro.dataview_configuration.html?id='+obj.data.id+'&type='+obj.data.type+'"></iframe>'//支持传入html
+                        ,id: obj.data.id
+                    });
+                } else {
+                    parent.layui.element.tabAdd("fsTab", {
+                        title: "图形报表"+obj.data.title
+                        ,content: '<iframe src="../dataview/com.xonro.dataview_configuration.html?id='+obj.data.id+'&type='+obj.data.type+'"></iframe>'//支持传入html
+                        ,id: obj.data.id
+                    });
+                }
+                setTimeout(function () {
+                    parent.layui.element.tabChange("fsTab", obj.data.id)
+                }, 200);
+
+            }
+
             // window.location.href = '../../templates/report/com.xonro.dataview_configuration.html?id='+id;
         }
         if(layEvent === 'del'){ //删除

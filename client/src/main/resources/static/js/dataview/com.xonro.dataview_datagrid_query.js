@@ -4,7 +4,7 @@ layui.use('table', function(){
     //第一个实例
     table.render({
         elem: '#queryCondition'
-        ,url: "../../wechat/"
+        ,url: ""
         ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
         ,height: 'full-160'
         ,cols: [[ //表头

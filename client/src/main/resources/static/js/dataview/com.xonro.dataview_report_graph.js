@@ -7,10 +7,7 @@ var option = {
     tooltip: {},
     legend: {
         left: 'center',
-        orient: 'horizontal',
-        textStyle: {
-            color: '#333'
-        }
+        orient: 'horizontal'
     },
     dataset: {
         // 这里指定了维度名的顺序，从而可以利用默认的维度到坐标轴的映射。
@@ -333,10 +330,7 @@ function createDataViewOption(dataField) {
                 tooltip: {},
                 legend: {
                     left: dataField.field.legend_left,
-                    orient: dataField.field.orient,
-                    textStyle: {
-                        color: dataField.field.color
-                    }
+                    orient: dataField.field.orient
                 },
                 dataset: {
                     // 这里指定了维度名的顺序，从而可以利用默认的维度到坐标轴的映射。
@@ -368,10 +362,7 @@ function createDataViewOption(dataField) {
                 tooltip: {},
                 legend: {
                     left: dataField.field.legend_left,
-                    orient: dataField.field.orient,
-                    textStyle: {
-                        color: dataField.field.color
-                    }
+                    orient: dataField.field.orient
                 },
                 dataset: {
                     // 这里指定了维度名的顺序，从而可以利用默认的维度到坐标轴的映射。
@@ -399,10 +390,7 @@ function createDataViewOption(dataField) {
                 tooltip: {},
                 legend: {
                     left: dataField.field.legend_left,
-                    orient: dataField.field.orient,
-                    textStyle: {
-                        color: dataField.field.color
-                    }
+                    orient: dataField.field.orient
                 },
                 dataset: {
                     // 这里指定了维度名的顺序，从而可以利用默认的维度到坐标轴的映射。
@@ -434,10 +422,7 @@ function createDataViewOption(dataField) {
                 tooltip: {},
                 legend: {
                     left: dataField.field.legend_left,
-                    orient: dataField.field.orient,
-                    textStyle: {
-                        color: dataField.field.color
-                    }
+                    orient: dataField.field.orient
                 },
                 dataset: {
                     // 这里指定了维度名的顺序，从而可以利用默认的维度到坐标轴的映射。
@@ -469,10 +454,7 @@ function createDataViewOption(dataField) {
                 tooltip: {},
                 legend: {
                     left: dataField.field.legend_left,
-                    orient: dataField.field.orient,
-                    textStyle: {
-                        color: dataField.field.color
-                    }
+                    orient: dataField.field.orient
                 },
                 dataset: {
                     // 这里指定了维度名的顺序，从而可以利用默认的维度到坐标轴的映射。
@@ -538,10 +520,7 @@ function createDataViewOption(dataField) {
                 tooltip: {},
                 legend: {
                     left: dataField.field.legend_left,
-                    orient: dataField.field.orient,
-                    textStyle: {
-                        color: dataField.field.color
-                    }
+                    orient: dataField.field.orient
                 },
                 dataset: {
                     // 这里指定了维度名的顺序，从而可以利用默认的维度到坐标轴的映射。
