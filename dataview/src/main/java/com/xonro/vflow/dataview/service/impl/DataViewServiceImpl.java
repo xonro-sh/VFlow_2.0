@@ -2,10 +2,10 @@ package com.xonro.vflow.dataview.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.alibaba.fastjson.serializer.*;
-import com.sun.xml.internal.bind.v2.TODO;
+import com.alibaba.fastjson.serializer.PropertyFilter;
+import com.alibaba.fastjson.serializer.SerializeFilter;
+import com.alibaba.fastjson.serializer.ValueFilter;
 import com.xonro.vflow.bases.bean.BaseResponse;
 import com.xonro.vflow.bases.bean.TableResponse;
 import com.xonro.vflow.bases.helper.FileHelper;
@@ -18,16 +18,13 @@ import com.xonro.vflow.dataview.dao.DataViewThemeRepository;
 import com.xonro.vflow.dataview.helper.DataViewHelper;
 import com.xonro.vflow.dataview.service.DataViewService;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.query.NativeQuery;
+import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -123,7 +120,8 @@ public class DataViewServiceImpl implements DataViewService {
         try {
         if (StringUtils.isNotEmpty(sql) && sql.startsWith("select")){
                 Query query = em.createNativeQuery(sql);
-                query.unwrap(NativeQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+                //将在Hibernate 6.x中被替代 还未发布
+                query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
                 if (query.getResultList().size() !=0 ){
                     List list = query.getResultList();
                     Map map = (Map) list.get(0);
@@ -224,7 +222,8 @@ public class DataViewServiceImpl implements DataViewService {
             String tableName = DataViewHelper.findTableNameFromSql(sql);
             String newSql = " select "+series+ ","+xAxis+" from "+ tableName + " where 1=1 ";
             Query query = em.createNativeQuery(newSql);
-            query.unwrap(NativeQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+            //将在Hibernate 6.x中被替代 还未发布
+            query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
             if (query.getResultList().size() !=0 ){
                 List list = query.getResultList();
                 baseResponse.setData(JSON.toJSONString(list));
@@ -300,7 +299,8 @@ public class DataViewServiceImpl implements DataViewService {
             }
             parentSql = parentSql + " GROUP BY "+name;
             Query query = em.createNativeQuery(parentSql);
-            query.unwrap(NativeQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+            //将在Hibernate 6.x中被替代 还未发布
+            query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
             if (query.getResultList().size() !=0 ){
                 List list = query.getResultList();
                 treeMapResponses = JSON.parseObject(JSON.toJSONString(list), new TypeReference<List<TreeMapResponse>>(){});
@@ -314,7 +314,8 @@ public class DataViewServiceImpl implements DataViewService {
                             "select k."+name+",k."+value+",k."+parentName+",k."+showName+"  from " + tableName + " k inner join cte c on c."+name+" = k."+parentName+" " +
                             ")select "+showName+" AS name,"+value+" AS value from cte where "+name+"<>'"+treeMapResponse.getName()+"' ";
                     Query query1 = em.createNativeQuery(childSql);
-                    query1.unwrap(NativeQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+                    //将在Hibernate 6.x中被替代 还未发布
+                    query1.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
                     if (query1.getResultList().size() !=0 ){
                         List list1 = query1.getResultList();
                         treeMapResponses1 = new ArrayList<>();
@@ -371,7 +372,8 @@ public class DataViewServiceImpl implements DataViewService {
         sql = sql + " limit " + rows + " offset " + (page-1) ;
         Query query = em.createNativeQuery(sql);
         Query query1 = em.createNativeQuery(countSql);
-        query.unwrap(NativeQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        //将在Hibernate 6.x中被替代 还未发布
+        query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
         if (query.getResultList().size() !=0 ){
             List list = query.getResultList();
             tableResponse.setData(list);
