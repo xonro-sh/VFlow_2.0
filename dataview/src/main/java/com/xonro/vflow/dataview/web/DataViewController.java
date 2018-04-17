@@ -110,7 +110,7 @@ public class DataViewController {
         return dataViewService.getDataGridConf(id);
     }
     @RequestMapping(value = "get_datagrid_dataset")
-    String getDataGridDataSet(String id, Integer page, Integer limit){
-        return JSON.toJSONString(dataViewService.getDataGridDataSet(id, page, limit));
+    String getDataGridDataSet(String id, Integer page, Integer limit, String data){
+        return JSON.toJSONString(dataViewService.getDataGridDataSet(id, page, limit, data));
     }
 }
