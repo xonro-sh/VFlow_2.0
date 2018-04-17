@@ -1,6 +1,8 @@
 package com.xonro.vflow.workflow.service;
 
 import com.xonro.vflow.bases.bean.BaseResponse;
+import com.xonro.vflow.bases.exception.VFlowException;
+import com.xonro.vflow.workflow.bean.CreateUser;
 import com.xonro.vflow.workflow.bean.UserInfo;
 import org.activiti.engine.identity.Picture;
 import org.activiti.engine.identity.User;
@@ -14,24 +16,20 @@ import java.util.List;
 public interface UserService {
 
     /**
-     * 创建新用户
-     * @param userId 用户id
-     * @param firstName 姓
-     * @param lastName 名
-     * @param email 邮箱
-     * @param password 用户密码
-     * @param tenantId 租赁id
+     * 创建用户
+     * @param createUser
      * @return
      */
-    BaseResponse createUser(String userId, String firstName, String lastName, String email, String password, String tenantId);
+    User createUser(CreateUser createUser);
 
     /**
      * 设置用户注销、激活状态
      * @param userId
      * @param active
      * @return
+     * @throws VFlowException
      */
-    BaseResponse setUserActive(String userId,boolean active);
+    BaseResponse setUserActive(String userId,boolean active) throws VFlowException;
 
     /**
      * 修改用户密码
@@ -41,6 +39,17 @@ public interface UserService {
      * @return
      */
     BaseResponse changeUserPassword(String userId,String oldPassword,String newPassword);
+
+    /**
+     * 保存用户信息
+     * @param userId y用户id
+     * @param firstName 姓
+     * @param lastName 名
+     * @param email 邮箱
+     * @return 更新后的用户
+     * @throws VFlowException
+     */
+    User updateUser(String userId,String firstName,String lastName,String email) throws VFlowException;
 
     /**
      * 保存用户信息
@@ -61,8 +70,9 @@ public interface UserService {
     User findUserById(String userId);
 
     /**
-     * 删除用户信息
+     * 删除用户
      * @param userId
+     * @return
      */
     BaseResponse deleteUserById(String userId);
 
@@ -115,8 +125,9 @@ public interface UserService {
      * 获取用户详细信息
      * @param userId
      * @return
+     * @throws VFlowException
      */
-    UserInfo getUserInfo(String userId);
+    UserInfo getUserInfo(String userId) throws VFlowException;
 
     /**
      * 获取指定分组内的用户列表

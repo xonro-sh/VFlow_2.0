@@ -2,14 +2,14 @@ package com.xonro.vflow.workflow.service.impl;
 
 import com.xonro.vflow.bases.bean.BaseResponse;
 import com.xonro.vflow.bases.exception.VFlowException;
+import com.xonro.vflow.workflow.bean.CreateUser;
 import com.xonro.vflow.workflow.bean.UserInfo;
 import com.xonro.vflow.workflow.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Picture;
 import org.activiti.engine.identity.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -26,31 +26,34 @@ import java.util.List;
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private IdentityService identityService;
 
     @Override
-    public BaseResponse createUser(String userId, String firstName, String lastName, String email, String password, String tenantId) {
-        User user = identityService.createUserQuery().userId(userId).singleResult();
-        if (user != null){
-            log.info("create user fail,user has already existed,userId:{}",userId);
-            return new BaseResponse(false,"FAIL","user has already existed,userId:"+userId);
+    public User createUser(CreateUser createUser) {
+        String userId = createUser.getUserId();
+        User user = identityService.newUser(userId);
+
+        user.setPassword(createUser.getPassword());
+        user.setFirstName(createUser.getFirstName());
+        user.setLastName(createUser.getLastName());
+        String email = createUser.getEmail();
+        if (StringUtils.isNotEmpty(email)){
+            user.setEmail(email);
         }
-        user = saveUser(userId,firstName,lastName,email,password);
-        identityService.setUserInfo(userId,"tenantId",tenantId);
-        return new BaseResponse(true,user);
+        identityService.saveUser(user);
+        identityService.setUserInfo(userId,"tenantId",createUser.getTenantId());
+        return user;
     }
 
     @Override
-    public BaseResponse setUserActive(String userId, boolean active) {
+    public BaseResponse setUserActive(String userId, boolean active) throws VFlowException {
         User user = identityService.createUserQuery().userId(userId).singleResult();
         if (user != null){
             identityService.setUserInfo(userId,"active",active+"");
             return new BaseResponse(true,"SUCCESS","SUCCESS");
         }
-        log.error("user not exist,userId:{}",userId,new VFlowException("fail","user not exist"));
-        return new BaseResponse(false,"FAIL","user not exist");
+        throw new VFlowException("fail","user not exist,userId:"+userId);
     }
 
     @Override
@@ -63,6 +66,29 @@ public class UserServiceImpl implements UserService {
             return new BaseResponse(true,user);
         }
         return new BaseResponse(false,"fail","old password is wrong");
+    }
+
+    @Override
+    public User updateUser(String userId, String firstName, String lastName, String email) throws VFlowException {
+        User user = identityService.createUserQuery().userId(userId).singleResult();
+        if (user == null){
+            throw new VFlowException("fail","user not exist,userId:"+userId);
+        }
+
+        if (StringUtils.isNotEmpty(firstName)){
+            user.setFirstName(firstName);
+        }
+
+        if (StringUtils.isNotEmpty(lastName)){
+            user.setLastName(lastName);
+        }
+
+        if (StringUtils.isNotEmpty(email)){
+            user.setEmail(email);
+        }
+
+        identityService.saveUser(user);
+        return user;
     }
 
     @Override
@@ -132,7 +158,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
         } catch (IllegalAccessException e) {
-            logger.error(e.getMessage(),e);
+            log.error(e.getMessage(),e);
         }
         return userInfo;
     }
@@ -144,7 +170,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Cacheable(value = "user",key = "'info_'+#userId")
-    public UserInfo getUserInfo(String userId) {
+    public UserInfo getUserInfo(String userId) throws VFlowException {
+        User user = identityService.createUserQuery().userId(userId).singleResult();
+        if (user == null){
+            throw new VFlowException("fail","user not exist,userId:"+userId);
+        }
         List<String> infoKeys = identityService.getUserInfoKeys(userId);
         UserInfo userInfo = new UserInfo();;
         try {
@@ -165,7 +195,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
         } catch (IllegalAccessException e) {
-            logger.error(e.getMessage(),e);
+            log.error(e.getMessage(),e);
         }
         return userInfo;
     }

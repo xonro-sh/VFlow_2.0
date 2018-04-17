@@ -21,7 +21,7 @@ import javax.validation.Valid;
 import java.util.Set;
 
 /**
- * 组织相关控制器
+ * 人员相关控制器
  * @author louie
  * @date created in 2018-4-12 16:12
  */
@@ -29,7 +29,7 @@ import java.util.Set;
 @Validated
 @RestController
 @RequestMapping(value = "/user")
-public class OrganizationController {
+public class UserController {
 
     @Autowired
     private UserService userService;

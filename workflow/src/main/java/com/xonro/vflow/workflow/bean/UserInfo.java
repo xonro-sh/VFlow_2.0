@@ -1,5 +1,8 @@
 package com.xonro.vflow.workflow.bean;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -10,11 +13,13 @@ public class UserInfo implements Serializable{
     /**
      * 用户id
      */
+    @NotBlank(message = "userId can not be empty")
     private String userId;
 
     /**
      * 电话
      */
+
     private String tel;
 
     /**
@@ -25,11 +30,13 @@ public class UserInfo implements Serializable{
     /**
      * 手机号
      */
+    @NotBlank(message = "mobile can't be empty")
     private String mobile;
 
     /**
      * 是否激活
      */
+    @NotNull(message = "active can't be empty")
     private boolean active;
 
     /**
@@ -60,11 +67,13 @@ public class UserInfo implements Serializable{
     /**
      * 身份证姓名
      */
+    @NotBlank(message = "idCardName can't be empty")
     private String idCardName;
 
     /**
      * 身份证号
      */
+    @NotBlank(message = "idCardNo can't be empty")
     private String idCardNo;
 
     /**
@@ -75,6 +84,7 @@ public class UserInfo implements Serializable{
     /**
      * 性别
      */
+    @NotBlank(message = "sex can't be empty")
     private String sex;
 
     /**
@@ -150,6 +160,7 @@ public class UserInfo implements Serializable{
     /**
      * 租赁id
      */
+    @NotBlank(message = "tenantId can't be empty")
     private String tenantId;
 
     public String getUserId() {
