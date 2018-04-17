@@ -41,19 +41,19 @@ public class DataView {
     private String columnProp;
 
     /**
-     * 数据表格参数
+     * 数据表格基本参数
      */
-    private String datagridAttr;
+    private String datagridBasicAttr;
+
+    /**
+     * 数据表格排序参数
+     */
+    private String datagridSortAttr;
 
     /**
      * 类型 大类
      */
     private String type;
-
-    /**
-     * 类型 子类
-     */
-    private String typeSub;
 
     /**
      * 图表参数
@@ -115,13 +115,22 @@ public class DataView {
         this.columnProp = columnProp;
     }
 
-    @Column(name = "datagrid_attr")
-    public String getDatagridAttr() {
-        return datagridAttr;
+    @Column(name = "datagrid_basic_attr")
+    public String getDatagridBasicAttr() {
+        return datagridBasicAttr;
     }
 
-    public void setDatagridAttr(String datagridAttr) {
-        this.datagridAttr = datagridAttr;
+    public void setDatagridBasicAttr(String datagridBasicAttr) {
+        this.datagridBasicAttr = datagridBasicAttr;
+    }
+
+    @Column(name = "datagrid_sort_attr")
+    public String getDatagridSortAttr() {
+        return datagridSortAttr;
+    }
+
+    public void setDatagridSortAttr(String datagridSortAttr) {
+        this.datagridSortAttr = datagridSortAttr;
     }
 
     @Column(name = "type")
@@ -131,15 +140,6 @@ public class DataView {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    @Column(name = "type_sub")
-    public String getTypeSub() {
-        return typeSub;
-    }
-
-    public void setTypeSub(String typeSub) {
-        this.typeSub = typeSub;
     }
 
     @Column(name = "report_attr")

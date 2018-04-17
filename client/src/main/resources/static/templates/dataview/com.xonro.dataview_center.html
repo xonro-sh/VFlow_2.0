@@ -36,17 +36,15 @@
 </script>
 <script type="text/html" id="dataview">
     {{#  if(d.type == '0'){ }}
-    <div>数据视图</div>
+    <div>数据表格</div>
     {{#  } }}
     {{#  if(d.type == '1'){ }}
-    <div>报表视图</div>
+    <div>图形报表</div>
     {{#  } }}
 </script>
-<script type="text/html" id="report">
-    {{#  if(d.typeSub == '0'){ }}
-    <div>图形报表</div>
-    {{#  } else {  }}
-    <div>/</div>
+<script type="text/html" id="datasouorce">
+    {{#  if(d.dataSource == '0'){ }}
+    <div>当前数据源</div>
     {{#  } }}
 </script>
 </body>
@@ -57,18 +55,8 @@
             <label class="layui-form-label">视图类型</label>
             <div class="layui-input-block">
                 <select name="type" id="type" lay-filter="type" lay-verify="required">
-                    <option value="0">数据视图</option>
-                    <option value="1">报表视图</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="layui-row layui-col-space10" id="typeSubDiv">
-        <div class="layui-form-item">
-            <label class="layui-form-label">报表类型</label>
-            <div class="layui-input-block">
-                <select name="typeSub" id="typeSub">
-                    <option value="0">图形报表</option>
+                    <option value="0">数据表格</option>
+                    <option value="1">图形报表</option>
                 </select>
             </div>
         </div>

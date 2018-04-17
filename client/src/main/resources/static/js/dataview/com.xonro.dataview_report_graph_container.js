@@ -56,17 +56,6 @@ var bar = "<div class=\"layui-collapse\">\n" +
     "                </div>\n" +
     "            </div>\n" +
     "            <div class=\"layui-colla-item\">\n" +
-    "                <h2 class=\"layui-colla-title\">图形</h2>\n" +
-    "                <div class=\"layui-colla-content layui-show\">\n" +
-    "                    <div class=\"layui-form-item\">\n" +
-    "                        <label class=\"layui-form-label\">背景色</label>\n" +
-    "                        <div class=\"layui-input-block\">\n" +
-    "                            <input id=\"backgroundColor\" name=\"backgroundColor\" autocomplete=\"off\" class=\"layui-input\" type=\"text\">\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "            <div class=\"layui-colla-item\">\n" +
     "                <h2 class=\"layui-colla-title\">图例</h2>\n" +
     "                <div class=\"layui-colla-content layui-show\">\n" +
     "                    <div class=\"layui-form-item\">\n" +
@@ -86,12 +75,6 @@ var bar = "<div class=\"layui-collapse\">\n" +
     "                                <option value=\"center\">居中</option>\n" +
     "                                <option value=\"right\">居右</option>\n" +
     "                            </select>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"layui-form-item\">\n" +
-    "                        <label class=\"layui-form-label\">文字颜色</label>\n" +
-    "                        <div class=\"layui-input-block\">\n" +
-    "                            <input id=\"color\" name=\"color\" autocomplete=\"off\" class=\"layui-input\" type=\"text\">\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n" +
@@ -148,17 +131,6 @@ var pie = " <div class=\"layui-collapse\">\n" +
     "                </div>\n" +
     "            </div>\n" +
     "            <div class=\"layui-colla-item\">\n" +
-    "                <h2 class=\"layui-colla-title\">图形</h2>\n" +
-    "                <div class=\"layui-colla-content layui-show\">\n" +
-    "                    <div class=\"layui-form-item\">\n" +
-    "                        <label class=\"layui-form-label\">背景色</label>\n" +
-    "                        <div class=\"layui-input-block\">\n" +
-    "                            <input id=\"backgroundColor\" name=\"backgroundColor\" autocomplete=\"off\" class=\"layui-input\" type=\"text\">\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "            <div class=\"layui-colla-item\">\n" +
     "                <h2 class=\"layui-colla-title\">图例</h2>\n" +
     "                <div class=\"layui-colla-content layui-show\">\n" +
     "                    <div class=\"layui-form-item\">\n" +
@@ -178,12 +150,6 @@ var pie = " <div class=\"layui-collapse\">\n" +
     "                                <option value=\"center\">居中</option>\n" +
     "                                <option value=\"right\">居右</option>\n" +
     "                            </select>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"layui-form-item\">\n" +
-    "                        <label class=\"layui-form-label\">文字颜色</label>\n" +
-    "                        <div class=\"layui-input-block\">\n" +
-    "                            <input id=\"color\" name=\"color\" autocomplete=\"off\" class=\"layui-input\" type=\"text\">\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n" +
@@ -248,17 +214,6 @@ var line = "<div class=\"layui-collapse\">\n" +
     "                </div>\n" +
     "            </div>\n" +
     "            <div class=\"layui-colla-item\">\n" +
-    "                <h2 class=\"layui-colla-title\">图形</h2>\n" +
-    "                <div class=\"layui-colla-content layui-show\">\n" +
-    "                    <div class=\"layui-form-item\">\n" +
-    "                        <label class=\"layui-form-label\">背景色</label>\n" +
-    "                        <div class=\"layui-input-block\">\n" +
-    "                            <input id=\"backgroundColor\" name=\"backgroundColor\" autocomplete=\"off\" class=\"layui-input\" type=\"text\">\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "            <div class=\"layui-colla-item\">\n" +
     "                <h2 class=\"layui-colla-title\">图例</h2>\n" +
     "                <div class=\"layui-colla-content layui-show\">\n" +
     "                    <div class=\"layui-form-item\">\n" +
@@ -278,12 +233,6 @@ var line = "<div class=\"layui-collapse\">\n" +
     "                                <option value=\"center\">居中</option>\n" +
     "                                <option value=\"right\">居右</option>\n" +
     "                            </select>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"layui-form-item\">\n" +
-    "                        <label class=\"layui-form-label\">文字颜色</label>\n" +
-    "                        <div class=\"layui-input-block\">\n" +
-    "                            <input id=\"color\" name=\"color\" autocomplete=\"off\" class=\"layui-input\" type=\"text\">\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n" +
@@ -348,17 +297,6 @@ var scatter = "<div class=\"layui-collapse\">\n" +
     "                </div>\n" +
     "            </div>\n" +
     "            <div class=\"layui-colla-item\">\n" +
-    "                <h2 class=\"layui-colla-title\">图形</h2>\n" +
-    "                <div class=\"layui-colla-content layui-show\">\n" +
-    "                    <div class=\"layui-form-item\">\n" +
-    "                        <label class=\"layui-form-label\">背景色</label>\n" +
-    "                        <div class=\"layui-input-block\">\n" +
-    "                            <input id=\"backgroundColor\" name=\"backgroundColor\" autocomplete=\"off\" class=\"layui-input\" type=\"text\">\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "            <div class=\"layui-colla-item\">\n" +
     "                <h2 class=\"layui-colla-title\">图例</h2>\n" +
     "                <div class=\"layui-colla-content layui-show\">\n" +
     "                    <div class=\"layui-form-item\">\n" +
@@ -378,12 +316,6 @@ var scatter = "<div class=\"layui-collapse\">\n" +
     "                                <option value=\"center\">居中</option>\n" +
     "                                <option value=\"right\">居右</option>\n" +
     "                            </select>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"layui-form-item\">\n" +
-    "                        <label class=\"layui-form-label\">文字颜色</label>\n" +
-    "                        <div class=\"layui-input-block\">\n" +
-    "                            <input id=\"color\" name=\"color\" autocomplete=\"off\" class=\"layui-input\" type=\"text\">\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n" +
@@ -441,17 +373,6 @@ var funnel = " <div class=\"layui-collapse\">\n" +
     "                </div>\n" +
     "            </div>\n" +
     "            <div class=\"layui-colla-item\">\n" +
-    "                <h2 class=\"layui-colla-title\">图形</h2>\n" +
-    "                <div class=\"layui-colla-content layui-show\">\n" +
-    "                    <div class=\"layui-form-item\">\n" +
-    "                        <label class=\"layui-form-label\">背景色</label>\n" +
-    "                        <div class=\"layui-input-block\">\n" +
-    "                            <input id=\"backgroundColor\" name=\"backgroundColor\" autocomplete=\"off\" class=\"layui-input\" type=\"text\">\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "            <div class=\"layui-colla-item\">\n" +
     "                <h2 class=\"layui-colla-title\">图例</h2>\n" +
     "                <div class=\"layui-colla-content layui-show\">\n" +
     "                    <div class=\"layui-form-item\">\n" +
@@ -471,12 +392,6 @@ var funnel = " <div class=\"layui-collapse\">\n" +
     "                                <option value=\"center\">居中</option>\n" +
     "                                <option value=\"right\">居右</option>\n" +
     "                            </select>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                    <div class=\"layui-form-item\">\n" +
-    "                        <label class=\"layui-form-label\">文字颜色</label>\n" +
-    "                        <div class=\"layui-input-block\">\n" +
-    "                            <input id=\"color\" name=\"color\" autocomplete=\"off\" class=\"layui-input\" type=\"text\">\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n" +
@@ -536,17 +451,6 @@ var gauge = "<div class=\"layui-collapse\">\n" +
     "                                <option value=\"center\">居中</option>\n" +
     "                                <option value=\"right\">居右</option>\n" +
     "                            </select>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "            <div class=\"layui-colla-item\">\n" +
-    "                <h2 class=\"layui-colla-title\">图形</h2>\n" +
-    "                <div class=\"layui-colla-content layui-show\">\n" +
-    "                    <div class=\"layui-form-item\">\n" +
-    "                        <label class=\"layui-form-label\">背景色</label>\n" +
-    "                        <div class=\"layui-input-block\">\n" +
-    "                            <input id=\"backgroundColor\" name=\"backgroundColor\" autocomplete=\"off\" class=\"layui-input\" type=\"text\">\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n" +
@@ -620,17 +524,6 @@ var treemap = "<div class=\"layui-collapse\">\n" +
     "                                <option value=\"center\">居中</option>\n" +
     "                                <option value=\"right\">居右</option>\n" +
     "                            </select>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "            <div class=\"layui-colla-item\">\n" +
-    "                <h2 class=\"layui-colla-title\">图形</h2>\n" +
-    "                <div class=\"layui-colla-content layui-show\">\n" +
-    "                    <div class=\"layui-form-item\">\n" +
-    "                        <label class=\"layui-form-label\">背景色</label>\n" +
-    "                        <div class=\"layui-input-block\">\n" +
-    "                            <input id=\"backgroundColor\" name=\"backgroundColor\" autocomplete=\"off\" class=\"layui-input\" type=\"text\">\n" +
     "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n" +

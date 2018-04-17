@@ -46,22 +46,6 @@
     </fieldset>
     <div class="layui-row layui-col-space10">
         <div class="layui-form-item">
-            <label class="layui-form-label">每页条数</label>
-            <div class="layui-input-block">
-                <input id="limit" name="limit" lay-verify="required" autocomplete="off" class="layui-input" type="number">
-            </div>
-        </div>
-    </div>
-    <div class="layui-row layui-col-space10">
-        <div class="layui-form-item">
-            <label class="layui-form-label">加载条</label>
-            <div class="layui-input-block">
-                <input value=true id="loading" name="loading" lay-filter="loading" lay-skin="switch" lay-text="开启|关闭" type="checkbox" checked>
-            </div>
-        </div>
-    </div>
-    <div class="layui-row layui-col-space10">
-        <div class="layui-form-item">
             <label class="layui-form-label">排序字段</label>
             <div class="layui-input-block">
                 <select id="field1" name="field1">
@@ -78,37 +62,6 @@
                     <option value="null">默认排序</option>
                     <option value="asc">升序</option>
                     <option value="desc">降序</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="layui-row layui-col-space10">
-        <div class="layui-form-item">
-            <label class="layui-form-label">表格风格</label>
-            <div class="layui-input-block">
-                <select id="skin" name="skin">
-                    <option value="line">行边框风格</option>
-                    <option value="row">列边框风格</option>
-                    <option value="nob">无边框风格</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="layui-row layui-col-space10">
-        <div class="layui-form-item">
-            <label class="layui-form-label">隔行背景</label>
-            <div class="layui-input-block">
-                <input value=true id="even" name="even" lay-filter="even" lay-skin="switch" lay-text="开启|关闭" type="checkbox" checked>
-            </div>
-        </div>
-    </div>
-    <div class="layui-row layui-col-space10">
-        <div class="layui-form-item">
-            <label class="layui-form-label">表格尺寸</label>
-            <div class="layui-input-block">
-                <select id="size" name="size">
-                    <option value="sm">小尺寸</option>
-                    <option value="lg">大尺寸</option>
                 </select>
             </div>
         </div>
@@ -178,5 +131,22 @@
         </div>
     </div>
 </form>
+
+<script type="text/html" id="sort_template">
+    {{#  if(d.sort == '0'){ }}
+    <div>关闭</div>
+    {{#  } }}
+    {{#  if(d.sort == '1'){ }}
+    <div>开启</div>
+    {{#  } }}
+</script>
+<script type="text/html" id="unresize_template">
+    {{#  if(d.unresize == '0'){ }}
+    <div>关闭</div>
+    {{#  } }}
+    {{#  if(d.unresize == '1'){ }}
+    <div>开启</div>
+    {{#  } }}
+</script>
 </body>
 </html>

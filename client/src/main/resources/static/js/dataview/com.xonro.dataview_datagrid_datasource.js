@@ -1,14 +1,14 @@
 var columnProp = [];
 var newSql = "";
-var datagridAttr = [];
+var datagridSortAttr = [];
 $(function () {
     if (parent.dataviewData.columnProp != null && parent.dataviewData.columnProp !== ""){
         columnProp = JSON.parse(parent.dataviewData.columnProp);
     }
     $("#queryStat").val(parent.dataviewData.queryStat);
     newSql = parent.dataviewData.queryStat;
-    if (parent.dataviewData.datagridAttr != null && parent.dataviewData.datagridAttr !== ""){
-        datagridAttr = JSON.parse(parent.dataviewData.datagridAttr);
+    if (parent.dataviewData.datagridSortAttr != null && parent.dataviewData.datagridSortAttr !== ""){
+        datagridSortAttr = JSON.parse(parent.dataviewData.datagridSortAttr);
     }
 });
 var layer;
@@ -18,7 +18,7 @@ layui.use(['form','table', 'layer'], function () {
     var table = layui.table;
     layer = layui.layer;
     //初始化数据
-    initDataViewOption(form,layer, datagridAttr);
+    initDataViewOption(form,layer, datagridSortAttr);
     var tables = table.render({
         elem: '#columnProp'
         ,data: columnProp
@@ -28,8 +28,8 @@ layui.use(['form','table', 'layer'], function () {
             {field:'id', title: 'id', width:80, templet: '<div>{{ d.LAY_INDEX }}</div>'}
             ,{field:'field', title: '列名称'}
             ,{field:'title', title: '列标题'}
-            ,{field:'sort', title: '排序'}
-            ,{field:'unresize', title: '禁用拖拽列宽'}
+            ,{field:'sort', title: '排序', templet:'#sort_template'}
+            ,{field:'unresize', title: '禁用拖拽列宽', templet:'#unresize_template'}
             ,{fixed: 'right', title: '操作',width:120, align:'center', toolbar: '#bar'}
         ]]
         ,text: { //自定义文本，如空数据时的异常提示等
@@ -40,14 +40,7 @@ layui.use(['form','table', 'layer'], function () {
         ,size: 'lg' //大尺寸的表格
         ,limit: 30
     });
-    //监听指定开关
-    form.on('switch(loading)', function(data){
-        if (data.elem.checked) {
-            layer.tips('温馨提示：加载条开启时，切换分页会出现加载条', data.othis)
-        } else {
-            layer.tips('温馨提示：加载条关闭时，切换分页将不会出现加载条', data.othis)
-        }
-    });
+
     //新增字段设置
     var addData;
     $("#add").on("click", function () {
@@ -97,6 +90,10 @@ layui.use(['form','table', 'layer'], function () {
                 layui.layer.close(index);
                 obj.del();
                 columnProp.splice(parseInt(obj.tr.selector.split(" ")[1].replace(/[^0-9]/ig,"")),1);
+               tables.reload({
+                    elem: '#columnProp'
+                    ,data: columnProp
+               });
                 layer.msg("删除成功", {icon: 1,time:2000});
             });
         }
@@ -106,16 +103,11 @@ layui.use(['form','table', 'layer'], function () {
     form.on('submit(advanced_options)', function(dataField){
         var jsonData = {
             id:parent.$("#id").val(),
-            datagridAttr: {
-                limit: dataField.field.limit,
-                loading: dataField.field.loading === undefined?false:dataField.field.loading,
+            datagridSortAttr: {
                 initSort: {
                     field: dataField.field.field1,
                     type: dataField.field.type
-                },
-                skin: dataField.field.skin,
-                even: dataField.field.even === undefined?false:dataField.field.loading,
-                size: dataField.field.size
+                }
             },
             dataSource:dataField.field.dataSource,
             queryStat: dataField.field.queryStat,
@@ -182,16 +174,11 @@ layui.use(['form','table', 'layer'], function () {
     form.on('submit(save)', function(dataField){
         var jsonData = {
             id:parent.$("#id").val(),
-            datagridAttr: {
-                limit: dataField.field.limit,
-                loading: dataField.field.loading === undefined?false:dataField.field.loading,
+            datagridSortAttr: {
                 initSort: {
                     field: dataField.field.field1,
                     type: dataField.field.type
-                },
-                skin: dataField.field.skin,
-                even: dataField.field.even === undefined?false:dataField.field.loading,
-                size: dataField.field.size
+                }
             },
             dataSource:dataField.field.dataSource,
             queryStat: newSql,
@@ -243,21 +230,8 @@ function initDataViewOption(form,layer, data) {
         createOption($form1,columnPropList.data,"field", form, "");
     }
     if (data.length !== 0){
-        $("#limit").val(data.limit);
-        if (data.loading === false){
-            $("#loading").removeAttr("checked");
-        } else {
-            $("#loading").attr("checked");
-        }
         $("#field1").val(data.initSort.field);
         $("#type").val(data.initSort.type);
-        $("#skin").val(data.skin);
-        if (data.even === false){
-            $("#even").removeAttr("checked");
-        } else {
-            $("#even").attr("checked");
-        }
-        $("#size").val(data.size);
 
         form.render();
     }
