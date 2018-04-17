@@ -3,19 +3,23 @@ package com.xonro.vflow.workflow.service.impl;
 import com.xonro.vflow.bases.bean.BaseResponse;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.workflow.bean.CreateUser;
+import com.xonro.vflow.workflow.bean.Department;
 import com.xonro.vflow.workflow.bean.UserInfo;
+import com.xonro.vflow.workflow.dao.DepartmentRepository;
+import com.xonro.vflow.workflow.enums.OrgEnum;
 import com.xonro.vflow.workflow.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.IdentityService;
+import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.Picture;
 import org.activiti.engine.identity.User;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.lang.reflect.Field;
 import java.util.List;
 
@@ -26,10 +30,14 @@ import java.util.List;
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
-    @Autowired
+    @Resource
     private IdentityService identityService;
 
+    @Resource
+    private DepartmentRepository departmentRepository;
+
     @Override
+    @CachePut(value = "user",key = "#createUser.userId",unless = "#result eq null ")
     public User createUser(CreateUser createUser) {
         String userId = createUser.getUserId();
         User user = identityService.newUser(userId);
@@ -49,11 +57,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public BaseResponse setUserActive(String userId, boolean active) throws VFlowException {
         User user = identityService.createUserQuery().userId(userId).singleResult();
-        if (user != null){
-            identityService.setUserInfo(userId,"active",active+"");
-            return new BaseResponse(true,"SUCCESS","SUCCESS");
+        try {
+            if (user != null){
+                identityService.setUserInfo(userId,"active",active+"");
+                return new BaseResponse(true,"SUCCESS","SUCCESS");
+            }
+            throw new VFlowException("fail","user not exist,userId:"+userId);
+        } catch (VFlowException e) {
+            log.error(e.getMessage(),e);
+            throw e;
         }
-        throw new VFlowException("fail","user not exist,userId:"+userId);
     }
 
     @Override
@@ -69,25 +82,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @CachePut(value = "user",key = "#userId",unless = "#result eq null ")
     public User updateUser(String userId, String firstName, String lastName, String email) throws VFlowException {
         User user = identityService.createUserQuery().userId(userId).singleResult();
-        if (user == null){
-            throw new VFlowException("fail","user not exist,userId:"+userId);
-        }
+        try {
+            if (user == null){
+                throw new VFlowException("fail","user not exist,userId:"+userId);
+            }
 
-        if (StringUtils.isNotEmpty(firstName)){
-            user.setFirstName(firstName);
+            if (StringUtils.isNotEmpty(firstName)){
+                user.setFirstName(firstName);
+            }
+            if (StringUtils.isNotEmpty(lastName)){
+                user.setLastName(lastName);
+            }
+            if (StringUtils.isNotEmpty(email)){
+                user.setEmail(email);
+            }
+            identityService.saveUser(user);
+        } catch (VFlowException e) {
+            log.error(e.getMessage(),e);
+            throw e;
         }
-
-        if (StringUtils.isNotEmpty(lastName)){
-            user.setLastName(lastName);
-        }
-
-        if (StringUtils.isNotEmpty(email)){
-            user.setEmail(email);
-        }
-
-        identityService.saveUser(user);
         return user;
     }
 
@@ -146,9 +162,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @CachePut(value = "user",key = "'info_'+#userInfo.userId")
-    public UserInfo saveUserInfo(UserInfo userInfo) {
+    public UserInfo saveUserInfo(UserInfo userInfo) throws VFlowException, IllegalAccessException {
         String userId = userInfo.getUserId();
+        User user = identityService.createUserQuery().userId(userId).singleResult();
         try {
+            if (user == null){
+                throw new VFlowException("fail","user not exist,userId:"+userId);
+            }
+
             Field[] fields = UserInfo.class.getDeclaredFields();
             for (Field field : fields) {
                 field.setAccessible(true);
@@ -159,6 +180,10 @@ public class UserServiceImpl implements UserService {
             }
         } catch (IllegalAccessException e) {
             log.error(e.getMessage(),e);
+            throw e;
+        }catch (VFlowException e){
+            log.error(e.getMessage(),e);
+            throw e;
         }
         return userInfo;
     }
@@ -170,14 +195,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Cacheable(value = "user",key = "'info_'+#userId")
-    public UserInfo getUserInfo(String userId) throws VFlowException {
+    public UserInfo getUserInfo(String userId) throws VFlowException, IllegalAccessException {
         User user = identityService.createUserQuery().userId(userId).singleResult();
-        if (user == null){
-            throw new VFlowException("fail","user not exist,userId:"+userId);
-        }
-        List<String> infoKeys = identityService.getUserInfoKeys(userId);
-        UserInfo userInfo = new UserInfo();;
         try {
+            if (user == null){
+                throw new VFlowException("fail","user not exist,userId:"+userId);
+            }
+            List<String> infoKeys = identityService.getUserInfoKeys(userId);
+            UserInfo userInfo = new UserInfo();
+
             for (String infoKey : infoKeys) {
                 String info = identityService.getUserInfo(userId,infoKey);
                 Field[] fields = UserInfo.class.getDeclaredFields();
@@ -194,10 +220,44 @@ public class UserServiceImpl implements UserService {
                     }
                 }
             }
+            return userInfo;
         } catch (IllegalAccessException e) {
             log.error(e.getMessage(),e);
+            throw e;
+        }catch (VFlowException e){
+            log.error(e.getMessage(),e);
+            throw e;
         }
-        return userInfo;
+    }
+
+    @Override
+    public BaseResponse setUserDepartment(String userId, String departmentId) throws VFlowException {
+        Department department = departmentRepository.findById(departmentId);
+        try {
+            if (department == null){
+                throw new VFlowException("error","department not exist,departmentId:"+departmentId);
+            }
+            //删除原有用户-部门关系
+            Group group = identityService.createGroupQuery().groupMember(userId).groupType(OrgEnum.GROUP_TYPE_DEPARTMENT.getValue()).singleResult();
+            if (group != null){
+                identityService.deleteMembership(userId,group.getId());
+            }
+            //创建新的部门-用户关系
+            identityService.createMembership(userId,department.getGroupId());
+            return new BaseResponse(true,"success","");
+        } catch (VFlowException e) {
+            log.error(e.getMessage(),e);
+            throw e;
+        }
+    }
+
+    @Override
+    public Department userDepartment(String userId) {
+        Group group = identityService.createGroupQuery().groupType(OrgEnum.GROUP_TYPE_DEPARTMENT.getValue()).groupMember(userId).singleResult();
+        if (group == null){
+            return null;
+        }
+        return departmentRepository.findByGroupId(group.getId());
     }
 
     @Override
@@ -209,6 +269,5 @@ public class UserServiceImpl implements UserService {
     public List<User> userInGroupPage(String groupId, Integer firstResult, Integer limit) {
         return identityService.createUserQuery().memberOfGroup(groupId).listPage(firstResult,limit);
     }
-
 
 }

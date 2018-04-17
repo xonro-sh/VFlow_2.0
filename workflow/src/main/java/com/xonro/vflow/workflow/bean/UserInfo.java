@@ -17,6 +17,11 @@ public class UserInfo implements Serializable{
     private String userId;
 
     /**
+     * 排序
+     */
+    private Integer orderIndex;
+
+    /**
      * 电话
      */
 
@@ -169,6 +174,14 @@ public class UserInfo implements Serializable{
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public Integer getOrderIndex() {
+        return orderIndex;
+    }
+
+    public void setOrderIndex(Integer orderIndex) {
+        this.orderIndex = orderIndex;
     }
 
     public String getTel() {

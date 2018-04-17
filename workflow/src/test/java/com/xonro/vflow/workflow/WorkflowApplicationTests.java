@@ -1,15 +1,20 @@
 package com.xonro.vflow.workflow;
 
+import com.xonro.vflow.bases.exception.VFlowException;
+import com.xonro.vflow.workflow.bean.Department;
 import com.xonro.vflow.workflow.bean.UserInfo;
+import com.xonro.vflow.workflow.dao.DepartmentRepository;
 import com.xonro.vflow.workflow.service.UserService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.User;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -24,7 +29,7 @@ public class WorkflowApplicationTests {
 	private UserService userService;
 
 	@Test
-	public void testSaveUser(){
+	public void testSaveUser() throws IllegalAccessException, VFlowException {
 		List<User> userList = userService.listPage(0,10);
 		String userId = userList.get(0).getId();
 		userService.saveUser(userId,"ma","jack","jack@test.com","test");
@@ -42,7 +47,7 @@ public class WorkflowApplicationTests {
 	}
 
 	@Test
-	public void getUserInfo(){
+	public void getUserInfo() throws IllegalAccessException, VFlowException {
 		System.out.println(userService.getUserInfo("fe938166-f268-4de4-9e72-5a428f51e651"));
 	}
 
@@ -54,6 +59,13 @@ public class WorkflowApplicationTests {
 		identityService.setUserInfo("fe938166-f268-4de4-9e72-5a428f51e651","positionLevel","1");
 	}
 
+	@Resource
+	DepartmentRepository departmentRepository;
+	@Test
+	public void testDepartmentFindById(){
+		Department department = departmentRepository.findById(null);
+		Assert.assertNull(department);
+	}
 
 
 }

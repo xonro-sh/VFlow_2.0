@@ -2,6 +2,7 @@ package com.xonro.vflow.workflow.service.impl;
 
 import com.xonro.vflow.workflow.bean.Role;
 import com.xonro.vflow.workflow.dao.RoleRepository;
+import com.xonro.vflow.workflow.enums.OrgEnum;
 import com.xonro.vflow.workflow.service.RoleService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
@@ -30,7 +31,7 @@ public class RoleServiceImpl implements RoleService {
     public Role createRole(String roleName, String tenantId) {
         Group group = identityService.newGroup(RandomStringUtils.randomAlphabetic(32).toLowerCase());
         group.setName(roleName);
-        group.setType("role");
+        group.setType(OrgEnum.GROUP_TYPE_ROLE.getValue());
         identityService.saveGroup(group);
 
         Role role = new Role();

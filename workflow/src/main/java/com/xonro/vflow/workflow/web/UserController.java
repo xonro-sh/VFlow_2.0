@@ -3,6 +3,7 @@ package com.xonro.vflow.workflow.web;
 import com.xonro.vflow.bases.bean.BaseResponse;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.workflow.bean.CreateUser;
+import com.xonro.vflow.workflow.bean.Department;
 import com.xonro.vflow.workflow.bean.UserInfo;
 import com.xonro.vflow.workflow.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,15 +11,11 @@ import org.activiti.engine.identity.User;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
-import java.util.Set;
 
 /**
  * 人员相关控制器
@@ -91,30 +88,43 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/info_get")
-    public UserInfo getUserInfo(@NotBlank(message = "userId can not be empty") String userId) throws VFlowException {
+    public UserInfo getUserInfo(@NotBlank(message = "userId can not be empty") String userId) throws VFlowException, IllegalAccessException {
         return userService.getUserInfo(userId);
     }
 
+    /**
+     * 保存用户信息
+     * @param userInfo
+     * @return
+     * @throws IllegalAccessException
+     * @throws VFlowException
+     */
     @RequestMapping(value = "/info_save")
-    public UserInfo saveUserInfo(@Valid UserInfo userInfo){
+    public UserInfo saveUserInfo(@Valid UserInfo userInfo) throws IllegalAccessException, VFlowException {
         return userService.saveUserInfo(userInfo);
     }
 
-    @ExceptionHandler
-    public BaseResponse handleException(Exception e){
-        String msg = "";
-        if (e instanceof ConstraintViolationException){
-            ConstraintViolationException violationException = (ConstraintViolationException)e;
-            Set<ConstraintViolation<?>> violations = violationException.getConstraintViolations();
-            StringBuilder builder = new StringBuilder();
-            for (ConstraintViolation<?> violation : violations) {
-                builder.append(violation.getMessage()+";");
-            }
-            msg = builder.toString();
-        }else {
-            msg = e.getMessage();
-        }
-        log.error(msg,e);
-        return new BaseResponse(false,"fail",msg);
+    /**
+     * 设置用户部门
+     * @param userId
+     * @param departmentId
+     * @return
+     * @throws VFlowException
+     */
+    @RequestMapping(value = "/set_department")
+    public BaseResponse setDepartment(@NotBlank(message = "userId can not be empty") String userId,
+                                      @NotBlank(message = "departmentId can not be empty") String departmentId) throws VFlowException {
+        return userService.setUserDepartment(userId,departmentId);
     }
+
+    /**
+     * 获取用户所属部门
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/department")
+    public Department userDepartment(String userId){
+        return userService.userDepartment(userId);
+    }
+
 }

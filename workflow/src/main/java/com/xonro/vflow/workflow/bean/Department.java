@@ -1,6 +1,7 @@
 package com.xonro.vflow.workflow.bean;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,10 +21,15 @@ public class Department implements Serializable{
     @GenericGenerator(name = "idGenerator",strategy = "uuid")
     @GeneratedValue(generator = "idGenerator")
     private String id;
+
+    @NotBlank(message = "departmentName can't be empty")
     private String name;
+
     private String parentId;
     private Integer orderIndex;
     private String groupId;
+
+    @NotBlank(message = "tenantId can't be empty")
     private String tenantId;
 
     public String getId() {

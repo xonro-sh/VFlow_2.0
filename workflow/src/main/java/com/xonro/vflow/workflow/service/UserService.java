@@ -3,6 +3,7 @@ package com.xonro.vflow.workflow.service;
 import com.xonro.vflow.bases.bean.BaseResponse;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.workflow.bean.CreateUser;
+import com.xonro.vflow.workflow.bean.Department;
 import com.xonro.vflow.workflow.bean.UserInfo;
 import org.activiti.engine.identity.Picture;
 import org.activiti.engine.identity.User;
@@ -110,8 +111,10 @@ public interface UserService {
      * 保存用户信息
      * @param userInfo
      * @return
+     * @throws VFlowException
+     * @throws IllegalAccessException
      */
-    UserInfo saveUserInfo(UserInfo userInfo);
+    UserInfo saveUserInfo(UserInfo userInfo) throws VFlowException, IllegalAccessException;
 
     /**
      * 校验用户密码,校验通过返回true，否则返回false
@@ -126,8 +129,25 @@ public interface UserService {
      * @param userId
      * @return
      * @throws VFlowException
+     * @throws IllegalAccessException
      */
-    UserInfo getUserInfo(String userId) throws VFlowException;
+    UserInfo getUserInfo(String userId) throws VFlowException, IllegalAccessException;
+
+    /**
+     * 设置用户部门
+     * @param userId
+     * @param departmentId
+     * @return
+     * @throws VFlowException
+     */
+    BaseResponse setUserDepartment(String userId,String departmentId) throws VFlowException;
+
+    /**
+     * 获取用户所属部门
+     * @param userId
+     * @return 部门
+     */
+    Department userDepartment(String userId);
 
     /**
      * 获取指定分组内的用户列表
