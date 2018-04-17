@@ -66,42 +66,35 @@ public class FileHelper {
                             "    <script type=\"text/javascript\" src=\"../../../js/dataview/com.xonro.dataview_util.js\"></script>\n" +
                             "    <script type=\"text/javascript\" src=\"../../../js/util.js\"></script>\n" +
                             "    <script src=\"../../../lib/layui/layui.js\"></script>\n" +
+                            "    <script type=\"text/javascript\" src=\"../../../js/dataview/com.xonro.datagrid_main.js\"></script>\n" +
                             "</head>\n" +
                             "<body>\n" +
                             "<div class=\"layui-col-md12 layui-col-space1\">\n" +
+                            "    <div class=\"layui-collapse\" id=\"searchCollapse\">\n" +
+                            "        <div class=\"layui-colla-item\">\n" +
+                            "            <h2 class=\"layui-colla-title\">查询条件</h2>\n" +
+                            "            <div class=\"layui-colla-content layui-show\">\n" +
+                            "                <form class=\"layui-form layui-row\">\n" +
+                            "                    <div class=\"layui-col-md10\" id=\"searchDiv\">\n" +
+                            "                    </div>\n" +
+                            "                    <div class=\"layui-col-md2\">\n" +
+                            "                        <div class=\"layui-col-md12 layui-col-space1\">\n" +
+                            "                            <span style=\"float: right\">\n" +
+                            "                                <button id=\"search\" class=\"layui-btn\" lay-filter=\"search\" lay-submit>查询</button>\n" +
+                            "                            </span>\n" +
+                            "                        </div>\n" +
+                            "                    </div>\n" +
+                            "                </form>\n" +
+                            "            </div>\n" +
+                            "        </div>\n" +
+                            "    </div>\n" +
                             "    <!--<div class=\"layui-btn-group\">-->\n" +
                             "        <!--<button class=\"layui-btn layui-btn-normal\" id=\"add\">新增</button>-->\n" +
                             "    <!--</div>-->\n" +
                             "    <table class=\"layui-hide\" id=\"datagrid\" lay-filter=\"datagrid\" lay-data=\"{id:'datagrid'}\"></table>\n" +
                             "</div>\n" +
-                            "<script>\n" +
-                            "    layui.use(['table'],function () {\n" +
-                            "        var table = layui.table;\n" +
-                            "        var datagrid = getDataGridConf(getUrlParameter(\"id\"));\n" +
-                            "        var datagridSortAttr = JSON.parse(datagrid.datagridSortAttr);\n" +
-                            "        var datagridBasicAttr = JSON.parse(datagrid.datagridBasicAttr);\n" +
-                            "        var tables = table.render({\n" +
-                            "            elem: '#datagrid'\n" +
-                            "            ,url: '../../../../dataview/get_datagrid_dataset?id='+getUrlParameter(\"id\")\n" +
-                            "            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增\n" +
-                            "            ,height: 'full-160'\n" +
-                            "            ,page: true\n" +
-                            "            ,cols: [JSON.parse(datagrid.columnProp)]\n" +
-                            "            ,text: { //自定义文本，如空数据时的异常提示等\n" +
-                            "                none: '暂无相关数据'\n" +
-                            "            },\n" +
-                            "            loading : datagridBasicAttr.loading,\n" +
-                            "            initSort: datagridSortAttr.initSort,\n" +
-                            "            limit: datagridBasicAttr.limit,\n" +
-                            "            skin: datagridBasicAttr.skin,\n" +
-                            "            even: datagridBasicAttr.even,\n" +
-                            "            size: datagridBasicAttr.size\n" +
-                            "        });\n" +
-                            "        console.log(tables);\n" +
-                            "    });\n" +
-                            "</script>" +
                             "</body>\n" +
-                            "</html>";
+                            "</html>\n";
                 }
                 if (file1.createNewFile()){
                     PrintStream printStream = new PrintStream(new FileOutputStream(file1));
