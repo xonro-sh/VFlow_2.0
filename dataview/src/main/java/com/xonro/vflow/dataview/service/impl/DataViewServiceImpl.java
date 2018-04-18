@@ -2,6 +2,7 @@ package com.xonro.vflow.dataview.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.serializer.PropertyFilter;
 import com.alibaba.fastjson.serializer.SerializeFilter;
@@ -11,12 +12,14 @@ import com.xonro.vflow.bases.bean.TableResponse;
 import com.xonro.vflow.bases.helper.FileHelper;
 import com.xonro.vflow.dataview.bean.DataView;
 import com.xonro.vflow.dataview.bean.DataViewTheme;
+import com.xonro.vflow.dataview.bean.QueryCondition;
 import com.xonro.vflow.dataview.bean.request.TreeMapRequest;
 import com.xonro.vflow.dataview.bean.request.TreeMapResponse;
 import com.xonro.vflow.dataview.dao.DataViewRepository;
 import com.xonro.vflow.dataview.dao.DataViewThemeRepository;
 import com.xonro.vflow.dataview.helper.DataViewHelper;
 import com.xonro.vflow.dataview.service.DataViewService;
+import com.xonro.vflow.dataview.enums.DataViewEnums;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
@@ -196,6 +199,9 @@ public class DataViewServiceImpl implements DataViewService {
                 if (dataView.getTitle() != null){
                     dataView1.setTitle(dataView.getTitle());
                 }
+                if (dataView.getQueryCondition() != null){
+                    dataView1.setQueryCondition(dataView.getQueryCondition());
+                }
                 dataViewRepository.save(dataView1);
             } else {
                 DataView dataView1 = dataViewRepository.save(dataView);
@@ -362,18 +368,107 @@ public class DataViewServiceImpl implements DataViewService {
     }
 
     @Override
-    public TableResponse getDataGridDataSet(String id,Integer page, Integer rows) {
+    public TableResponse getDataGridDataSet(String id,Integer page, Integer rows, String data) {
         TableResponse tableResponse = new TableResponse(){{
             setCode(0);
             setData("");
             setMsg("");
         }};
         DataView dataView = dataViewRepository.findById(id);
+        List<QueryCondition> queryConditions = JSON.parseObject(dataView.getQueryCondition(), new TypeReference<List<QueryCondition>>(){}) ;
         String sql = dataView.getQueryStat();
-        String countSql = sql.replaceAll("(?<=select).*?(?=from)"," count(*) ");
+        StringBuilder searchSql = new StringBuilder();
+        searchSql.append(sql);
         //TODO 还需优化查询条件  暂时没做 18/04/09
-        sql = sql + " limit " + rows + " offset " + (page-1) ;
-        Query query = em.createNativeQuery(sql);
+        if (StringUtils.isNotEmpty(data)){
+            JSONObject searchData = JSON.parseObject(data);
+            for (QueryCondition queryCondition : queryConditions){
+                switch (queryCondition.getType()) {
+                    case "text":
+                        if (StringUtils.isNotEmpty(searchData.getString(queryCondition.getField()))) {
+                            if ("like".equals(queryCondition.getComparisonMethod()) || "not like".equals(queryCondition.getComparisonMethod())){
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getRelationship());
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getField());
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getComparisonMethod());
+                                searchSql.append("  '%");
+                                searchSql.append(searchData.getString(queryCondition.getField()))
+                                        .append("%' ");
+                            } else {
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getRelationship());
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getField());
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getComparisonMethod());
+                                searchSql.append("  '");
+                                searchSql.append(searchData.getString(queryCondition.getField())).append("'");
+                            }
+
+                        }
+                        break;
+                    case "number":
+                        if (StringUtils.isNotEmpty(searchData.getString(queryCondition.getField()))) {
+                            if ("like".equals(queryCondition.getComparisonMethod()) || "not like".equals(queryCondition.getComparisonMethod())){
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getRelationship());
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getField());
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getComparisonMethod());
+                                searchSql.append("  '%");
+                                searchSql.append(searchData.getString(queryCondition.getField()))
+                                        .append("%' ");
+                            } else {
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getRelationship());
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getField());
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getComparisonMethod());
+                                searchSql.append(" ");
+                                searchSql.append(searchData.getString(queryCondition.getField()));
+                            }
+
+                        }
+                        break;
+                    case "date":
+                        if (StringUtils.isNotEmpty(searchData.getString(queryCondition.getField()))) {
+                            if ("like".equals(queryCondition.getComparisonMethod()) || "not like".equals(queryCondition.getComparisonMethod())){
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getRelationship());
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getField());
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getComparisonMethod());
+                                searchSql.append("  '%");
+                                searchSql.append(searchData.getString(queryCondition.getField()))
+                                        .append("%' ");
+                            } else {
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getRelationship());
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getField());
+                                searchSql.append(" ");
+                                searchSql.append(queryCondition.getComparisonMethod());
+                                searchSql.append("  '");
+                                searchSql.append(searchData.getString(queryCondition.getField())).append("'");
+                            }
+
+                        }
+                        break;
+                    default:
+                }
+            }
+        }
+        String countSql = String.valueOf(searchSql).replaceAll("(?<=select).*?(?=from)"," count(*) ");
+        searchSql.append(" limit ").
+                append(rows).
+                append(" offset ").
+                append((page - 1)*rows);
+        Query query = em.createNativeQuery(String.valueOf(searchSql));
         Query query1 = em.createNativeQuery(countSql);
         //将在Hibernate 6.x中被替代 还未发布
         query.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);

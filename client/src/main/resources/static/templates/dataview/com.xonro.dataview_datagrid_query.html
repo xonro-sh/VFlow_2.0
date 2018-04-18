@@ -40,6 +40,130 @@
     </div>
     <table class="layui-hide" id="queryCondition" lay-filter="queryCondition" lay-data="{id:'queryCondition'}"></table>
 </div>
+<form id="addtemp" class="layui-form childrenBody" style="display: none" >
+    <br><br>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">列名称</label>
+            <div class="layui-input-block">
+                <select id="field" name="field" lay-verify="required">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">列标题</label>
+            <div class="layui-input-block">
+                <input id="title" name="title" lay-verify="required" autocomplete="off" class="layui-input" type="text">
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10" id="relationshipDiv">
+        <div class="layui-form-item">
+            <label class="layui-form-label">关系</label>
+            <div class="layui-input-block">
+                <select id="relationship" name="relationship">
+                    <option value="and">并且</option>
+                    <option value="or">或</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">比较方式</label>
+            <div class="layui-input-block">
+                <select id="comparisonMethod" name="comparisonMethod" lay-verify="required">
+                    <option value="=">等于</option>
+                    <option value="!=">不等于</option>
+                    <option value="<">小于</option>
+                    <option value=">">大于</option>
+                    <option value="<=">小于等于</option>
+                    <option value=">=">大于等于</option>
+                    <option value="like">包含（模糊匹配）</option>
+                    <option value="not like">不包含（模糊匹配）</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">类型</label>
+            <div class="layui-input-block">
+                <select id="type" name="type" lay-verify="required">
+                    <option value="text">文本</option>
+                    <option value="number">数值</option>
+                    <option value="date">日期</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">UI组件</label>
+            <div class="layui-input-block">
+                <select id="ui" name="ui" lay-verify="required">
+                    <option value="list">列表</option>
+                    <option value="input">文本框</option>
+                    <option value="date">日期</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">默认值</label>
+            <div class="layui-input-block">
+                <input id="defaultValue" name="defaultValue" autocomplete="off" class="layui-input" type="text">
+            </div>
+        </div>
+    </div>
+    <input id="index" name="index" style="display: none" class="layui-input" type="text">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item" style="text-align: right">
+            <div class="layui-btn-group">
+                <button lay-submit class="layui-btn" id="up" lay-filter="up">提交</button>
+                <button lay-submit class="layui-btn" id="modify" lay-filter="modify">修改</button>
+            </div>
+        </div>
+    </div>
+</form>
+<form id="configurationtemp" class="layui-form childrenBody" style="display: none" >
+    <br><br>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">参考值选项</label>
+            <div class="layui-input-block">
+                <select id="config" name="config" lay-verify="required">
+                    <option value="cons">常量</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">参考值</label>
+            <div class="layui-input-block">
+                <input id="configText" name="configText" lay-verify="required" autocomplete="off" class="layui-input" type="text">
+            </div>
+        </div>
+        <div class="layui-form-mid layui-word-aux">语法格式：值1:显示1|值2:显示2...</div>
+    </div>
+    <input id="index1" name="index1" style="display: none" class="layui-input" type="text">
+</form>
+<script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/html" id="configurationTemplet">
+    {{#  if(d.ui == 'list'){ }}
+    <button class="layui-btn layui-btn-normal layui-btn-xs" id="configuration">配置</button>
+    {{#  } else { }}
+    <button class="layui-btn layui-btn-disabled layui-btn-xs" id="configuration" disabled>配置</button>
+    {{#  } }}
+
+</script>
 </body>
 
 </html>

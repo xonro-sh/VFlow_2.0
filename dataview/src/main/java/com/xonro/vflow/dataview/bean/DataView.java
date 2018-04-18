@@ -1,6 +1,7 @@
 package com.xonro.vflow.dataview.bean;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 
@@ -97,7 +98,6 @@ public class DataView {
         this.dataSource = dataSource;
     }
 
-    @Column(name = "query_stat")
     public String getQueryStat() {
         return queryStat;
     }
@@ -152,10 +152,12 @@ public class DataView {
     }
 
     @Column(name = "query_condition")
+    @Length(max = 3000)
     public String getQueryCondition() {
         return queryCondition;
     }
 
+    @Column(name = "query_stat")
     public void setQueryCondition(String queryCondition) {
         this.queryCondition = queryCondition;
     }

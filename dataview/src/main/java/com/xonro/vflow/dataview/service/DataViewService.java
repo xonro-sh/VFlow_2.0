@@ -96,6 +96,6 @@ public interface DataViewService {
      * @param id
      * @return
      */
-    TableResponse getDataGridDataSet(String id,Integer page, Integer rows);
+    TableResponse getDataGridDataSet(String id,Integer page, Integer rows, String data);
 
 }
