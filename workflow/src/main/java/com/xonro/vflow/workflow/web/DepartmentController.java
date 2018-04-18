@@ -78,20 +78,22 @@ public class DepartmentController {
 
     /**
      * 获取所有根部门
+     * @param tenantId 租赁id
      * @return
      */
     @RequestMapping(value = "/roots")
-    public List<Department> rootDepartments(){
-        return departmentService.rootDepartment();
+    public List<Department> rootDepartments(@NotBlank(message = "tenantId can not be empty") String tenantId){
+        return departmentService.rootDepartment(tenantId);
     }
 
     /**
      * 获取所有部门
+     * @param tenantId
      * @return
      */
     @RequestMapping(value = "/all")
-    public List<Department> all(){
-        return departmentService.findAll();
+    public List<Department> all(@NotBlank(message = "tenantId can not be empty") String tenantId){
+        return departmentService.findAll(tenantId);
     }
 
     /**
@@ -102,6 +104,7 @@ public class DepartmentController {
      */
     @RequestMapping(value = "/users")
     public List<User> users(@NotBlank(message = "departmentId can not be empty") String departmentId) throws VFlowException {
+
         return departmentService.departmentUsers(departmentId);
     }
 

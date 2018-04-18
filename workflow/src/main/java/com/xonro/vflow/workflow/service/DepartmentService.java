@@ -56,15 +56,17 @@ public interface DepartmentService {
 
     /**
      * 获取所有部门
+     * @param tenantId 租赁id
      * @return
      */
-    List<Department> findAll();
+    List<Department> findAll(String tenantId);
 
     /**
      * 获取所有根部门
+     * @param tenantId
      * @return 跟部门列表
      */
-    List<Department> rootDepartment();
+    List<Department> rootDepartment(String tenantId);
 
     /**
      * 获取部门所属用户

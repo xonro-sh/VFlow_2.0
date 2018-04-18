@@ -40,4 +40,18 @@ public interface DepartmentRepository extends JpaRepository<Department,Long> {
      * @return
      */
     Department findByGroupId(String groupId);
+
+    /**
+     * 获取租赁用户下的所有部门
+     * @param tenantId
+     * @return
+     */
+    List<Department> findByTenantId(String tenantId);
+
+    /**
+     * 获取租户下的跟部门
+     * @param tenantId
+     * @return
+     */
+    List<Department> findByTenantIdAndParentIdIsNull(String tenantId);
 }

@@ -104,13 +104,13 @@ public class DepartmentServiceImpl implements DepartmentService{
     }
 
     @Override
-    public List<Department> findAll() {
-        return repository.findAll();
+    public List<Department> findAll(String tenantId) {
+        return repository.findByTenantId(tenantId);
     }
 
     @Override
-    public List<Department> rootDepartment() {
-        return repository.findByParentIdIsNull();
+    public List<Department> rootDepartment(String tenantId) {
+        return repository.findByTenantIdAndParentIdIsNull(tenantId);
     }
 
     @Override
