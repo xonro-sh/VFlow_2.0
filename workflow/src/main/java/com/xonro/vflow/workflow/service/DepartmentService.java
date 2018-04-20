@@ -1,5 +1,7 @@
 package com.xonro.vflow.workflow.service;
 
+import com.xonro.vflow.bases.bean.NodeResponse;
+import com.xonro.vflow.bases.bean.TableResponse;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.workflow.bean.Department;
 import org.activiti.engine.identity.User;
@@ -39,12 +41,28 @@ public interface DepartmentService {
     Department getDepartmentById(String departmentId);
 
     /**
+     * 获取固定结构的部门菜单
+     * @param tenantId 租户ID
+     * @return list菜单
+     * @throws VFlowException
+     */
+    List<NodeResponse> getDepartmentsByTree(String tenantId) throws VFlowException;
+
+    /**
      * 获取子部门
      * @param parentDepartmentId 父部门id
      * @return 子部门列表
      * @throws VFlowException
      */
     List<Department> getSubDepartments(String parentDepartmentId) throws VFlowException;
+
+
+    /**
+     * 获取子部门（layui）
+     * @param parentDepartmentId 父部门id
+     * @return 子部门列表
+     */
+    TableResponse getSubDepartmentsByTable(String parentDepartmentId);
 
     /**
      * 获取父部门
@@ -69,11 +87,25 @@ public interface DepartmentService {
     List<Department> rootDepartment(String tenantId);
 
     /**
+     * 获取所有根部门（layui）
+     * @param tenantId
+     * @return
+     */
+    TableResponse rootDepartmentByTable(String tenantId);
+
+    /**
      * 获取部门所属用户
      * @param departmentId
      * @return
      * @throws VFlowException
      */
     List<User> departmentUsers(String departmentId) throws VFlowException;
+
+    /**
+     * 获取部门所属用户（layui）
+     * @param departmentId
+     * @return
+     */
+    TableResponse departmentUsersByTable(String departmentId);
 
 }

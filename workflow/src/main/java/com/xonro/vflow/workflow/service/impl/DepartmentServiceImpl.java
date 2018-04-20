@@ -1,6 +1,8 @@
 package com.xonro.vflow.workflow.service.impl;
 
 import com.google.common.base.Strings;
+import com.xonro.vflow.bases.bean.NodeResponse;
+import com.xonro.vflow.bases.bean.TableResponse;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.workflow.bean.Department;
 import com.xonro.vflow.workflow.dao.DepartmentRepository;
@@ -15,6 +17,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.xml.soap.Node;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -76,6 +80,35 @@ public class DepartmentServiceImpl implements DepartmentService{
     }
 
     @Override
+    public List<NodeResponse> getDepartmentsByTree(String tenantId) throws VFlowException {
+        //根部门
+        List<Department> departments= rootDepartment(tenantId);
+        //根节点
+        List<NodeResponse> allNodes = new ArrayList<>();
+        for (Department department: departments){
+            //一级菜单
+            List<NodeResponse> firstNodes = new ArrayList<>();
+            allNodes.add(new NodeResponse(department.getName(), department.getId(), getSubDepartmentsByTree(firstNodes, department.getId())));
+        }
+        return allNodes;
+    }
+
+    public List<NodeResponse> getSubDepartmentsByTree(List<NodeResponse> nodeResponses,String parentDepartmentId) throws VFlowException{
+        List<Department> subDep = getSubDepartments(parentDepartmentId);
+
+        if (subDep.size() != 0){
+            for (Department department:subDep){
+                if (getSubDepartments(department.getId()).size()!=0){
+                    List<NodeResponse> nodeResponses1 = new ArrayList<>();
+                    nodeResponses.add(new NodeResponse(department.getName(), department.getId(), getSubDepartmentsByTree(nodeResponses1, department.getId())));
+                } else {
+                    nodeResponses.add(new NodeResponse(department.getName(), department.getId()));
+                }
+            }
+        }
+        return nodeResponses;
+    }
+    @Override
     public List<Department> getSubDepartments(String parentDepartmentId) throws VFlowException {
         Department parentDepartment = repository.findById(parentDepartmentId);
         try {
@@ -87,6 +120,22 @@ public class DepartmentServiceImpl implements DepartmentService{
             log.error(e.getMessage(),e);
             throw e;
         }
+    }
+
+    @Override
+    public TableResponse getSubDepartmentsByTable(String parentDepartmentId) {
+        List<Department> departments = null;
+        TableResponse tableResponse = new TableResponse(0,"",0, "");
+        try {
+            departments = getSubDepartments(parentDepartmentId);
+            tableResponse.setCount((long) departments.size());
+            tableResponse.setData(departments);
+        } catch (VFlowException e) {
+            log.error(e.getMessage(),e);
+            tableResponse.setCode(1);
+            tableResponse.setMsg(e.getErrorCode());
+        }
+        return tableResponse;
     }
 
     @Override
@@ -114,6 +163,12 @@ public class DepartmentServiceImpl implements DepartmentService{
     }
 
     @Override
+    public TableResponse rootDepartmentByTable(String tenantId) {
+        List<Department> departments = repository.findByTenantIdAndParentIdIsNull(tenantId);
+        return new TableResponse(0,"",departments.size(), departments);
+    }
+
+    @Override
     public List<User> departmentUsers(String departmentId) throws VFlowException {
         Department department = repository.findById(departmentId);
         try {
@@ -125,6 +180,21 @@ public class DepartmentServiceImpl implements DepartmentService{
             log.error(e.getMessage(),e);
             throw e;
         }
+    }
+
+    @Override
+    public TableResponse departmentUsersByTable(String departmentId) {
+        TableResponse tableResponse = new TableResponse(0,"",0, "");
+        try {
+            List<User> users = departmentUsers(departmentId);
+            tableResponse.setCount((long) users.size());
+            tableResponse.setData(users);
+        } catch (VFlowException e) {
+            log.error(e.getMessage(),e);
+            tableResponse.setCode(1);
+            tableResponse.setMsg(e.getErrorCode());
+        }
+        return tableResponse;
     }
 
 }
