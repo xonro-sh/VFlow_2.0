@@ -55,8 +55,14 @@ public interface RoleService {
      * 获取角色用户
      * @param roleId 角色id
      * @return 拥有角色的用户列表
+     * @throws VFlowException
      */
     List<User> getRoleUser(String roleId) throws VFlowException;
 
-
+    /**
+     * 根据分组获取角色
+     * @param groupId
+     * @return
+     */
+    Role getRoleByGroupId(String groupId);
 }

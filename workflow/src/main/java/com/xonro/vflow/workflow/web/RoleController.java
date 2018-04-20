@@ -31,7 +31,6 @@ public class RoleController {
 
     /**
      * 创建角色
-     *
      * @param roleName
      * @param tenantId
      * @return 创建后的角色对象
@@ -44,7 +43,6 @@ public class RoleController {
 
     /**
      * 删除角色
-     *
      * @param roleId 角色id
      * @return 被删除的角色对象，角色不存在时返回null
      */
@@ -72,7 +70,7 @@ public class RoleController {
      * @return
      */
     @RequestMapping(value = "/all")
-    public List<Role> getAll(String tenantId){
+    public List<Role> getAll(String tenantId) {
         return roleService.getAll(tenantId);
     }
 
@@ -82,12 +80,18 @@ public class RoleController {
      * @return
      */
     @RequestMapping(value = "/get")
-    public Role getById(@NotBlank(message = "roleId can not be empty") String roleId){
+    public Role getById(@NotBlank(message = "roleId can not be empty") String roleId) {
         return roleService.getRoleById(roleId);
     }
 
+    /**
+     * 获取角色用户
+     * @param roleId
+     * @return
+     * @throws VFlowException
+     */
     @RequestMapping(value = "/users")
-    public List<User> roleUser(@NotBlank(message = "roleId can not be empty")String roleId) throws VFlowException {
+    public List<User> roleUser(@NotBlank(message = "roleId can not be empty") String roleId) throws VFlowException {
         return roleService.getRoleUser(roleId);
     }
 

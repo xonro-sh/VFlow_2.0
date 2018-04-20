@@ -103,4 +103,9 @@ public class RoleServiceImpl implements RoleService {
         }
     }
 
+    @Override
+    public Role getRoleByGroupId(String groupId) {
+        return roleRepository.findByGroupId(groupId);
+    }
+
 }

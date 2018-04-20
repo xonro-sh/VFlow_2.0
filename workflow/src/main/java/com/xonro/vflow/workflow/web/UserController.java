@@ -4,6 +4,7 @@ import com.xonro.vflow.bases.bean.BaseResponse;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.workflow.bean.CreateUser;
 import com.xonro.vflow.workflow.bean.Department;
+import com.xonro.vflow.workflow.bean.Role;
 import com.xonro.vflow.workflow.bean.UserInfo;
 import com.xonro.vflow.workflow.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -125,6 +126,29 @@ public class UserController {
     @RequestMapping(value = "/department")
     public Department userDepartment(String userId){
         return userService.userDepartment(userId);
+    }
+
+    /**
+     * 设置用户角色
+     * @param userId
+     * @param roleId
+     * @return
+     * @throws VFlowException
+     */
+    @RequestMapping(value = "/set_role")
+    public BaseResponse setRole(@NotBlank(message = "userId can not be empty") String userId,
+                                @NotBlank(message = "roleId can not be empty") String roleId) throws VFlowException {
+        return userService.setUserRole(userId,roleId);
+    }
+
+    /**
+     * 获取用户角色
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/role")
+    public Role userRole(@NotBlank(message = "userId can not be empty") String userId){
+        return userService.getUserRole(userId);
     }
 
 }

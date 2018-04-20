@@ -4,9 +4,11 @@ import com.xonro.vflow.bases.bean.BaseResponse;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.workflow.bean.CreateUser;
 import com.xonro.vflow.workflow.bean.Department;
+import com.xonro.vflow.workflow.bean.Role;
 import com.xonro.vflow.workflow.bean.UserInfo;
 import com.xonro.vflow.workflow.dao.DepartmentRepository;
 import com.xonro.vflow.workflow.enums.OrgEnum;
+import com.xonro.vflow.workflow.service.RoleService;
 import com.xonro.vflow.workflow.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.IdentityService;
@@ -32,9 +34,10 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Resource
     private IdentityService identityService;
-
     @Resource
     private DepartmentRepository departmentRepository;
+    @Resource
+    private RoleService roleService;
 
     @Override
     @CachePut(value = "user",key = "#createUser.userId",unless = "#result eq null ")
@@ -258,6 +261,35 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         return departmentRepository.findByGroupId(group.getId());
+    }
+
+    @Override
+    public BaseResponse setUserRole(String userId, String roleId) throws VFlowException {
+        Role role = roleService.getRoleById(roleId);
+        try {
+            if (role == null){
+                throw new VFlowException("fail","role not exist,roleId:"+roleId);
+            }
+            //删除旧角色
+            Group group = identityService.createGroupQuery().groupType(OrgEnum.GROUP_TYPE_ROLE.getValue()).groupMember(userId).singleResult();
+            identityService.deleteMembership(userId,group.getId());
+
+            //创建新角色
+            identityService.createMembership(userId,role.getGroupId());
+            return new BaseResponse(true,"success","");
+        } catch (VFlowException e) {
+            log.error(e.getMessage(),e);
+            throw e;
+        }
+    }
+
+    @Override
+    public Role getUserRole(String userId) {
+        Group group = identityService.createGroupQuery().groupType(OrgEnum.GROUP_TYPE_ROLE.getValue()).groupMember(userId).singleResult();
+        if (group == null){
+            return null;
+        }
+        return roleService.getRoleByGroupId(group.getId());
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.xonro.vflow.bases.bean.BaseResponse;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.workflow.bean.CreateUser;
 import com.xonro.vflow.workflow.bean.Department;
+import com.xonro.vflow.workflow.bean.Role;
 import com.xonro.vflow.workflow.bean.UserInfo;
 import org.activiti.engine.identity.Picture;
 import org.activiti.engine.identity.User;
@@ -148,6 +149,22 @@ public interface UserService {
      * @return 部门
      */
     Department userDepartment(String userId);
+
+    /**
+     * 设置用户角色
+     * @param userId
+     * @param roleId
+     * @return
+     * @throws VFlowException
+     */
+    BaseResponse setUserRole(String userId,String roleId) throws VFlowException;
+
+    /**
+     * 获取用户角色
+     * @param userId
+     * @return
+     */
+    Role getUserRole(String userId);
 
     /**
      * 获取指定分组内的用户列表
