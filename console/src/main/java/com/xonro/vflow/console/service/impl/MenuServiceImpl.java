@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.xonro.vflow.bases.bean.BaseResponse;
 import com.xonro.vflow.bases.bean.TableResponse;
 import com.xonro.vflow.console.bean.Menu;
-import com.xonro.vflow.console.bean.NodeResponse;
+import com.xonro.vflow.bases.bean.NodeResponse;
 import com.xonro.vflow.console.dao.MenuRepository;
 import com.xonro.vflow.console.enums.ConsoleEnums;
 import com.xonro.vflow.console.service.MenuService;
