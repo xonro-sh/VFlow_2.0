@@ -12,6 +12,7 @@ import org.activiti.engine.identity.User;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,10 +34,14 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public User createUser(@Valid CreateUser user) throws VFlowException {
+    public User createUser(@Valid @RequestBody CreateUser user) throws VFlowException {
         return userService.createUser(user);
     }
 
+    @RequestMapping(value = "/get",method = RequestMethod.GET)
+    public User findUserById(String userId){
+        return userService.findUserById(userId);
+    }
     /**
      * 设置用户状态
      * @param userId

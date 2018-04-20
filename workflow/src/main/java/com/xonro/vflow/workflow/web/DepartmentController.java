@@ -1,5 +1,8 @@
 package com.xonro.vflow.workflow.web;
 
+import com.alibaba.fastjson.JSON;
+import com.xonro.vflow.bases.bean.NodeResponse;
+import com.xonro.vflow.bases.bean.TableResponse;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.workflow.bean.Department;
 import com.xonro.vflow.workflow.service.DepartmentService;
@@ -8,9 +11,7 @@ import org.activiti.engine.identity.User;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -35,7 +36,7 @@ public class DepartmentController {
      * @return 成功返回创建后的部门信息，失败则返回失败信息
      */
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public Department createDepartment(@Valid Department department){
+    public Department createDepartment(@Valid @RequestBody Department department){
         return departmentService.createDepartment(department);
     }
 
@@ -65,6 +66,10 @@ public class DepartmentController {
         return departmentService.getSubDepartments(departmentId);
     }
 
+    @RequestMapping(value = "/subs_table")
+    public String subDepartmentsByTable(@NotBlank(message = "departmentId can not be empty") String departmentId){
+        return JSON.toJSONString(departmentService.getSubDepartmentsByTable(departmentId));
+    }
     /**
      * 获取父部门
      * @param departmentId
@@ -84,6 +89,16 @@ public class DepartmentController {
     @RequestMapping(value = "/roots")
     public List<Department> rootDepartments(@NotBlank(message = "tenantId can not be empty") String tenantId){
         return departmentService.rootDepartment(tenantId);
+    }
+
+    /**
+     * 获取所有根部门(layui)
+     * @param tenantId 租赁id
+     * @return
+     */
+    @RequestMapping(value = "/roots_table")
+    public String rootDepartmentByTable(String tenantId){
+        return JSON.toJSONString(departmentService.rootDepartmentByTable(tenantId));
     }
 
     /**
@@ -107,5 +122,22 @@ public class DepartmentController {
 
         return departmentService.departmentUsers(departmentId);
     }
+
+    /**
+     * 部门用户列表 (layui)
+     * @param departmentId
+     * @return 成功则返回用户列表，失败返回失败信息
+     */
+    @RequestMapping(value = "/users_table")
+    public String usersByTable(String departmentId){
+        return JSON.toJSONString(departmentService.departmentUsersByTable(departmentId));
+    }
+
+    @RequestMapping(value = "/tree")
+    public List<NodeResponse> getDepartmentsByTree(@NotBlank(message = "tenantId can not be empty") String tenantId) throws VFlowException {
+        return departmentService.getDepartmentsByTree(tenantId);
+    }
+
+
 
 }
