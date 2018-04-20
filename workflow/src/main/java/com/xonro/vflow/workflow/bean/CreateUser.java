@@ -26,7 +26,6 @@ public class CreateUser implements Serializable{
     /**
      * 名
      */
-    @NotBlank(message = "lastName can not be empty")
     private String lastName;
 
     /**
