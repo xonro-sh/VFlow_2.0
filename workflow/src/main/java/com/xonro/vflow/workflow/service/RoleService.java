@@ -1,5 +1,6 @@
 package com.xonro.vflow.workflow.service;
 
+import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.workflow.bean.Role;
 import org.activiti.engine.identity.User;
 
@@ -25,8 +26,9 @@ public interface RoleService {
      * @param roleId 角色id
      * @param roleName 角色名称
      * @return 更新后的角色信息
+     * @throws VFlowException
      */
-    Role updateRole(String roleId,String roleName);
+    Role updateRole(String roleId,String roleName) throws VFlowException;
 
     /**
      * 删除角色
@@ -34,6 +36,13 @@ public interface RoleService {
      * @return 被删除的角色信息
      */
     Role deleteRole(String roleId);
+
+    /**
+     * 获取角色
+     * @param roleId
+     * @return
+     */
+    Role getRoleById(String roleId);
 
     /**
      * 获取所有的角色列表
@@ -47,7 +56,7 @@ public interface RoleService {
      * @param roleId 角色id
      * @return 拥有角色的用户列表
      */
-    List<User> getRoleUser(String roleId);
+    List<User> getRoleUser(String roleId) throws VFlowException;
 
 
 }

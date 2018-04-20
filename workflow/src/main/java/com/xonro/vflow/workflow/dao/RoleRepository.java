@@ -4,6 +4,8 @@ import com.xonro.vflow.workflow.bean.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 角色数据仓库
  * @author louie
@@ -24,5 +26,12 @@ public interface RoleRepository extends JpaRepository<Role,Long>{
      * @return
      */
     Role findByGroupId(String groupId);
+
+    /**
+     * 获取租户角色
+     * @param tenantId
+     * @return
+     */
+    List<Role> findByTenantId(String tenantId);
 
 }
