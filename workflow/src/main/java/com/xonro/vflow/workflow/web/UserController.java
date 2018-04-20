@@ -33,7 +33,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public User createUser(@Valid CreateUser user){
+    public User createUser(@Valid CreateUser user) throws VFlowException {
         return userService.createUser(user);
     }
 

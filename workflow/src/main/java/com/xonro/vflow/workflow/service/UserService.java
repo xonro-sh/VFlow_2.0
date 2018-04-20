@@ -22,7 +22,7 @@ public interface UserService {
      * @param createUser
      * @return
      */
-    User createUser(CreateUser createUser);
+    User createUser(CreateUser createUser) throws VFlowException;
 
     /**
      * 设置用户注销、激活状态

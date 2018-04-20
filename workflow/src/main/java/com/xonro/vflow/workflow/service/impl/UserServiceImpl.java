@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @CachePut(value = "user",key = "#createUser.userId",unless = "#result eq null ")
-    public User createUser(CreateUser createUser) {
+    public User createUser(CreateUser createUser) throws VFlowException {
         String userId = createUser.getUserId();
         User user = identityService.newUser(userId);
 
@@ -55,6 +55,8 @@ public class UserServiceImpl implements UserService {
         }
         identityService.saveUser(user);
         identityService.setUserInfo(userId,"tenantId",createUser.getTenantId());
+        //设置用户部门
+        setUserDepartment(userId,createUser.getDepartmentId());
         return user;
     }
 

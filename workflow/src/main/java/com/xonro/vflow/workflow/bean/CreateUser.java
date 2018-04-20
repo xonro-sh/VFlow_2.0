@@ -50,6 +50,7 @@ public class CreateUser implements Serializable{
     /**
      * 部门id
      */
+    @NotBlank(message = "departmentId can not be empty")
     private String departmentId;
 
     public String getUserId() {
