@@ -15,6 +15,7 @@ import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.Picture;
 import org.activiti.engine.identity.User;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -45,7 +46,7 @@ public class UserServiceImpl implements UserService {
         String userId = createUser.getUserId();
         User user = identityService.newUser(userId);
 
-        user.setPassword(createUser.getPassword());
+        user.setPassword(DigestUtils.md5Hex(createUser.getPassword()));
         user.setFirstName(createUser.getFirstName());
         user.setLastName(createUser.getLastName());
         String email = createUser.getEmail();
@@ -74,11 +75,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public BaseResponse changeUserPassword(String userId, String oldPassword, String newPassword) {
-        if (identityService.checkPassword(userId,oldPassword)){
+        if (identityService.checkPassword(userId,DigestUtils.md5Hex(oldPassword))){
             User user = identityService.createUserQuery().userId(userId).singleResult();
-            user.setPassword(newPassword);
+            user.setPassword(DigestUtils.md5Hex(newPassword));
             identityService.saveUser(user);
-
             return new BaseResponse(true,user);
         }
         return new BaseResponse(false,"fail","old password is wrong");
@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(email);
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        user.setPassword(password);
+        user.setPassword(DigestUtils.md5Hex(password));
 
         identityService.saveUser(user);
         return user;
@@ -193,7 +193,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkUserPassword(String userId, String password) {
-        return identityService.checkPassword(userId,password);
+        return identityService.checkPassword(userId,DigestUtils.md5Hex(password));
     }
 
     @Override
