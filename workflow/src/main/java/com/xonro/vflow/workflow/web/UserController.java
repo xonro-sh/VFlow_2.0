@@ -106,7 +106,7 @@ public class UserController {
      * @throws VFlowException
      */
     @RequestMapping(value = "/info_save")
-    public UserInfo saveUserInfo(@Valid UserInfo userInfo) throws IllegalAccessException, VFlowException {
+    public UserInfo saveUserInfo(@Valid @RequestBody UserInfo userInfo) throws IllegalAccessException, VFlowException {
         return userService.saveUserInfo(userInfo);
     }
 
