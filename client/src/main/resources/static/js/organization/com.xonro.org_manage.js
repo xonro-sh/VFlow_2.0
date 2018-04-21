@@ -118,7 +118,83 @@ layui.use(['tree', 'table', 'layer', 'form', 'laydate'], function () {
                 anim: 3, //从左滑入
                 btn: ['提交'],
                 yes: function(index, layero){
-                    //按钮【按钮一】的回调
+                    console.log();
+                    if (!Verification1("#staff_info_temp")){
+
+                    } else {
+                        //按钮【按钮一】的回调
+                        var jsonData = {
+                            userId: layero.find("#info_userId").val(),
+                            active: layero.find("#info_active").val(),
+                            sex: layero.find("#info_sex").val(),
+                            tel: layero.find("#info_tel").val(),
+                            mobile: layero.find("#info_mobile").val(),
+                            idCardName: layero.find("#info_idCardName").val(),
+                            idCardNo: layero.find("#info_idCardNo").val(),
+                            idCardAddress: layero.find("#info_idCardAddress").val(),
+                            birthDate: layero.find("#info_birthDate").val(),
+                            nation: layero.find("#info_nation").val(),
+                            address: layero.find("#info_address").val(),
+                            politicalStatus: layero.find("#info_politicalStatus").val(),
+                            maritalStatus: layero.find("#info_maritalStatus").val(),
+                            education: layero.find("#info_education").val(),
+                            university: layero.find("#info_university").val(),
+                            major: layero.find("#info_major").val(),
+                            graduationTime: layero.find("#info_graduationTime").val(),
+                            remark: layero.find("#info_remark").val(),
+                            position: layero.find("#info_position").val(),
+                            positionLevel: layero.find("#info_positionLevel").val(),
+                            hiredDate: layero.find("#info_hiredDate").val(),
+                            employeeType: layero.find("#info_employeeType").val(),
+                            employeeState: layero.find("#info_employeeState").val(),
+                            tenantId:tenantId
+                        };
+                        console.log(deleteEmptyProperty(jsonData));
+                        $.ajax({
+                            url: "../../user/update",
+                            type: "post",
+                            dataType: "json",
+                            data: {
+                                userId: layero.find("#info_userId").val(),
+                                firstName: layero.find("#info_name").val(),
+                                lastName: "",
+                                email: layero.find("#info_email").val()
+                            }
+                            ,async: false,
+                            success: function (data) {
+                                console.log(data);
+                                if ('ok' in data&&!data.ok){
+                                    layer.msg("提交失败，错误信息"+data.msg, {icon: 2,time:3000});
+                                } else {
+                                    $.ajax({
+                                        url: "../../user/info_save",
+                                        type: "post",
+                                        dataType: "json",
+                                        contentType:"application/json",
+                                        data: deleteEmptyProperty(JSON.stringify(jsonData))
+                                        ,async: false,
+                                        success: function (data) {
+                                            console.log(data);
+                                            if ('ok' in data&&!data.ok){
+                                                layer.msg("提交失败，错误信息"+data.msg, {icon: 2,time:3000});
+                                            } else {
+                                                layer.msg("提交成功", {icon: 1,time:2000});
+                                                layer.close(index); //如果设定了yes回调，需进行手工关闭
+                                            }
+                                        },
+                                        error : function (data) {
+                                            layer.msg("提交失败，错误信息"+data.msg, {icon: 2,time:3000});
+                                        }
+                                    });
+                                }
+
+                            },
+                            error : function (data) {
+                                layer.msg("提交失败，错误信息"+data.msg, {icon: 2,time:3000});
+                            }
+                        });
+                    }
+
                 }
             });
         }
@@ -273,7 +349,10 @@ layui.use(['tree', 'table', 'layer', 'form', 'laydate'], function () {
         return info;
     }
 });
-
+//表单提交
+form.on('submit(staff_info_up)',function(data){
+    return false;
+});
 //初始化成员详情
 function initUserInfo(data, layer) {
     var info = getUserInfoByUserId(layer, data.id);
@@ -330,3 +409,231 @@ function getUserInfoByUserId(layer, userId) {
     });
     return info;
 }
+
+function deleteEmptyProperty(object){
+    for (var i in object) {
+        var value = object[i];
+        console.log(value);
+        if (typeof value === 'object') {
+            if (Array.isArray(value)) {
+                if (value.length == 0) {
+                    delete object[i];
+                    continue;
+                }
+            }
+            this.deleteEmptyProperty(value);
+            if (this.isEmpty(value)) {
+                delete object[i];
+            }
+        } else {
+            if (value === '' || value === null || value === undefined) {
+                delete object[i];
+            } else {
+            }
+        }
+    }
+    return object
+}
+
+
+function isEmpty(object) {
+    for (var name in object) {
+        return false;
+    }
+    return true;
+}
+
+
+//表单提交校验
+function Verification(form) {
+    var config = {
+
+        verify: {
+            required: [
+                /[\S]+/
+                , '必填项不能为空'
+            ]
+            , phone: [
+                /^1\d{10}$/
+                , '请输入正确的手机号'
+            ]
+            , email: [
+                /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+                , '邮箱格式不正确'
+            ]
+            , url: [
+                /(^#)|(^http(s*):\/\/[^\s]+\.[^\s]+)/
+                , '链接格式不正确'
+            ]
+            , number: [
+                /^\d+$/
+                , '只能填写数字'
+            ]
+            , date: [
+                /^(\d{4})[-\/](\d{1}|0\d{1}|1[0-2])([-\/](\d{1}|0\d{1}|[1-2][0-9]|3[0-1]))*$/
+                , '日期格式不正确'
+            ]
+            , identity: [
+                /(^\d{15}$)|(^\d{17}(x|X|\d)$)/
+                , '请输入正确的身份证号'
+            ]
+        }
+    };
+    formElem = $(form);
+    var button = $(this), verify = config.verify, stop = null
+        , DANGER = 'layui-form-danger', field = {}
+        , verifyElem = formElem.find('*[lay-verify]') //获取需要校验的元素
+        , fieldElem = formElem.find('input,select,textarea') //获取所有表单域
+    //开始校验
+    layui.each(verifyElem, function (_, item) {
+        var othis = $(this), tips = '';
+        var arr = othis.attr('lay-verify').split('|');
+        for (var i in arr) {
+            var ver = arr[i];
+            var value = othis.val(), isFn = typeof verify[ver] === 'function';
+            othis.removeClass(DANGER);
+            if (verify[ver] && (isFn ? tips = verify[ver](value, item) : !verify[ver][0].test(value))) {
+                layer.msg(tips || verify[ver][1], {
+                    icon: 5
+                    , shift: 6
+                });
+                //非移动设备自动定位焦点
+                console.log(item+'item');
+                if (!layui.device().android && !layui.device().ios) {
+                    item.focus();
+                }
+                othis.addClass(DANGER);
+                return stop = true;
+            }
+        }
+    });
+
+    if (stop) return false;
+
+    layui.each(fieldElem, function (_, item) {
+        if (!item.name) return;
+        if (/^checkbox|radio$/.test(item.type) && !item.checked) return;
+        field[item.name] = item.value;
+    });
+
+    //返回序列化表单元素， JSON 数据结构数据。
+    return formElem.serializeArray();
+
+    //return true;
+};
+
+//表单提交校验
+/**
+ * @return {boolean}
+ */
+function Verification1(form){
+    var button = $(this), verify = {
+
+            required: [
+                /[\S]+/
+                , '必填项不能为空'
+            ]
+            , phone: [
+                /^1\d{10}$/
+                , '请输入正确的手机号'
+            ]
+            , email: [
+                /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+                , '邮箱格式不正确'
+            ]
+            , url: [
+                /(^#)|(^http(s*):\/\/[^\s]+\.[^\s]+)/
+                , '链接格式不正确'
+            ]
+            , number: [
+                /^\d+$/
+                , '只能填写数字'
+            ]
+            , date: [
+                /^(\d{4})[-\/](\d{1}|0\d{1}|1[0-2])([-\/](\d{1}|0\d{1}|[1-2][0-9]|3[0-1]))*$/
+                , '日期格式不正确'
+            ]
+            , identity: [
+                /(^\d{15}$)|(^\d{17}(x|X|\d)$)/
+                , '请输入正确的身份证号'
+            ]
+    }, stop = null
+        ,DANGER = 'layui-form-danger', field = {}
+        ,formElem = $(form) //获取当前所在的form元素，如果存在的话
+        ,verifyElem = formElem.find('*[lay-verify]') //获取需要校验的元素
+
+        ,fieldElem = formElem.find('input,select,textarea') //获取所有表单域
+
+
+    //开始校验
+    layui.each(verifyElem, function(_, item){
+        var othis = $(this)
+            ,vers = othis.attr('lay-verify').split('|')
+            ,verType = othis.attr('lay-verType') //提示方式
+            ,value = othis.val();
+        console.log(vers);
+        othis.removeClass(DANGER);
+        layui.each(vers, function(_, thisVer){
+            var isTrue //是否命中校验
+                ,errorText = '' //错误提示文本
+                ,isFn = typeof verify[thisVer] === 'function';
+
+            //匹配验证规则
+            if(verify[thisVer]){
+                var isTrue = isFn ? errorText = verify[thisVer](value, item) : !verify[thisVer][0].test(value);
+                errorText = errorText || verify[thisVer][1];
+
+                //如果是必填项或者非空命中校验，则阻止提交，弹出提示
+                if(isTrue){
+                    //提示层风格
+                    if(verType === 'tips'){
+                        layer.tips(errorText, function(){
+                            if(typeof othis.attr('lay-ignore') !== 'string'){
+                                if(item.tagName.toLowerCase() === 'select' || /^checkbox|radio$/.test(item.type)){
+                                    return othis.next();
+                                }
+                            }
+                            return othis;
+                        }(), {tips: 1});
+                    } else if(verType === 'alert') {
+                        layer.alert(errorText, {title: '提示', shadeClose: true});
+                    } else {
+                        layer.msg(errorText, {icon: 5, shift: 6});
+                    }
+                    if(!layui.device().android && !layui.device().ios){
+                        item.focus();
+                    }  //非移动设备自动定位焦点
+                    othis.addClass(DANGER);
+                    return stop = true;
+                }
+            }
+        });
+        if(stop) return stop;
+    });
+
+    if(stop) {
+        return false;
+    } else {
+        return true;
+    }
+
+    // var nameIndex = {}; //数组 name 索引
+    // layui.each(fieldElem, function(_, item){
+    //     item.name = (item.name || '').replace(/^\s*|\s*&/, '');
+    //
+    //     if(!item.name) return;
+    //
+    //     //用于支持数组 name
+    //     if(/^.*\[\]$/.test(item.name)){
+    //         var key = item.name.match(/^(.*)\[\]$/g)[0];
+    //         nameIndex[key] = nameIndex[key] | 0;
+    //         item.name = item.name.replace(/^(.*)\[\]$/, '$1['+ (nameIndex[key]++) +']');
+    //     }
+    //
+    //     if(/^checkbox|radio$/.test(item.type) && !item.checked) return;
+    //     field[item.name] = item.value;
+    // });
+    //
+    // //获取字段
+    // return true;
+};
