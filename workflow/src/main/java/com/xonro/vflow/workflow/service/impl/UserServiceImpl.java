@@ -295,6 +295,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User login(String userId, String password) throws VFlowException {
+        User user = findUserById(userId);
+        VFlowException exception = new VFlowException();
+        //校验用户是否存在
+        if (user == null){
+            exception.setMessage("user not exist,userId:"+userId);
+            throw exception;
+        }
+
+        //校验用户密码
+        if (!checkUserPassword(userId,password)){
+            exception.setMessage("user password is wrong");
+            throw exception;
+        }
+        return user;
+    }
+
+    @Override
     public List<User> userInGroup(String groupId) {
         return identityService.createUserQuery().memberOfGroup(groupId).list();
     }

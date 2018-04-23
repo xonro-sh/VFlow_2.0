@@ -167,6 +167,14 @@ public interface UserService {
     Role getUserRole(String userId);
 
     /**
+     * 用户登录
+     * @param userId
+     * @param password
+     * @return 成功返回登录的用户信息，失败抛出异常
+     */
+    User login(String userId,String password) throws VFlowException;
+
+    /**
      * 获取指定分组内的用户列表
      * @param groupId 分组id
      * @return

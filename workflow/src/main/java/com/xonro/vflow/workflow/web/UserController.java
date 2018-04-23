@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 /**
@@ -34,7 +35,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public User createUser(@Valid @RequestBody CreateUser user) throws VFlowException {
+    public User createUser(@Valid CreateUser user) throws VFlowException {
         return userService.createUser(user);
     }
 
@@ -154,6 +155,32 @@ public class UserController {
     @RequestMapping(value = "/role")
     public Role userRole(@NotBlank(message = "userId can not be empty") String userId){
         return userService.getUserRole(userId);
+    }
+
+    /**
+     * 用户登录
+     * @param userId 用户账号
+     * @param password 用户密码
+     * @param session
+     * @return 成功则返回用户信息，失败抛出异常，异常信息为失败原因
+     * @throws VFlowException
+     */
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    public User login(String userId, String password, HttpSession session) throws VFlowException {
+        User user = userService.login(userId,password);
+        session.setAttribute(session.getId(),user);
+        return user;
+    }
+
+    /**
+     * 用户登出
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/logout")
+    public BaseResponse logout(HttpSession session){
+        session.removeAttribute(session.getId());
+        return new BaseResponse(true,"success","");
     }
 
 }

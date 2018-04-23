@@ -2,7 +2,6 @@ package com.xonro.vflow.workflow.web;
 
 import com.alibaba.fastjson.JSON;
 import com.xonro.vflow.bases.bean.NodeResponse;
-import com.xonro.vflow.bases.bean.TableResponse;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.workflow.bean.Department;
 import com.xonro.vflow.workflow.service.DepartmentService;
@@ -11,7 +10,9 @@ import org.activiti.engine.identity.User;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -36,7 +37,7 @@ public class DepartmentController {
      * @return 成功返回创建后的部门信息，失败则返回失败信息
      */
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public Department createDepartment(@Valid @RequestBody Department department){
+    public Department createDepartment(@Valid Department department){
         return departmentService.createDepartment(department);
     }
 

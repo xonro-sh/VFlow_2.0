@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * @author Alex
  * @date 2018/1/23
@@ -113,7 +115,11 @@ public class ConsoleController {
      * @return 结果
      */
     @RequestMapping(value = "/login")
-    BaseResponse login(String account, String password){
-        return loginService.getTenantInfoFromCache(account, password);
+    BaseResponse login(String account, String password, HttpSession session){
+        BaseResponse response = loginService.getTenantInfoFromCache(account, password);
+        if (response.isOk()){
+            session.setAttribute(session.getId(),account);
+        }
+        return response;
     }
 }
