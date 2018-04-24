@@ -44,6 +44,9 @@ public class UserServiceImpl implements UserService {
     @CachePut(value = "user",key = "#createUser.userId",unless = "#result eq null ")
     public User createUser(CreateUser createUser) throws VFlowException {
         String userId = createUser.getUserId();
+        if (identityService.createUserQuery().userId(userId).singleResult() != null){
+            throw new VFlowException("fail","user already exist,userId:"+userId);
+        }
         User user = identityService.newUser(userId);
 
         user.setPassword(DigestUtils.md5Hex(createUser.getPassword()));
