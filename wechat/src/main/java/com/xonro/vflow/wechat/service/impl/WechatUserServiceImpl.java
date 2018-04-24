@@ -65,7 +65,7 @@ public class WechatUserServiceImpl implements WechatUserService {
     @Override
     public TableResponse getUserInfoList(String openId, Integer page, Integer rows) {
         Sort sort = new Sort(Sort.Direction.DESC,"subscribeTime");
-        Pageable pages = PageRequest.of(page-1, rows, sort);
+        Pageable pages = new PageRequest(page-1, rows, sort);
         Page<UserInfo> userInfos = userRepository.findAll(pages);
 
         if (userInfos.getTotalElements() == 0 ){
@@ -76,7 +76,7 @@ public class WechatUserServiceImpl implements WechatUserService {
                 return new TableResponse(1, e.getMessage(), userInfos.getTotalElements(),userInfos.getContent());
             }
             assert userInfosAll != null;
-            userRepository.saveAll(userInfosAll);
+            userRepository.save(userInfosAll);
             //再执行一遍查询
             userInfos = userRepository.findAll(pages);
         }
