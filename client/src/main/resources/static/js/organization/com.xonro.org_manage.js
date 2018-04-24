@@ -1,6 +1,7 @@
 var tenantId;
+var tenantInfo;
 $(function () {
-    tenantId = parent.getUrlParameter("tenantId");
+    tenantId = parent.getUrlParameter("id");
     console.log(tenantId);
 });
 layui.use(['tree', 'table', 'layer', 'form', 'laydate'], function () {
@@ -9,11 +10,15 @@ layui.use(['tree', 'table', 'layer', 'form', 'laydate'], function () {
     var layer = layui.layer;
     var form = layui.form;
     var laydate = layui.laydate;
+    tenantInfo = parent.getTenantInfo(tenantId,layer);
+    console.log(tenantInfo);
     $("#parentId").val(null);
-    $("#parentName").val("上海象融");
-    $("#departmentName").val("上海象融");
-    $("#dep").html("上海象融");
+    $("#parentName").val(tenantInfo.name);
+    $("#departmentName").val(tenantInfo.name);
+    $("#dep").html(tenantInfo.name);
     $("#departmentId").val(null);
+    //初始化下拉框
+    createOption($("#staff_info_temp"),getAllRole(tenantId,layer),"info_role",form,"name","id");
     //日期初始化
     laydate.render({
         elem: '#info_birthDate' //指定元素
@@ -67,7 +72,7 @@ layui.use(['tree', 'table', 'layer', 'form', 'laydate'], function () {
     var trees = layui.tree({
         elem: '#org' //传入元素选择器
         ,nodes: [{ //节点
-            name: '上海象融'
+            name: tenantInfo.name
             ,id: null
             ,spread: true
             ,children: getDepartmentsByTree()
@@ -178,8 +183,31 @@ layui.use(['tree', 'table', 'layer', 'form', 'laydate'], function () {
                                             if ('ok' in data&&!data.ok){
                                                 layer.msg("提交失败，错误信息"+data.msg, {icon: 2,time:3000});
                                             } else {
-                                                layer.msg("提交成功", {icon: 1,time:2000});
-                                                layer.close(index); //如果设定了yes回调，需进行手工关闭
+                                                //角色更新
+                                                $.ajax({
+                                                    url: "../../user/set_role",
+                                                    type: "post",
+                                                    dataType: "json",
+                                                    data: {
+                                                        userId: obj.data.id,
+                                                        roleId: layero.find("#info_role").val()
+                                                    }
+                                                    ,async: false,
+                                                    success: function (data) {
+                                                        console.log(data);
+                                                        if ('ok' in data&&!data.ok){
+                                                            layer.msg("提交失败，错误信息"+data.msg, {icon: 2,time:3000});
+                                                        } else {
+                                                            layer.msg("提交成功", {icon: 1,time:2000});
+                                                            layer.close(index); //如果设定了yes回调，需进行手工关闭
+                                                        }
+
+                                                    },
+                                                    error : function (data) {
+                                                        layer.msg("提交失败，错误信息"+data.msg, {icon: 2,time:3000});
+                                                    }
+                                                });
+
                                             }
                                         },
                                         error : function (data) {
@@ -193,21 +221,44 @@ layui.use(['tree', 'table', 'layer', 'form', 'laydate'], function () {
                                 layer.msg("提交失败，错误信息"+data.msg, {icon: 2,time:3000});
                             }
                         });
+                        staff.reload({
+                            elem: '#staff'
+                            ,url: '../../department/users_table?departmentId='+layero.find("#info_departmentId").val() //数据接口
+                        });
                     }
 
                 }
             });
+
         }
-        if(obj.event === 'del'){ //删除
-            layui.layer.confirm('真的删除行么', function(index){
+        if(obj.event === 'del'){ //删除人员
+            layui.layer.confirm('真的删除该人员么', function(index){
                 layui.layer.close(index);
-                obj.del();
-                queryCondition.splice(parseInt(obj.tr.selector.split(" ")[1].replace(/[^0-9]/ig,"")),1);
-                tables.reload({
-                    elem: '#queryCondition'
-                    ,data: queryCondition
+                $.ajax({
+                    url: "../../user/delete",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        userId: obj.data.id
+                    }
+                    ,async: false,
+                    success: function (data) {
+                        console.log(data);
+                        if ('ok' in data&&!data.ok){
+                            layer.msg("删除人员失败，错误信息"+data.msg, {icon: 2,time:3000});
+                        } else {
+                            layer.msg("删除人员成功", {icon: 1,time:2000});
+                        }
+
+                    },
+                    error : function (data) {
+                        layer.msg("删除人员失败，错误信息"+data.msg, {icon: 2,time:3000});
+                    }
                 });
-                layer.msg("删除成功", {icon: 1,time:2000});
+                staff.reload({
+                    elem: '#staff'
+                    ,url: '../../department/users_table?departmentId='+$("#info_departmentId").val() //数据接口
+                });
             });
         }
     });
@@ -216,8 +267,6 @@ layui.use(['tree', 'table', 'layer', 'form', 'laydate'], function () {
     //增加子部门
     $("#add_sub_dep").on("click",function () {
         $("#name").val("");
-        $("#sub_dep_up").show();
-        $("#sub_dep_modify").hide();
         form.render();
         subDepTemp = layer.open({
             type: 1,
@@ -348,17 +397,19 @@ layui.use(['tree', 'table', 'layer', 'form', 'laydate'], function () {
         });
         return info;
     }
+    //表单提交
+    form.on('submit(staff_info_up)',function(data){
+        return false;
+    });
 });
-//表单提交
-form.on('submit(staff_info_up)',function(data){
-    return false;
-});
+
 //初始化成员详情
 function initUserInfo(data, layer) {
     var info = getUserInfoByUserId(layer, data.id);
+    var role = getUserRole(data.id);
     $("#info_userId").val(data.id);
     $("#info_name").val(data.firstName);
-    $("#info_role").val(info.role);
+    $("#info_role").val(role==null?"":role.id);
     $("#info_active").val(info.active);
     $("#info_sex").val(info.sex);
     $("#info_email").val(data.email);
@@ -410,6 +461,28 @@ function getUserInfoByUserId(layer, userId) {
     return info;
 }
 
+function getUserRole(userId) {
+    var info = {};
+    $.ajax({
+        url: "../../user/role",
+        type: "get",
+        dataType: "json",
+        data: {
+            userId: userId
+        },
+        async: false,
+        success: function (data) {
+            if ('ok' in data&&!data.ok){
+            } else {
+                info = data;
+            }
+        },
+        error : function (data) {
+        }
+    });
+    return info;
+}
+
 function deleteEmptyProperty(object){
     for (var i in object) {
         var value = object[i];
@@ -443,84 +516,50 @@ function isEmpty(object) {
     return true;
 }
 
-
-//表单提交校验
-function Verification(form) {
-    var config = {
-
-        verify: {
-            required: [
-                /[\S]+/
-                , '必填项不能为空'
-            ]
-            , phone: [
-                /^1\d{10}$/
-                , '请输入正确的手机号'
-            ]
-            , email: [
-                /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
-                , '邮箱格式不正确'
-            ]
-            , url: [
-                /(^#)|(^http(s*):\/\/[^\s]+\.[^\s]+)/
-                , '链接格式不正确'
-            ]
-            , number: [
-                /^\d+$/
-                , '只能填写数字'
-            ]
-            , date: [
-                /^(\d{4})[-\/](\d{1}|0\d{1}|1[0-2])([-\/](\d{1}|0\d{1}|[1-2][0-9]|3[0-1]))*$/
-                , '日期格式不正确'
-            ]
-            , identity: [
-                /(^\d{15}$)|(^\d{17}(x|X|\d)$)/
-                , '请输入正确的身份证号'
-            ]
-        }
-    };
-    formElem = $(form);
-    var button = $(this), verify = config.verify, stop = null
-        , DANGER = 'layui-form-danger', field = {}
-        , verifyElem = formElem.find('*[lay-verify]') //获取需要校验的元素
-        , fieldElem = formElem.find('input,select,textarea') //获取所有表单域
-    //开始校验
-    layui.each(verifyElem, function (_, item) {
-        var othis = $(this), tips = '';
-        var arr = othis.attr('lay-verify').split('|');
-        for (var i in arr) {
-            var ver = arr[i];
-            var value = othis.val(), isFn = typeof verify[ver] === 'function';
-            othis.removeClass(DANGER);
-            if (verify[ver] && (isFn ? tips = verify[ver](value, item) : !verify[ver][0].test(value))) {
-                layer.msg(tips || verify[ver][1], {
-                    icon: 5
-                    , shift: 6
-                });
-                //非移动设备自动定位焦点
-                console.log(item+'item');
-                if (!layui.device().android && !layui.device().ios) {
-                    item.focus();
-                }
-                othis.addClass(DANGER);
-                return stop = true;
+//获取所有角色
+function getAllRole(tenantId, layer) {
+    var info = {};
+    $.ajax({
+        url: "../../role/all",
+        type: "get",
+        dataType: "json",
+        data: {
+            tenantId: tenantId
+        },
+        async: false,
+        success: function (data) {
+            if ('ok' in data&&!data.ok){
+                layer.msg("获取角色信息失败，错误信息"+data.msg, {icon: 2,time:3000});
+            } else {
+                info = data;
             }
+        },
+        error : function (data) {
+            layer.msg("获取角色信息失败，错误信息"+data.msg, {icon: 2,time:3000});
         }
     });
-
-    if (stop) return false;
-
-    layui.each(fieldElem, function (_, item) {
-        if (!item.name) return;
-        if (/^checkbox|radio$/.test(item.type) && !item.checked) return;
-        field[item.name] = item.value;
-    });
-
-    //返回序列化表单元素， JSON 数据结构数据。
-    return formElem.serializeArray();
-
-    //return true;
-};
+    return info;
+}
+/**
+ * 初始化下拉框  动态添加
+ * @param $form
+ * @param data
+ * @param name
+ * @param form
+ * @param value
+ * @returns
+ */
+function createOption($form,data,name,form,showName,value){
+    var html = '';
+    $form.find('select[name='+name+']').html(html);
+    for(var i = 0;i<data.length;i++){
+        showName = eval('data[i].'+showName);
+        value =  eval('data[i].'+value);
+        html +='<option value='+value+'>'+showName+'</option>';
+    }
+    $form.find('select[name='+name+']').append(html);
+    form.render();
+}
 
 //表单提交校验
 /**
