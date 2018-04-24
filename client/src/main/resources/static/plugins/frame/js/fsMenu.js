@@ -80,7 +80,14 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
   			{
 				console.log(dataName);
   				menuConfig.data = $.result(data,dataName);
-  			}
+  			} else if (data[statusName] == "4001"){
+                //提示错误消息
+                fsCommon.errorMsg(data[msgName]);
+                setTimeout(function () {
+                    window.location = "../../../templates/console/com.xonro.vflow_login.html";
+                }, 3000);
+
+			}
   			else
   			{
   				//提示错误消息
