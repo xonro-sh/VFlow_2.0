@@ -1,5 +1,6 @@
 package com.xonro.vflow.workflow.web;
 
+import com.alibaba.fastjson.JSON;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.workflow.bean.Role;
 import com.xonro.vflow.workflow.service.RoleService;
@@ -72,6 +73,16 @@ public class RoleController {
     @RequestMapping(value = "/all")
     public List<Role> getAll(String tenantId) {
         return roleService.getAll(tenantId);
+    }
+
+    /**
+     * 获取租户所有角色(layui)
+     * @param tenantId 租户id
+     * @return
+     */
+    @RequestMapping(value = "/all_table")
+    public String getAllByTable(String tenantId){
+        return JSON.toJSONString(roleService.getAllByTable(tenantId));
     }
 
     /**
