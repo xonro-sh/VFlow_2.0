@@ -143,7 +143,10 @@
                     if (data.ok){
                         console.log(data.data);
                         layer.msg("登陆成功", {icon: 1,time:3000});
-                        window.location.href = "../console/com.xonro.vflow_console.html?id="+data.data.id;
+                        setTimeout(function () {
+                            window.location.href = "../console/com.xonro.vflow_console.html?id="+data.data.id;
+                        },2000);
+
                     } else {
                         layer.msg("登陆失败。错误信息:"+data.msg, {icon: 2,time:3000});
                     }
