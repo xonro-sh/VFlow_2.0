@@ -18,6 +18,15 @@ public class ConsoleUrlBuilder {
     }
 
     /**
+     * 构建获取租户信息的请求url(租户id)
+     * @param tenantId 构建完成的请求url
+     * @return
+     */
+    public String buildGetTenantInfoByIdUrl(String tenantId){
+        return ConsoleEnums.URL_TENANT_GETBYID.getValue()+"tenantId="+ tenantId ;
+    }
+
+    /**
      * 构建保存租户信息的请求url
      * @return 构建完成的请求url
      */

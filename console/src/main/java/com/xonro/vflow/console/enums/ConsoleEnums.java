@@ -17,6 +17,7 @@ public enum ConsoleEnums {
       */
     URL_TENANT_GET("https://www.xonro.com/tenant/get?","获取租户信息"),
     URL_TENANT_SAVE("https://www.xonro.com/tenant/save","保存租户信息"),
+    URL_TENANT_GETBYID("https://www.xonro.com/tenant/get_by_id?","根据租户ID获取租户信息")
     ;
 
     ConsoleEnums(String value, String desc){

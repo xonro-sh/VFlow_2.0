@@ -94,6 +94,54 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
+    public BaseResponse getTenantInfoById(String tenantId) {
+        BaseResponse baseResponse = new BaseResponse(){{
+            setOk(true);
+            setData("");
+            setMsg("");
+        }};
+        BaseRequest baseRequest;
+        try {
+            baseRequest = new RequestExecutor(consoleUrlBuilder.buildGetTenantInfoByIdUrl(tenantId))
+                    .execute()
+                    .getResponseAsObject(BaseRequest.class);
+            if (baseRequest.isOk()){
+                String tenantJson = JSON.toJSONString(baseRequest.getData());
+                TenantInfo tenantInfo = JSON.parseObject(tenantJson, TenantInfo.class);
+                if (tenantInfo.isActive()){
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    Date nowdate = df.parse(df.format(System.currentTimeMillis()));
+                    Date activeDate = df.parse(tenantInfo.getActiveTime());
+                    if (nowdate.before(activeDate)){
+                        baseResponse.setOk(true);
+                        baseResponse.setData(baseRequest.getData());
+                        cacheTenantInfo(tenantInfo);
+                    } else {
+                        baseResponse.setOk(false);
+                        baseResponse.setMsg("您的账号激活时间已过期，请联系相关人员");
+                        baseResponse.setCode("active time past");
+                    }
+                } else {
+                    baseResponse.setOk(false);
+                    baseResponse.setMsg("您的账号未激活，请联系相关人员");
+                    baseResponse.setCode("account is not active");
+                }
+
+            } else {
+                logger.error(baseRequest.getCode(),baseRequest.getMsg());
+                baseResponse.setOk(false);
+                baseResponse.setMsg(baseRequest.getMsg());
+                baseResponse.setCode(baseRequest.getCode());
+            }
+        } catch (IOException | VFlowException | ParseException e) {
+            logger.error(e.getMessage(),e);
+            baseResponse.setOk(false);
+            baseResponse.setMsg(e.getMessage());
+        }
+        return baseResponse;
+    }
+
+    @Override
     public BaseResponse getTenantInfoFromCache(String account, String password) {
 
         if (tenantInfo == null){
@@ -111,6 +159,21 @@ public class LoginServiceImpl implements LoginService{
                 baseResponse.setMsg("用户名或者密码不正确");
                 baseResponse.setCode("login failed");
             }
+            return baseResponse;
+        }
+    }
+
+    @Override
+    public BaseResponse getTenantInfoByIdFromCache(String tenantId) {
+        if (tenantInfo == null){
+            return getTenantInfoById(tenantId);
+        } else {
+            BaseResponse baseResponse = new BaseResponse(){{
+                setOk(true);
+                setData("");
+                setMsg("");
+                setData(tenantInfo);
+            }};
             return baseResponse;
         }
     }

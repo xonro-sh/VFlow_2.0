@@ -122,4 +122,14 @@ public class ConsoleController {
         }
         return response;
     }
+
+    /**
+     * 获取租户信息
+     * @param tenantId 租户id
+     * @return
+     */
+    @RequestMapping(value = "/tenant_info")
+    BaseResponse getTenantInfoByIdFromCache(String tenantId){
+        return loginService.getTenantInfoByIdFromCache(tenantId);
+    }
 }
