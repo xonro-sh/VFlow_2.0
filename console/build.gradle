@@ -30,7 +30,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	runtime('org.springframework.boot:spring-boot-devtools')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
-	compile group: 'com.alibaba', name: 'druid', version: '1.1.9'
+	compile group: 'com.alibaba', name: 'druid-spring-boot-starter', version: '1.1.9'
 	compile('org.springframework.session:spring-session-data-redis')
 
 }
