@@ -274,7 +274,10 @@ public class UserServiceImpl implements UserService {
             }
             //删除旧角色
             Group group = identityService.createGroupQuery().groupType(OrgEnum.GROUP_TYPE_ROLE.getValue()).groupMember(userId).singleResult();
-            identityService.deleteMembership(userId,group.getId());
+            if (group!=null){
+                identityService.deleteMembership(userId,group.getId());
+            }
+
 
             //创建新角色
             identityService.createMembership(userId,role.getGroupId());

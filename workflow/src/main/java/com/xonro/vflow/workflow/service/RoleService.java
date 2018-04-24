@@ -1,5 +1,6 @@
 package com.xonro.vflow.workflow.service;
 
+import com.xonro.vflow.bases.bean.TableResponse;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.workflow.bean.Role;
 import org.activiti.engine.identity.User;
@@ -50,6 +51,13 @@ public interface RoleService {
      * @return
      */
     List<Role> getAll(String tenantId);
+
+    /**
+     * 获取所有的角色列表
+     * @param tenantId 租赁
+     * @returnid
+     */
+    TableResponse getAllByTable(String tenantId);
 
     /**
      * 获取角色用户

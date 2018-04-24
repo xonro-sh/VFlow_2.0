@@ -1,5 +1,6 @@
 package com.xonro.vflow.workflow.service.impl;
 
+import com.xonro.vflow.bases.bean.TableResponse;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.workflow.bean.Role;
 import com.xonro.vflow.workflow.dao.RoleRepository;
@@ -87,6 +88,12 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> getAll(String tenantId) {
         return roleRepository.findByTenantId(tenantId);
+    }
+
+    @Override
+    public TableResponse getAllByTable(String tenantId) {
+        List<Role> roles = roleRepository.findByTenantId(tenantId);
+        return new TableResponse(0,"",roles.size(), roles);
     }
 
     @Override
