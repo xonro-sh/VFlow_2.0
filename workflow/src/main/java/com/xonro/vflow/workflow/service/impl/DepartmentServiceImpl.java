@@ -80,6 +80,21 @@ public class DepartmentServiceImpl implements DepartmentService{
     }
 
     @Override
+    public Department delete(String departmentId) throws VFlowException{
+        Department department = repository.findById(departmentId);
+        if (department != null) {
+            if (getSubDepartments(department.getId()).size() !=0){
+                throw new VFlowException("error","department has sub department,do not delete");
+            } else {
+                String groupId = department.getGroupId();
+                identityService.deleteGroup(groupId);
+                repository.delete(department);
+            }
+        }
+        return department;
+    }
+
+    @Override
     public List<NodeResponse> getDepartmentsByTree(String tenantId) throws VFlowException {
         //根部门
         List<Department> departments= rootDepartment(tenantId);

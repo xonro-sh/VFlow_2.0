@@ -72,6 +72,17 @@ public class DepartmentController {
     public String subDepartmentsByTable(@NotBlank(message = "departmentId can not be empty") String departmentId){
         return JSON.toJSONString(departmentService.getSubDepartmentsByTable(departmentId));
     }
+
+    /**
+     * 删除部门
+     * @param departmentId 部门id
+     * @return
+     * @throws VFlowException
+     */
+    @RequestMapping(value = "/delete")
+    public Department delete(@NotBlank(message = "departmentId can not be empty") String departmentId) throws VFlowException {
+        return departmentService.delete(departmentId);
+    }
     /**
      * 获取父部门
      * @param departmentId

@@ -41,6 +41,14 @@ public interface DepartmentService {
     Department getDepartmentById(String departmentId);
 
     /**
+     * 删除部门
+     * @param departmentId 部门id
+     * @throws VFlowException
+     * @return
+     */
+    Department delete(String departmentId) throws VFlowException;
+
+    /**
      * 获取固定结构的部门菜单
      * @param tenantId 租户ID
      * @return list菜单

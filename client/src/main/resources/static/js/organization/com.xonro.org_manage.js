@@ -107,6 +107,46 @@ layui.use(['tree', 'table', 'layer', 'form', 'laydate'], function () {
 
         }
     });
+    //监听部门表事件
+    table.on('tool(sub_dep)', function (obj) {
+        if(obj.event === 'del'){ //删除部门
+            layui.layer.confirm('真的删除该部门么', function(index){
+                layui.layer.close(index);
+                $.ajax({
+                    url: "../../department/delete",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        departmentId: obj.data.id
+                    }
+                    ,async: false,
+                    success: function (data) {
+                        console.log(data);
+                        if ('ok' in data&&!data.ok){
+                            layer.msg("删除部门失败，错误信息"+data.msg, {icon: 2,time:3000});
+                        } else {
+                            layer.msg("删除部门成功", {icon: 1,time:2000});
+                        }
+
+                    },
+                    error : function (data) {
+                        layer.msg("删除部门失败，错误信息"+data.msg, {icon: 2,time:3000});
+                    }
+                });
+                if ($("#parentId").val() == null || $("#parentId").val() === ""){
+                    subDepTable.reload({
+                        elem: '#sub_dep',
+                        url: '../../department/roots_table?tenantId='+tenantId
+                    });
+                } else {
+                    subDepTable.reload({
+                        elem: '#sub_dep',
+                        url: '../../department/subs_table?departmentId='+$("#parentId").val()
+                    });
+                }
+            });
+        }
+    });
     var staffInfoTemp;
     //监听成员表事件
     table.on('tool(staff)', function(obj){
