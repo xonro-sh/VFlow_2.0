@@ -1,4 +1,4 @@
-package com.xonro.vflow.workflow.web;
+package com.xonro.vflow.console.web;
 
 import com.xonro.vflow.bases.bean.BaseResponse;
 import lombok.extern.slf4j.Slf4j;
