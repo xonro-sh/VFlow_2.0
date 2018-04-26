@@ -56,7 +56,69 @@ function logout() {
         error : function (data) {
 
         }
+        });
+}
+
+//获取租户下所有部门
+function getAllDepartment(tenantId) {
+    var info = {};
+    $.ajax({
+        url: "../../department/all",
+        type: "get",
+        dataType: "json",
+        data: {
+            tenantId: tenantId
+        },
+        async: false,
+        success: function (data) {
+            info = data;
+        },
+        error : function (data) {
+        }
     });
+    return info;
+}
+
+//获取租户下所有角色
+function getAllRole() {
+    var info = {};
+    $.ajax({
+        url: "../../role/all",
+        type: "get",
+        dataType: "json",
+        data: {
+            tenantId: tenantId
+        },
+        async: false,
+        success: function (data) {
+            info = data;
+        },
+        error : function (data) {
+        }
+    });
+    return info;
+}
+
+/**
+ * 初始化下拉框  动态添加
+ * @param $form
+ * @param data
+ * @param name
+ * @param form
+ * @param value
+ * @returns
+ */
+function createOption($form,data,name,form,showName,value){
+    var html = '';
+    console.log(data)
+    $form.find('select[name='+name+']').html(html);
+    for(var i = 0;i<data.length;i++){
+        var showNameNew = eval('data[i].'+showName);
+        var valueNew =  eval('data[i].'+value);
+        html +='<option value='+valueNew+'>'+showNameNew+'</option>';
+    }
+    $form.find('select[name='+name+']').append(html);
+    form.render();
 }
 
 

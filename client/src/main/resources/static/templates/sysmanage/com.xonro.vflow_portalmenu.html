@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>门户菜单管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="https://cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/children.css">
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../lib/layui/layui.js"></script>
+    <script src="../../js/util.js"></script>
+    <script src="../../js/sysmanage/com.xonro.vflow_portalmenu.js"></script>
+</head>
+<body class="childrenBody layui-fluid" style="padding-top: 20px">
+    <div class="layui-row layui-col-space20">
+        <div class="layui-col-md3">
+            <fieldset class="layui-elem-field">
+                <legend>门户菜单管理</legend>
+                <div class="layui-field-box">
+                    <div class="layui-row layui-col-space10">
+                        <div class="layui-col-md12">
+                            <ul id="menu_tree" lay-filter="menu_tree" lay-data="{id:'menu_tree'}"></ul>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+        <div class="layui-col-md9">
+            <fieldset class="layui-elem-field">
+                <legend>门户菜单结构</legend>
+                <div class="layui-field-box">
+                    <div class="layui-col-md12 layui-col-space1">
+                        <div class="layui-btn-group">
+                            <a id="add_sub_menu" class="layui-btn layui-btn-sm">添加菜单</a>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12 layui-col-space1">
+                        <table style="display: none" id="menu_structure" lay-filter="menu_structure" lay-data="{id:'menu_structure'}"></table>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <form  id="sub_menu_temp" class="layui-form childrenBody" style="display: none">
+        <br><br>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-form-item">
+                <label class="layui-form-label">中文名称</label>
+                <div class="layui-input-block">
+                    <input id="cnName" name="cnName" lay-verify="required" autocomplete="off" class="layui-input" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-form-item">
+                <label class="layui-form-label">英文名称</label>
+                <div class="layui-input-block">
+                    <input id="enName" name="enName" autocomplete="off" class="layui-input" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-form-item">
+                <label class="layui-form-label">菜单链接</label>
+                <div class="layui-input-block">
+                    <input id="url" name="url" autocomplete="off" class="layui-input" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10" style="display: none">
+            <div class="layui-form-item">
+                <label class="layui-form-label">父菜单ID</label>
+                <div class="layui-input-block">
+                    <input id="parentId" name="parentId" autocomplete="off" class="layui-input" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-form-item">
+                <label class="layui-form-label">菜单图标</label>
+                <div class="layui-input-block">
+                    <input id="menuIcon" name="menuIcon" autocomplete="off" class="layui-input" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-form-item">
+                <label class="layui-form-label">菜单顺序</label>
+                <div class="layui-input-block">
+                    <input id="orderIndex" name="orderIndex" autocomplete="off" class="layui-input" type="number">
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-form-item">
+                <label class="layui-form-label">菜单有效性</label>
+                <div class="layui-input-block">
+                    <input id="isActive" name="isActive" autocomplete="off" class="layui-input" type="text">
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form id="deploy_temp" class="layui-form childrenBody" style="display: none">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;font-size: 14px">
+            <legend>菜单设置</legend>
+        </fieldset>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;font-size: 14px">
+            <legend>权限设置</legend>
+        </fieldset>
+        <div class="layui-col-md12 layui-col-space1">
+            <div class="layui-btn-group">
+                <a id="add_permission" class="layui-btn layui-btn-sm">添加</a>
+            </div>
+        </div>
+        <div class="layui-col-md12 layui-col-space1">
+            <table style="display: none" id="permission" lay-filter="permission" lay-data="{id:'permission'}"></table>
+        </div>
+    </form>
+
+    <form id="permission_temp" class="layui-form childrenBody" style="display: none">
+        <br><br>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-form-item">
+                <label class="layui-form-label">授权类型</label>
+                <div class="layui-input-block">
+                    <select id="groupType" name="groupType" lay-filter="groupType">
+                        <option value="department">部门</option>
+                        <option value="role">角色</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-form-item">
+                <label class="layui-form-label">授权组名称</label>
+                <div class="layui-input-block">
+                    <select id="groupId" name="groupId">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10" style="display: none">
+            <div class="layui-form-item">
+                <label class="layui-form-label">授权组资源ID</label>
+                <div class="layui-input-block">
+                    <input id="resourceId" name="resourceId" autocomplete="off" class="layui-input" type="text">
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+<script type="text/html" id="menu_structure_bar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="deploy">部署</a>
+    <a class="layui-btn layui-btn-xs" lay-event="up"><i class="layui-icon">&#xe619;</i></a>
+    <a class="layui-btn layui-btn-xs" lay-event="down"><i class="layui-icon">&#xe61a;</i></a>
+</script>
+<script type="text/html" id="permission_bar">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+</html>
