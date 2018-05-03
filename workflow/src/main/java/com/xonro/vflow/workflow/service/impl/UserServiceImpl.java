@@ -303,17 +303,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(String userId, String password) throws VFlowException {
         User user = findUserById(userId);
-        VFlowException exception = new VFlowException();
+        VFlowException vFlowException = new VFlowException();
         //校验用户是否存在
         if (user == null){
-            exception.setMessage("user not exist,userId:"+userId);
-            throw exception;
+//            vFlowException.setMessage("user not exist,userId:"+userId);
+            throw new VFlowException("", "user not exist,userId:"+userId);
         }
 
         //校验用户密码
         if (!checkUserPassword(userId,password)){
-            exception.setMessage("user password is wrong");
-            throw exception;
+//            vFlowException.setMessage("user password is wrong");
+            throw new VFlowException("", "user password is wrong");
         }
         return user;
     }
