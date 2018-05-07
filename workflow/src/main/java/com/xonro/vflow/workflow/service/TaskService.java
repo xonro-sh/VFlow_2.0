@@ -9,7 +9,7 @@ import java.util.List;
  * @author louie
  * @date created in 2018-4-20 11:49
  */
-public interface WorkflowService {
+public interface TaskService {
 
     /**
      * 用户任务
@@ -17,5 +17,6 @@ public interface WorkflowService {
      * @return
      */
     List<Task> userTask(String userId);
+
 
 }
