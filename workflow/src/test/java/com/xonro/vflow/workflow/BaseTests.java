@@ -6,5 +6,4 @@ package com.xonro.vflow.workflow;
  */
 public class BaseTests {
 
-
 }
