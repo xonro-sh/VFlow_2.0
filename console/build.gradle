@@ -1,4 +1,5 @@
-
+apply plugin: 'java'
+apply plugin: 'idea'
 buildscript {
 	ext {
 		springBootVersion = '1.5.10.RELEASE'
@@ -20,12 +21,19 @@ version = '0.0.1-SNAPSHOT'
 archivesBaseName = 'console'
 
 
+configurations {
+    providedRuntime
+}
+
+
 dependencies {
 	compile project(":bases")
 	compile project(":dataview")
 	compile project(":wechat")
     runtime project(":client")
 	compile project(":workflow")
+	compile project(":portal")
+    runtime('org.postgresql:postgresql')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	runtime('org.springframework.boot:spring-boot-devtools')

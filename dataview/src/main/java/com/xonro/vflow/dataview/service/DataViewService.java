@@ -5,8 +5,6 @@ import com.xonro.vflow.bases.bean.TableResponse;
 import com.xonro.vflow.dataview.bean.DataView;
 import com.xonro.vflow.dataview.bean.DataViewTheme;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * @author Alex
  * @date 2018/2/11

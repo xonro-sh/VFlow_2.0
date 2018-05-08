@@ -21,12 +21,13 @@ dependencies {
 	compile project(":bases")
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-web')
-	compile (group: 'org.activiti', name: 'activiti-spring-boot-starter-basic', version: '6.0.0'){
-		exclude(group:'org.slf4j')
-	}
 	runtime('org.springframework.boot:spring-boot-devtools')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile('org.springframework.session:spring-session-data-redis')
+	testCompile('org.springframework.security:spring-security-test')
+	compile (group: 'org.activiti', name: 'activiti-spring-boot-starter-basic', version: '6.0.0'){
+		exclude(group:'org.slf4j')
+	}
 	compile (group: 'org.activiti', name: 'activiti-rest', version: '6.0.0'){
 		exclude(group:'org.slf4j')
 	}

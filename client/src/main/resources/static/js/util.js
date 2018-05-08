@@ -121,4 +121,30 @@ function createOption($form,data,name,form,showName,value){
     form.render();
 }
 
+//根据账号获取成员详情
+function getUserInfoByUserId(userId) {
+    var info = {};
+    $.ajax({
+        url: "../../user/info_get",
+        type: "get",
+        dataType: "json",
+        data: {
+            userId: userId
+        },
+        async: false,
+        success: function (data) {
+            console.log(data)
+            if ('ok' in data&&!data.ok){
+                toastr.warning(data.msg, {timeOut: 2000});
+            } else {
+                info = data;
+            }
+        },
+        error : function (data) {
+            toastr.warning(data.msg, {timeOut: 2000});
+        }
+    });
+    return info;
+}
+
 

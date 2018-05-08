@@ -209,6 +209,7 @@ public class DataViewServiceImpl implements DataViewService {
                 //TODO 还需优化路径问题  暂时为写死 18/03/30
                 //生成报表html 目录格式../{id}/echarts.html
                 fileHelper.createDataViewFile("D:"+ File.separator+"IdeaProjects"+File.separator+"VFlow_2.0_N"+File.separator+"client"+File.separator+"src"+File.separator+"main"+File.separator+"resources"+File.separator+"static"+File.separator+"templates"+File.separator+"demo"+File.separator+id,dataView1.getType());
+//                fileHelper.createDataViewFile(File.separator+"home"+File.separator+"xonro"+File.separator+"vflow"+File.separator+"nginx-1.14.0"+File.separator+"vflow"+File.separator+"static"+File.separator+"templates"+File.separator+"demo"+File.separator+id,dataView1.getType());
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
