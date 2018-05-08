@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 
 /**
  * 人员相关控制器
@@ -42,6 +44,11 @@ public class UserController {
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     public User findUserById(String userId){
         return userService.findUserById(userId);
+    }
+
+    @RequestMapping(value = "/single")
+    public void get(String userId, HttpServletResponse response) throws IOException {
+        response.sendRedirect("/identity/users/"+userId);
     }
     /**
      * 设置用户状态
