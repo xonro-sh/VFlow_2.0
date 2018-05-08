@@ -39,4 +39,11 @@ public interface PermissionService {
      * @return 被删除的权限信息
      */
     Permission delete(String permissionId) ;
+
+    /**
+     * 根据组查找权限
+     * @param groupId
+     * @return
+     */
+    List<PermissionView> getPermissionViewByGroupId(String groupId);
 }
