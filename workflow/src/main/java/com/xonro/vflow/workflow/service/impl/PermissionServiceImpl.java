@@ -93,4 +93,9 @@ public class PermissionServiceImpl implements PermissionService{
         permissionRepository.delete(permission);
         return permission;
     }
+
+    @Override
+    public List<PermissionView> getPermissionViewByGroupId(String groupId) {
+        return permissionViewRepository.findByGroupId(groupId);
+    }
 }

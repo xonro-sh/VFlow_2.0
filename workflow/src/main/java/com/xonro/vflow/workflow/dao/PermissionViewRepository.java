@@ -20,4 +20,11 @@ public interface PermissionViewRepository extends JpaRepository<PermissionView, 
      */
     List<PermissionView> findByResourceId(String resourceId);
 
+    /**
+     * 根据组查找权限
+     * @param groupId
+     * @return
+     */
+    List<PermissionView> findByGroupId(String groupId);
+
 }
