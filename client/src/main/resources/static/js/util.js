@@ -147,4 +147,34 @@ function getUserInfoByUserId(userId) {
     return info;
 }
 
+function getTenantInfo_Portal(tenantId) {
+    var info = {};
+    $.ajax({
+        url: "../../console/tenant_info",
+        type: "get",
+        dataType: "json",
+        data: {
+            tenantId: tenantId
+        },
+        async: false,
+        success: function (data) {
+            if ('ok' in data&&!data.ok){
+                toastr.warning("获取租户信息失败,请联系相关人员", {timeOut: 2000});
+                setTimeout(function () {
+                    logout();
+                }, 2000)
+            } else {
+                info = data.data;
+            }
+        },
+        error : function (data) {
+            toastr.warning("获取租户信息失败，错误信息"+data.msg, {timeOut: 2000});
+            setTimeout(function () {
+                logout();
+            }, 2000)
+        }
+    });
+    return info;
+}
+
 
