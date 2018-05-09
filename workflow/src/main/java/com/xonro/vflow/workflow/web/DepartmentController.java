@@ -1,9 +1,11 @@
 package com.xonro.vflow.workflow.web;
 
 import com.alibaba.fastjson.JSON;
+import com.xonro.vflow.bases.bean.JsTreeResponse;
 import com.xonro.vflow.bases.bean.NodeResponse;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.workflow.bean.Department;
+import com.xonro.vflow.workflow.bean.UserInfo;
 import com.xonro.vflow.workflow.service.DepartmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.identity.User;
@@ -137,6 +139,18 @@ public class DepartmentController {
     }
 
     /**
+     * 部门用户信息列表
+     * @param departmentId
+     * @return 成功则返回用户列表，失败返回失败信息
+     * @throws VFlowException
+     * @throws IllegalAccessException
+     */
+    @RequestMapping(value = "/userinfos")
+    public List<UserInfo> departmentUserInfos(@NotBlank(message = "departmentId can not be empty") String departmentId) throws VFlowException, IllegalAccessException{
+        return departmentService.departmentUserInfos(departmentId);
+    }
+
+    /**
      * 部门用户列表 (layui)
      * @param departmentId
      * @return 成功则返回用户列表，失败返回失败信息
@@ -151,6 +165,9 @@ public class DepartmentController {
         return departmentService.getDepartmentsByTree(tenantId);
     }
 
-
+    @RequestMapping(value = "/js_tree")
+    public List<JsTreeResponse> getDepartmentsByJsTree(@NotBlank(message = "tenantId can not be empty") String tenantId) throws VFlowException {
+        return departmentService.getDepartmentsByJsTree(tenantId);
+    }
 
 }
