@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人信息</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link href="//cdn.bootcss.com/toastr.js/2.1.4/toastr.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!--vue.js-->
+    <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
+    <!--toastr.js-->
+    <script src="//cdn.bootcss.com/toastr.js/2.1.4/toastr.min.js"></script>
+    <script src="../../js/util.js"></script>
+    <script src="../../js/portal/com.xonro.portal_userinfo.js"></script>
+</head>
+<body class="px-5 pt-5">
+
+<h2>个人信息</h2>
+<form class="px-4 pt-4" id="user_info_form" v-on:submit.prevent="save()">
+
+    <div class="form-group row">
+        <div class="col">
+            <label for="idCardName">身份证姓名</label>
+            <input type="text" class="form-control" id="idCardName" v-model="idCardName" placeholder="请输入身份证姓名" required>
+        </div>
+        <div class="col">
+            <label for="idCardNo">身份证号</label>
+            <input type="text" class="form-control" id="idCardNo" v-model="idCardNo" placeholder="请输入身份证号" required>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col">
+            <label for="idCardAddress">身份证地址</label>
+            <input type="text" class="form-control" id="idCardAddress" v-model="idCardAddress" placeholder="请输入身份证地址">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col">
+            <label for="address">住址</label>
+            <input type="text" class="form-control" id="address" v-model="address" placeholder="请输入实际住址">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col">
+            <label for="tel">电话</label>
+            <input type="tel" class="form-control" id="tel" v-model="tel" placeholder="请输入固定电话">
+        </div>
+        <div class="col">
+            <label for="mobile">手机号</label>
+            <input type="tel" class="form-control" id="mobile" v-model="mobile" placeholder="请输入手机号" required>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col">
+            <label for="birthDate">出生日期</label>
+            <input type="date" class="form-control" id="birthDate" v-model="birthDate">
+        </div>
+        <div class="col">
+            <label for="sex">性别</label>
+            <select class="custom-select" id="sex" v-model="sex">
+                <option value="1">男</option>
+                <option value="2">女</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col">
+            <label for="nation">民族</label>
+            <input type="text" class="form-control" id="nation" v-model="nation">
+        </div>
+        <div class="col">
+            <label for="politicalStatus">政治面貌</label>
+            <input type="text" class="form-control" id="politicalStatus" v-model="politicalStatus">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col">
+            <label for="maritalStatus">婚姻状况</label>
+            <input type="text" class="form-control" id="maritalStatus" v-model="maritalStatus">
+        </div>
+        <div class="col">
+            <label for="education">学历</label>
+            <input type="text" class="form-control" id="education" v-model="education">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col">
+            <label for="university">毕业院校</label>
+            <input type="text" class="form-control" id="university" v-model="university">
+        </div>
+        <div class="col">
+            <label for="major">所学专业</label>
+            <input type="text" class="form-control" id="major" v-model="major">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col">
+            <label for="graduationTime">毕业时间</label>
+            <input type="date" class="form-control" id="graduationTime" v-model="graduationTime">
+        </div>
+        <div class="col">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col">
+            <label for="remark">备注</label>
+            <textarea class="form-control" id="remark" rows="3" v-model="remark"></textarea>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" >保存</button>
+</form>
+</body>
+</html>
