@@ -1,9 +1,11 @@
 package com.xonro.vflow.workflow.service;
 
+import com.xonro.vflow.bases.bean.JsTreeResponse;
 import com.xonro.vflow.bases.bean.NodeResponse;
 import com.xonro.vflow.bases.bean.TableResponse;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.workflow.bean.Department;
+import com.xonro.vflow.workflow.bean.UserInfo;
 import org.activiti.engine.identity.User;
 
 import java.util.List;
@@ -57,6 +59,14 @@ public interface DepartmentService {
     List<NodeResponse> getDepartmentsByTree(String tenantId) throws VFlowException;
 
     /**
+     * 获取固定结构的部门菜单
+     * @param tenantId 租户ID
+     * @return list菜单
+     * @throws VFlowException
+     */
+    List<JsTreeResponse> getDepartmentsByJsTree(String tenantId) throws VFlowException;
+
+    /**
      * 获取子部门
      * @param parentDepartmentId 父部门id
      * @return 子部门列表
@@ -108,6 +118,14 @@ public interface DepartmentService {
      * @throws VFlowException
      */
     List<User> departmentUsers(String departmentId) throws VFlowException;
+
+    /**
+     * 获取部门所属用户
+     * @param departmentId
+     * @return
+     * @throws VFlowException
+     */
+    List<UserInfo> departmentUserInfos(String departmentId) throws VFlowException, IllegalAccessException;
 
     /**
      * 获取部门所属用户（layui）

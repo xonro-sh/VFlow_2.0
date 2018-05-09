@@ -1,13 +1,16 @@
 package com.xonro.vflow.workflow.service.impl;
 
 import com.google.common.base.Strings;
+import com.xonro.vflow.bases.bean.JsTreeResponse;
 import com.xonro.vflow.bases.bean.NodeResponse;
 import com.xonro.vflow.bases.bean.TableResponse;
 import com.xonro.vflow.bases.exception.VFlowException;
 import com.xonro.vflow.workflow.bean.Department;
+import com.xonro.vflow.workflow.bean.UserInfo;
 import com.xonro.vflow.workflow.dao.DepartmentRepository;
 import com.xonro.vflow.workflow.enums.OrgEnum;
 import com.xonro.vflow.workflow.service.DepartmentService;
+import com.xonro.vflow.workflow.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
@@ -35,6 +38,9 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Resource
     private IdentityService identityService;
+
+    @Resource
+    private UserService userService;
 
     @Override
     @CachePut(value = "department",key = "#department.id",unless = "#result eq null ")
@@ -106,6 +112,36 @@ public class DepartmentServiceImpl implements DepartmentService{
             allNodes.add(new NodeResponse(department.getName(), department.getId(), getSubDepartmentsByTree(firstNodes, department.getId())));
         }
         return allNodes;
+    }
+
+    @Override
+    public List<JsTreeResponse> getDepartmentsByJsTree(String tenantId) throws VFlowException {
+        //根部门
+        List<Department> departments= rootDepartment(tenantId);
+        //根节点
+        List<JsTreeResponse> allJsTree = new ArrayList<>();
+        for (Department department: departments){
+            //一级菜单
+            List<JsTreeResponse> firstJsTree = new ArrayList<>();
+            allJsTree.add(new JsTreeResponse(department.getName(), department.getId(), getSubDepartmentsByJsTree(firstJsTree, department.getId())));
+        }
+        return allJsTree;
+    }
+
+    private List<JsTreeResponse> getSubDepartmentsByJsTree(List<JsTreeResponse> firstJsTree, String parentDepartmentId) throws VFlowException {
+        List<Department> subDep = getSubDepartments(parentDepartmentId);
+
+        if (subDep.size() != 0){
+            for (Department department:subDep){
+                if (getSubDepartments(department.getId()).size()!=0){
+                    List<JsTreeResponse> firstJsTree1 = new ArrayList<>();
+                    firstJsTree.add(new JsTreeResponse(department.getName(), department.getId(), getSubDepartmentsByJsTree(firstJsTree1, department.getId())));
+                } else {
+                    firstJsTree.add(new JsTreeResponse(department.getName(), department.getId()));
+                }
+            }
+        }
+        return firstJsTree;
     }
 
     public List<NodeResponse> getSubDepartmentsByTree(List<NodeResponse> nodeResponses,String parentDepartmentId) throws VFlowException{
@@ -192,6 +228,28 @@ public class DepartmentServiceImpl implements DepartmentService{
             }
             return identityService.createUserQuery().memberOfGroup(department.getGroupId()).list();
         } catch (VFlowException e) {
+            log.error(e.getMessage(),e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<UserInfo> departmentUserInfos(String departmentId) throws VFlowException, IllegalAccessException {
+        Department department = repository.findById(departmentId);
+        try {
+            if (department == null){
+                throw  new VFlowException("error","department not exist,departmentId:"+departmentId);
+            }
+            List<User> users = identityService.createUserQuery().memberOfGroup(department.getGroupId()).list();
+            List<UserInfo> userInfos = new ArrayList<>();
+            if (users.size()!=0){
+                for (User user: users){
+                    UserInfo userInfo = userService.getUserInfo(user.getId());
+                    userInfos.add(userInfo);
+                }
+            }
+            return userInfos;
+        } catch (VFlowException | IllegalAccessException e) {
             log.error(e.getMessage(),e);
             throw e;
         }
