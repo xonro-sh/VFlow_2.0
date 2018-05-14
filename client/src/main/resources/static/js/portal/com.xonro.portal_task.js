@@ -7,7 +7,7 @@ $(function () {
                 size: params.limit,   //页面大小
                 order : params.order, //排序
                 sort : params.sort, //排序
-                assignee: parent.getUrlParameter("id")
+                assignee: parent.getUrlParameter("id"), //办理人
             };
         },
         columns: [
@@ -16,6 +16,9 @@ $(function () {
             title: 'id',
             width:'5%'
         },{
+            checkbox: true,
+            visible: true  //是否显示复选框
+        },{
             field: 'owner',
             title: '来自'
         }, {
@@ -23,7 +26,7 @@ $(function () {
             title: '标题',
             width:'50%'
         }, {
-            field: 'processDefinitionName',
+            field: 'category',
             title: '流程类型'
         }, {
             field: 'createTime',
