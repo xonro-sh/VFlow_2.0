@@ -43,12 +43,18 @@ layui.define(['element'], function(exports){
   		var dom =$(elem).find("a");
   		var title = $(elem).find("a").html();
   		var dataUrl = dom.attr("dataUrl");
+  		console.log(dataUrl);
   		if(!$.isEmpty(dataUrl)){
-  			element.tabAdd(thisTab.config.tabFilter, {
-  			  title: title
-  			  ,content: '<iframe src="'+dom.attr("dataUrl")+'"></iframe>' //支持传入html
-  			  ,id: layId
-  			});
+  			if (dataUrl === '../../activiti-app'){
+				window.open(dataUrl)
+			} else {
+                element.tabAdd(thisTab.config.tabFilter, {
+                    title: title
+                    ,content: '<iframe src="'+dom.attr("dataUrl")+'"></iframe>' //支持传入html
+                    ,id: layId
+                });
+			}
+
   		}
   	}
   	thisTab.tabChange(layId);
